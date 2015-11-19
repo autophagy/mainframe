@@ -1,0 +1,13 @@
+The subroutines will be in the form of Warioware style minigames, with a timelimit (rendered as a trace) and if the minigame is failed, then the trace succeeds.
+
+The subroutines are randomly chosen at the Corp set up, so you dont get the identical subroutines in a run. This means there need to be 8 unique subroutines (5 for the ICEs, 3 for the lives/retries on a failure). When you encounter an ICE, the subroutine is run via visual prompt of > SUBROUTINE_NAME, which will then show a screen saying:
+
+> man SUBROUTINE_NAME
+
+NAME
+    SUBROUTINE_NAME
+
+DESCRIPTION
+    A brief tutorial on how the minigame works.
+
+This stays on screen for a short time period (a few seconds), before the subroutine begins.
