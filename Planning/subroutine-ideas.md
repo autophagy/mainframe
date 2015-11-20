@@ -32,7 +32,6 @@ The formula for a calculation of keypresses needed to solve a character in the c
 
 Characters are focused on from left to right, and when a key is pressed a random letter from the alphabet is chosen to display in its place, and the character's internal count is decremented. When the characters count reaches 0, it reveals the proper character and the next character is focused. When all characters have been solved, the crack is complete.
 
-### man page
 ```
 > man PASSWORD_CRACKER
 
