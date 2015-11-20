@@ -61,7 +61,6 @@ As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj 
 
  ### Single Word names
  - Morpheus
- - Morpheus
  - Trinity
  - Maelcum
  - Hideo
