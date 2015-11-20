@@ -27,45 +27,45 @@ When a name is generated, it could perhaps be randomly sprinkled with 1337 speak
 
 As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj + Noun names 20% of the time and single noun names 30% of the time.
 
- ## Word banks
- ###  Double Word names
- #### Nouns
- - Zero
- - Cool
- - Acid
- - Burn
- - Crash
- - Override
- - Flatline
- - Puppet
- - Master
- - Man
- - Flux
- - Neon
- - Null
- - Void
- - Lord
- - King
- - Queen
- - Cyber
- - Net
- - Mantis
+## Word banks
+###  Double Word names
+#### Nouns
+- Zero
+- Cool
+- Acid
+- Burn
+- Crash
+- Override
+- Flatline
+- Puppet
+- Master
+- Man
+- Flux
+- Neon
+- Null
+- Void
+- Lord
+- King
+- Queen
+- Cyber
+- Net
+- Mantis
 
- #### Verbs/Adjectives
- - Laughing
- - Crying
- - Deadly
- - Crouching
- - Hidden
- - Pale
+#### Verbs/Adjectives
+- Laughing
+- Crying
+- Deadly
+- Crouching
+- Hidden
+- Pale
 
- ### Single Word names
- - Morpheus
- - Trinity
- - Maelcum
- - Hideo
- - Beowulf
- - Pandora
- - Ozymandias
- - Xerxes
- - Turing
+### Single Word names
+- Morpheus
+- Trinity
+- Maelcum
+- Hideo
+- Beowulf
+- Pandora
+- Ozymandias
+- Xerxes
+- Turing
