@@ -28,7 +28,9 @@ When a name is generated, it could perhaps be randomly sprinkled with 1337 speak
 As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj + Noun names 20% of the time and single noun names 30% of the time.
 
  ## Word banks
+ 
  ###  Double Word names
+ 
  #### Nouns
  - Zero
  - Cool
