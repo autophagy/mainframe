@@ -1,4 +1,5 @@
-# mainframe
+![MAINFRAME logo](mainframe_logo.png)
+
 MAINFRAME is a small HTML5 game, inspired by Warioware and bad 90s movies about hacking.
 
 ![MAINFRAME main screen](mainframe.gif)
