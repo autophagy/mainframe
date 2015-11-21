@@ -54,3 +54,35 @@ NAME
 DESCRIPTION
     Use the arrow keys to maneuver the payload through the gaps in the Corp's firewall.
 ```
+
+## WORM
+A maze in generated with a file/ICE to infect within it. You control a worm that automatically moves, but its direction can be changed (like snake). If the worm crosses itself or hits the side of the maze, the ICE-break fails.
+
+```
+> man WORM
+
+NAME
+    WORM
+
+DESCRIPTION
+    Guide the worm using the arrow keys to the infection vector. Don't hit the ICE walls or yourself!
+```
+
+## SQL_INJECT
+
+## BOTNET_DDOS
+
+## BUFFER_OVERFLOW
+
+## PACKET_SNIFFER
+Streams of white data run across the bottom of the screen, with Key Info in green. In the middle of the screen is a small area that denotes the part of the stream being sniffed. Pressing space while key info is in the sniffing area causes it to be captured. Player needs to capture a certain amount of key info packets within a timeframe to complete the break.
+
+```
+> man PACKET_SNIFFER
+
+NAME
+    PACKET_SNIFFER
+
+DESCRIPTION
+    Press spacebar to to capture key packets while they are in your sniffers buffer. Assemble enough key packets to break the ICE.
+```
