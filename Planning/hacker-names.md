@@ -42,7 +42,6 @@ As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj 
 - Flatline
 - Puppet
 - Master
-- Man
 - Flux
 - Neon
 - Null
