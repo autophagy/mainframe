@@ -53,6 +53,8 @@ As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj 
 - Cyber
 - Net
 - Mantis
+- Soul
+- Shadow
 
 #### Verbs/Adjectives
 
@@ -62,6 +64,11 @@ As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj 
 - Crouching
 - Hidden
 - Pale
+- White
+- Black
+- Red
+- Dead
+- Toxic
 
 ### Single Word names
 
@@ -74,3 +81,5 @@ As initial rules, I would generate: Noun + Noun names 50% of the time, Verb/Adj 
 - Ozymandias
 - Xerxes
 - Turing
+- Tracer
+- Phoenix
