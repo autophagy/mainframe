@@ -86,3 +86,16 @@ NAME
 DESCRIPTION
     Press spacebar to to capture key packets while they are in your sniffers buffer. Assemble enough key packets to break the ICE. Capturing non-key packets will lock up the sniffer and require it to be rebooted, taking 4 seconds.
 ```
+
+## VOICE_CRACKER
+A waveform is shown on the screen with a sound. There is also a base tone and 3 dials. The 3 dials affect the base tone differently, and the hacker needs to figure out which combination of dial settings allows the base tone to mimic the one shown on screen. When they match, the voice password is cracked.
+
+```
+> man VOICE_CRACKER
+
+NAME
+    VOICE_CRACKER
+
+DESCRIPTION
+    Use the modulation dials to mimic the waveform of a known login.
+```
