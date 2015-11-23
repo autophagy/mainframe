@@ -75,7 +75,7 @@ DESCRIPTION
 ## BUFFER_OVERFLOW
 
 ## PACKET_SNIFFER
-Streams of white data run across the bottom of the screen, with Key Info in green. In the middle of the screen is a small area that denotes the part of the stream being sniffed. Pressing space while key info is in the sniffing area causes it to be captured. Player needs to capture a certain amount of key info packets within a timeframe to complete the break.
+Streams of white data run across the bottom of the screen, with Key Info in green. In the middle of the screen is a small area that denotes the part of the stream being sniffed. Pressing space while key info is in the sniffing area causes it to be captured. Player needs to capture a certain amount of key info packets within a timeframe to complete the break. Sniffing packets when there is no key info in the buffer freezes the buffer for 4 seconds.
 
 ```
 > man PACKET_SNIFFER
@@ -84,5 +84,5 @@ NAME
     PACKET_SNIFFER
 
 DESCRIPTION
-    Press spacebar to to capture key packets while they are in your sniffers buffer. Assemble enough key packets to break the ICE.
+    Press spacebar to to capture key packets while they are in your sniffers buffer. Assemble enough key packets to break the ICE. Capturing non-key packets will lock up the sniffer and require it to be rebooted, taking 4 seconds.
 ```
