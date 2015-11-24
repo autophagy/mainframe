@@ -76,6 +76,18 @@ DESCRIPTION
 
 ## BUFFER_OVERFLOW
 
+Timing based minigame where the player has to hold down space to overflow a buffer and time it so that the buffer ends in the RETURN ADDRESS area, to jump to the next buffer. After 4 (maybe 5?) complete buffers you win. Missing the RETURN ADDRESS area locks you out for 4 seconds. Each stack buffer should fill at different speeds.
+
+```
+> man BUFFER_OVERFLOW
+
+NAME
+    BUFFER_OVERFLOW
+
+DESCRIPTION
+    Hold down space to start generating values in the stack buffer. When the data reaches the return address area, release space to inject your payload. Jump from 4 buffers to inject your ICE-BREAK payload.
+```
+
 ## PACKET_SNIFFER
 Streams of white data run across the bottom of the screen, with Key Info in green. In the middle of the screen is a small area that denotes the part of the stream being sniffed. Pressing space while key info is in the sniffing area causes it to be captured. Player needs to capture a certain amount of key info packets within a timeframe to complete the break. Sniffing packets when there is no key info in the buffer freezes the buffer for 4 seconds.
 
