@@ -67,7 +67,8 @@ NAME
     WORM
 
 DESCRIPTION
-    Guide the worm using the arrow keys to the infection vector. Don't hit the ICE walls or yourself!
+    Guide the worm using the arrow keys to the infection vector.
+    Don't hit the ICE walls or yourself!
 ```
 
 ## SQL_INJECT
@@ -83,7 +84,10 @@ NAME
     BOTNET_DDOS
 
 DESCRIPTION
-    Use numeric keys 1-5 to send a packet from a host in your botnet. Send enough packets at the target server to knock it offline. Sending packets from a host too quickly will result in its bandwidth being reached, and it will be disabled until a connection is re-established.
+    Use numeric keys 1-5 to send a packet from a host in your botnet.
+    Send enough packets at the target server to knock it offline.
+    Sending packets from a host too quickly will result in its bandwidth being reached,
+    and it will be disabled until a connection is re-established.
 ```
 
 ## BUFFER_OVERFLOW
@@ -97,7 +101,9 @@ NAME
     BUFFER_OVERFLOW
 
 DESCRIPTION
-    Hold down space to start generating values in the stack buffer. When the data reaches the return address area, release space to inject your payload. Jump from 4 buffers to inject your ICE-BREAK payload.
+    Hold down space to start generating values in the stack buffer.
+    When the data reaches the return address area, release space to inject your payload.
+    Jump from 4 buffers to inject your ICE-BREAK payload.
 ```
 
 ## PACKET_SNIFFER
@@ -110,7 +116,9 @@ NAME
     PACKET_SNIFFER
 
 DESCRIPTION
-    Press spacebar to to capture key packets while they are in your sniffers buffer. Assemble enough key packets to break the ICE. Capturing non-key packets will lock up the sniffer and require it to be rebooted, taking 4 seconds.
+    Press spacebar to to capture key packets while they are in your sniffers buffer.
+    Assemble enough key packets to break the ICE.
+    Capturing non-key packets will lock up the sniffer and require it to be rebooted, taking 4 seconds.
 ```
 
 ## VOICE_CRACKER
