@@ -56,7 +56,9 @@ DESCRIPTION
 ```
 
 ## WORM
-A maze in generated with a file/ICE to infect within it. You control a worm that automatically moves, but its direction can be changed (like snake). If the worm crosses itself or hits the side of the maze, the ICE-break fails.
+A maze in generated with a file/ICE to infect within it. You control the worm with the arrow keys. If the worm crosses itself or hits the side of the maze, the ICE-break fails.
+
+The maze is made up of 28 x 12 blocks of 30 pixels each. A maze generation algorithm (maybe Prim's?) will be used to create a random one, and then the goal will be placed on the opposite side of the maze as the player.
 
 ```
 > man WORM
