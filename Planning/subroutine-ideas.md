@@ -74,6 +74,18 @@ DESCRIPTION
 
 ## BOTNET_DDOS
 
+You control 5 hosts in a botnet, and pressing the numeric keys 1-5 will launch a packet from them. However, the hosts have a set bandwidth that if maxxed will lock that host out for a few seconds. The target is a server with a bar that is filled up when a packet is recieved. The rate at which the server's bar drains increases based on the time since it last saw a packet. This means if you spam all the hosts & lock them all out, then your progress will be erased.
+
+```
+> man BOTNET_DDOS
+
+NAME
+    BOTNET_DDOS
+
+DESCRIPTION
+    Use numeric keys 1-5 to send a packet from a host in your botnet. Send enough packets at the target server to knock it offline. Sending packets from a host too quickly will result in its bandwidth being reached, and it will be disabled until a connection is re-established.
+```
+
 ## BUFFER_OVERFLOW
 
 Timing based minigame where the player has to hold down space to overflow a buffer and time it so that the buffer ends in the RETURN ADDRESS area, to jump to the next buffer. After 4 (maybe 5?) complete buffers you win. Missing the RETURN ADDRESS area locks you out for 4 seconds. Each stack buffer should fill at different speeds.
