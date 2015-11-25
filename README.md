@@ -15,6 +15,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Main screen~~
     - ~~Game over screen~~
     - Subroutines
+    - Font
 
 
 - Finalise subroutines by:
