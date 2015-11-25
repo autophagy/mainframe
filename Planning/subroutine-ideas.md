@@ -90,20 +90,20 @@ DESCRIPTION
     and it will be disabled until a connection is re-established.
 ```
 
-## BUFFER_OVERFLOW
+## STACK_OVERFLOW
 
-Timing based minigame where the player has to hold down space to overflow a buffer and time it so that the buffer ends in the RETURN ADDRESS area, to jump to the next buffer. After 4 (maybe 5?) complete buffers you win. Missing the RETURN ADDRESS area locks you out for 4 seconds. Each stack buffer should fill at different speeds.
+Timing based minigame where the player has to hold down space to overflow a stack frame and time it so that the data writer ends in the RETURN ADDRESS area, to jump to the next stack. After 3 complete stack smashes you win. Missing the RETURN ADDRESS area locks you out for 4 seconds. Each stack should fill at different speeds.
 
 ```
-> man BUFFER_OVERFLOW
+> man STACK_OVERFLOW
 
 NAME
-    BUFFER_OVERFLOW
+    STACK_OVERFLOW
 
 DESCRIPTION
     Hold down space to start generating values in the stack buffer.
-    When the data reaches the return address area, release space to inject your payload.
-    Jump from 4 buffers to inject your ICE-BREAK payload.
+    When the data reaches the return address area, release space to jump to the next stack.
+    Jump from 3 buffers to inject your ICE-BREAK payload.
 ```
 
 ## PACKET_SNIFFER
