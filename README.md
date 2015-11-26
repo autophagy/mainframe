@@ -1,6 +1,6 @@
 ![MAINFRAME logo](mainframe_logo.png)
 
-MAINFRAME is a small HTML5 game, inspired by Warioware and bad 90s movies about hacking.
+MAINFRAME is a Unity game, inspired by Warioware and bad 90s movies about hacking.
 
 ![MAINFRAME main screen](mainframe.gif)
 
@@ -15,7 +15,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Main screen~~
     - ~~Game over screen~~
     - Subroutines
-    - ~~Font~~
+    - Font
 
 
 - Finalise subroutines by:
