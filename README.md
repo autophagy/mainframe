@@ -14,8 +14,10 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Title screen~~
     - ~~Main screen~~
     - ~~Game over screen~~
+	- Victory Screen
     - Subroutines
     - Font
+	- Animations into own sprite sheets
 
 
 - Finalise subroutines by:
