@@ -1,6 +1,6 @@
 ![MAINFRAME logo](mainframe_logo.png)
 
-MAINFRAME is a Unity game, inspired by Warioware and bad 90s movies about hacking.
+MAINFRAME is a small game, inspired by Warioware and bad 90s movies about hacking.
 
 ![MAINFRAME main screen](mainframe.gif)
 
