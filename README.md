@@ -14,7 +14,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Title screen~~
     - ~~Main screen~~
     - ~~Game over screen~~
-    - Victory Screen
+    - ~~Victory Screen~~
     - Subroutines
     - ~~Font~~
     - Check to make sure elements are visually consistent (colour, font weight)
