@@ -73,6 +73,18 @@ DESCRIPTION
 
 ## SQL_INJECT
 
+Essentially a breakout clone where the goal is to hit the central database with the SQL injection after having knocked away 3 rows.
+
+```
+> man SQL_INJECT
+
+NAME
+	SQL_INJECT
+	
+DESCRIPTION
+	Control the bar with left and right keys. Keep knocking away rows with the SQL injection until you can hit the central database.
+```
+
 ## BOTNET_DDOS
 
 You control 5 hosts in a botnet, and pressing the numeric keys 1-5 will launch a packet from them. However, the hosts have a set bandwidth that if maxxed will lock that host out for a few seconds. The target is a server with a bar that is filled up when a packet is recieved. The rate at which the server's bar drains increases based on the time since it last saw a packet. This means if you spam all the hosts & lock them all out, then your progress will be erased.
