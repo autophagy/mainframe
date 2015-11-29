@@ -23,7 +23,7 @@ Can you jam with the console cowboys in cyberspace?
 
 - Finalise subroutines by:
     - Updating their names to be thematically consistent
-    - Packing their textures into atlasses via TexturePacker
+    - ~~Packing their textures into atlasses via TexturePacker~~
 
 
 - Code up the subroutines independently
