@@ -21,7 +21,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Animations into own sprite sheets~~
 
 
-~~- Finalise subroutines by:~~
+- ~~Finalise subroutines by:~~
     - ~~Updating their names to be thematically consistent~~
     - ~~Packing their textures into atlasses via TexturePacker~~
 
