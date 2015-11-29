@@ -19,7 +19,7 @@ DESCRIPTION
 
 This stays on screen for a short time period (a few seconds), before the subroutine begins.
 
-## PASSWORD_CRACKER
+## JOHN_THE_RIPPER
 A password is chosen from a list (perhaps the john the ripper password list?). Then a calculation is made depending on the length of the password and the time limit for the crack. For example, assume that the current difficulty is 20 key presses per second. For example:
 
 Time limit: 10 seconds // PW length: 11 (password123) // (20*10)/11 = 18.2, rounded to 18 keypresses per character solved.
@@ -33,67 +33,67 @@ The formula for a calculation of keypresses needed to solve a character in the c
 Characters are focused on from left to right, and when a key is pressed a random letter from the alphabet is chosen to display in its place, and the character's internal count is decremented. When the characters count reaches 0, it reveals the proper character and the next character is focused. When all characters have been solved, the crack is complete.
 
 ```
-> man PASSWORD_CRACKER
+> man PHIL_THE_RIPPER
 
 NAME
-    PASSWORD_CRACKER
+    PHIL_THE_RIPPER - Bruteforce password cracker
 
 DESCRIPTION
     The finest bruteforce cracker money can buy. Mash those keys!
 ```
 
-## FIREWALL_BYPASSER
+## HOLEPUNCH
 Red walls descend from the top of the screen to the bottom, with a gap in them. Using the left and right keys, you have to dodge through these gaps. Fairly simple. Perhaps speed can be changed in order to increase difficulty.
 
 ```
-> man FIREWALL_BYPASSER
+> man HOLEPUNCH
 
 NAME
-    FIREWALL_BYPASSER
+    HOLEPUNCH - Allows access through firewalls
 
 DESCRIPTION
     Use the arrow keys to maneuver the payload through the gaps in the Corp's firewall.
 ```
 
-## WORM
+## YOURDOOM
 A maze in generated with a file/ICE to infect within it. You control the worm with the arrow keys. If the worm crosses itself or hits the side of the maze, the ICE-break fails.
 
 The maze is made up of 28 x 12 blocks of 30 pixels each. A maze generation algorithm (maybe Prim's?) will be used to create a random one, and then the goal will be placed on the opposite side of the maze as the player.
 
 ```
-> man WORM
+> man YOURDOOM
 
 NAME
-    WORM
+    YOURDOOM - Worm that targets specific Corp files
 
 DESCRIPTION
-    Guide the worm using the arrow keys to the infection vector.
+    Guide the YourDoom worm using the arrow keys to the infection vector.
     Don't hit the ICE walls or yourself!
 ```
 
-## SQL_INJECT
+## DB_BREAKER
 
 Essentially a breakout clone where the goal is to hit the central database with the SQL injection after having knocked away 3 rows.
 
 ```
-> man SQL_INJECT
+> man DB_BREAKER
 
 NAME
-	SQL_INJECT
+	DB_BREAKER - SQL injection script
 	
 DESCRIPTION
 	Control the bar with left and right keys. Keep knocking away rows with the SQL injection until you can hit the central database.
 ```
 
-## BOTNET_DDOS
+## SWARMNET
 
 You control 5 hosts in a botnet, and pressing the numeric keys 1-5 will launch a packet from them. However, the hosts have a set bandwidth that if maxxed will lock that host out for a few seconds. The target is a server with a bar that is filled up when a packet is recieved. The rate at which the server's bar drains increases based on the time since it last saw a packet. This means if you spam all the hosts & lock them all out, then your progress will be erased.
 
 ```
-> man BOTNET_DDOS
+> man SWARMNET
 
 NAME
-    BOTNET_DDOS
+    SWARMNET - Remote botnet with DDoS capabilities
 
 DESCRIPTION
     Use numeric keys 1-5 to send a packet from a host in your botnet.
@@ -102,15 +102,15 @@ DESCRIPTION
     and it will be disabled until a connection is re-established.
 ```
 
-## STACK_OVERFLOW
+## STACK_SMASHER
 
 Timing based minigame where the player has to hold down space to overflow a stack frame and time it so that the data writer ends in the RETURN ADDRESS area, to jump to the next stack. After 3 complete stack smashes you win. Missing the RETURN ADDRESS area locks you out for 4 seconds. Each stack should fill at different speeds.
 
 ```
-> man STACK_OVERFLOW
+> man STACK_SMASHER
 
 NAME
-    STACK_OVERFLOW
+    STACK_SMASHER - Stack buffer overflow exploiter
 
 DESCRIPTION
     Hold down space to start generating values in the stack buffer.
@@ -118,14 +118,14 @@ DESCRIPTION
     Jump from 3 buffers to inject your ICE-BREAK payload.
 ```
 
-## PACKET_SNIFFER
+## CONN_SHARK
 Streams of white data run across the bottom of the screen, with Key Info in green. In the middle of the screen is a small area that denotes the part of the stream being sniffed. Pressing space while key info is in the sniffing area causes it to be captured. Player needs to capture a certain amount of key info packets within a timeframe to complete the break. Sniffing packets when there is no key info in the buffer freezes the buffer for 4 seconds.
 
 ```
-> man PACKET_SNIFFER
+> man CONNSHARK
 
 NAME
-    PACKET_SNIFFER
+    CONNSHARK - Packet and traffic analyzer 
 
 DESCRIPTION
     Press spacebar to to capture key packets while they are in your sniffers buffer.
@@ -133,14 +133,14 @@ DESCRIPTION
     Capturing non-key packets will lock up the sniffer and require it to be rebooted, taking 4 seconds.
 ```
 
-## VOICE_CRACKER
+## MIMIC
 A waveform is shown on the screen with a sound. There is also a base tone and 3 dials. The 3 dials affect the base tone differently, and the hacker needs to figure out which combination of dial settings allows the base tone to mimic the one shown on screen. When they match, the voice password is cracked.
 
 ```
-> man VOICE_CRACKER
+> man MIMIC
 
 NAME
-    VOICE_CRACKER
+    MIMIC - Synthesiser for voice activated password cracking
 
 DESCRIPTION
     Use the modulation dials to mimic the waveform of a known login.
