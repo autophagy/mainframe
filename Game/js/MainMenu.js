@@ -1,26 +1,50 @@
 
 MainframeGame.MainMenu = function (game) {
+	this.monitorLayer = null;
 
 	this.music = null;
+	this.firstBoot = true;
 	this.gameSelected = true;
 	
+	this.cyberpunkText = null;
 	this.gameOption = null;
 	this.creditsOption = null;
 	this.selectionIcon = null;
-
 };
 
 MainframeGame.MainMenu.prototype = {
 
-	create: function () {
+	create: function () {	
+		this.monitorLayer = this.game.add.group();
+		
+		this.monitorLayer.z = 100;
+		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
+	
+		if(this.firstBoot) {
+			// I'm sorry, but this is a requirement.
+			this.cyberpunkText = this.game.add.bitmapText(0,100,'green_font', 'This is dedicated to all those\ncyberpunks who fight against injustice\nevery day of their lives.', 30);
+			centreText(this.cyberpunkText, this.game.width);			
+			this.game.time.events.add(Phaser.Timer.SECOND * 3, this.renderMainMenu, this);
+		} else 
+		{
+		   this.renderMainMenu();
+		}
+	},
+	
+	renderMainMenu : function () {
+		if(this.firstBoot) {
+			this.cyberpunkText.destroy();
+			this.music = this.add.audio('intro_music');
+			this.music.play();
+			this.firstBoot = false;		
+		}
 
 		var title = this.game.add.sprite(0, 100, 'mainframe_logo');
 		centreSprite(title, this.game.width);
 		title.animations.add('anim');
 		title.animations.play('anim', 16, false);		
 		
-		var text = this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: Password Cracker', 30);
-		centreText(text, this.game.width);
+		centreText(this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: Password Cracker', 30), this.game.width);		
 		
 		this.gameOption = this.game.add.bitmapText(0,400, 'green_font', 'Hack The Planet', 30);
 		centreText(this.gameOption, this.game.width);
@@ -29,35 +53,21 @@ MainframeGame.MainMenu.prototype = {
 		centreText(this.creditsOption, this.game.width);
 		
 		this.selectionIcon = this.game.add.bitmapText(200,430, 'green_font', '>', 30);
-		
-		
-		//this.music = this.add.audio('intro_music');
-		//this.music.play();	
-		
-		this.game.add.sprite(0,0,'atlas','General/monitor.png');
-		
+				
 		var cursors = this.game.input.keyboard.createCursorKeys();
 		
 		cursors.down.onDown.add(this.toggleSelection, this);
 		cursors.up.onDown.add(this.toggleSelection, this);
 		
 		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		space.onDown.addOnce(this.select, this);
+		space.onDown.add(this.select, this);
 		
 		this.repositionSelector();
-
-	},
-
-	update: function () {
-
-		//	Do some nice funky main menu effect here
-
 	},
 	
 	toggleSelection: function () {
 		this.gameSelected = !this.gameSelected;		
-		this.repositionSelector();
-		
+		this.repositionSelector();		
 	},
 	
 	repositionSelector: function () {
@@ -71,14 +81,10 @@ MainframeGame.MainMenu.prototype = {
 	},
 
 	select: function () {
-
 		if(this.gameSelected) {
-			//Start gam
+			this.state.start('MainGame');
 		} else {
 			this.state.start('Credits');
 		}
-		//	And start the actual game
-		//this.state.start('Game');
-
 	}
 };
