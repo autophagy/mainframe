@@ -16,7 +16,7 @@ MainframeGame.Credits.prototype = {
 
 		centreText(this.game.add.bitmapText(0,420, 'green_font', '> Back', 30), this.game.width);		
 		
-		this.game.add.sprite(390,300,'phaser_credits')
+		this.game.add.sprite(390,300,'phaser_credits');
 		
 		var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
 		bg_flicker.animations.add('anim');
