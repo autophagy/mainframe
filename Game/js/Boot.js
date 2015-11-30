@@ -49,12 +49,14 @@ MainframeGame.Boot.prototype = {
 
 function centreSprite(sprite, width) {
 		sprite.x = (width/2) - Math.floor(sprite.width/2);
+		return sprite;
 }
 
 
 function centreText(text, width) {
 	text.align = 'center';
 	text.x = width/2 - text.textWidth/2;
+	return text;
 }
 
 
