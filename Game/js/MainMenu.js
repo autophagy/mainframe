@@ -49,7 +49,7 @@ MainframeGame.MainMenu.prototype = {
 		
 		this.elementLayer.add(centreText(this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: Password Cracker', 30), this.game.width));
 		
-		this.gameOption = this.game.add.bitmapText(0,400, 'green_font', title.z.toString(), 30);
+		this.gameOption = this.game.add.bitmapText(0,400, 'green_font', 'Hack The Planet', 30);
 		centreText(this.gameOption, this.game.width);
 		this.elementLayer.add(this.gameOption);
 		
