@@ -87,6 +87,7 @@ MainframeGame.MainMenu.prototype = {
 	},
 
 	select: function () {
+		this.music.stop();
 		if(this.gameSelected) {
 			this.state.start('PasswordCracker');
 		} else {
