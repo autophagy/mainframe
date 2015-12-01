@@ -88,7 +88,7 @@ MainframeGame.MainMenu.prototype = {
 
 	select: function () {
 		if(this.gameSelected) {
-			this.state.start('MainGame');
+			this.state.start('PasswordCracker');
 		} else {
 			this.state.start('Credits');
 		}

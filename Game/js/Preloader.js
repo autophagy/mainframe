@@ -31,9 +31,12 @@ MainframeGame.Preloader.prototype = {
 		
 		// Sounds
 		this.game.load.audio('intro_music', 'assets/sounds/mainframe_beep.mp3');
+		this.game.load.audio('subroutine_rush', 'assets/sounds/subroutine_rush.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
+		this.game.load.spritesheet('trace_detected', 'assets/animations/trace_detected.png', 893, 62, 7);
+		this.game.load.spritesheet('icebreak_in_progress', 'assets/animations/icebreak_in_progress.png', 893, 61, 7);
 		this.game.load.spritesheet('black_ice_detected', 'assets/animations/black_ice_detected.png', 851, 69, 6);
 		this.game.load.spritesheet('bot_offline', 'assets/animations/bot_offline.png', 147, 142, 7);
 		this.game.load.spritesheet('bot_online', 'assets/animations/bot_online.png', 147, 142, 7);
