@@ -42,12 +42,12 @@ MainframeGame.Preloader.prototype = {
 		this.game.load.spritesheet('ICE_broken', 'assets/animations/ICE_broken.png', 50, 203, 7);
 		this.game.load.spritesheet('mainframe_accessed', 'assets/animations/mainframe_accessed.png', 128, 203, 7);
 		this.game.load.spritesheet('mainframe_logo', 'assets/animations/mainframe_logo.png', 857, 136, 12);
-		//this.game.load.spritesheet('MF_conn_activate', 'assets/animations/MF_conn_activate.png', 126, 27, 7);
-		//this.game.load.spritesheet('proxy_activate', 'assets/animations/proxy_activate.png', 57, 203, 6);
-		//this.game.load.spritesheet('proxy_deactivate', 'assets/animations/proxy_deactivate.png', 57, 203, 12);
+			this.game.load.spritesheet('MF_conn_activate', 'assets/animations/MF_conn_activate.png', 107, 27, 7);
+			this.game.load.spritesheet('proxy_activate', 'assets/animations/proxy_activate.png', 57, 203, 6);
+			this.game.load.spritesheet('proxy_deactivate', 'assets/animations/proxy_deactivate.png', 57, 203, 12);
 		this.game.load.spritesheet('selected_ICE', 'assets/animations/selected_ICE.png', 50, 203, 2);
 		this.game.load.spritesheet('skull_error', 'assets/animations/skull_error.png', 101, 89, 5);
-		//this.game.load.spritesheet('stack_smashed', 'assets/animations/stack_smashed.png', 264, 374, 6);
+			this.game.load.spritesheet('stack_smashed', 'assets/animations/stack_smashed.png', 264, 374, 6);
 		this.game.load.spritesheet('subroutine_complete','assets/animations/subroutine_complete.png', 851, 69, 6);
 		this.game.load.spritesheet('subroutine_failed', 'assets/animations/subroutine_failed.png', 851, 69, 6);
 		this.game.load.spritesheet('victory_banner', 'assets/animations/victory_banner.png', 851, 114, 6);
