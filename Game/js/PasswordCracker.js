@@ -7,7 +7,7 @@ MainframeGame.PasswordCracker = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 10;
+	this.timeLimit = Phaser.Timer.SECOND * 15;
 	this.cropRect = null;
 	
 	this.music = null;
@@ -32,17 +32,15 @@ MainframeGame.PasswordCracker.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
-		
-		this.maxKey = 11;
-		
+
 		this.loginScreenPicker();
+		
+		// We can say that about 350 characters per 15 second password crack is OK
+		this.maxKey = Math.round(350 / this.password.length);
 		
 		this.game.input.keyboard.onDownCallback = (function () {
 			this.incChar();
 		}.bind(this));
-
-		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		space.onDown.add(this.loginScreenPicker, this);
 
 	},
 	
@@ -187,7 +185,6 @@ MainframeGame.PasswordCracker.prototype = {
 	},
 	
 	incTimer: function () {
-		console.log('burp');
 		var barWidth = 859;
 		var percentage = (this.game.time.now - this.timerStartTime) / this.timeLimit;
 		this.timerBlock.width = percentage*barWidth;	
