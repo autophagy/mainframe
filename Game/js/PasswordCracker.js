@@ -38,7 +38,7 @@ MainframeGame.PasswordCracker.prototype = {
 		
 		this.maxKey = Math.round(300 / this.password.length);
 		
-		this.game.input.keyboard.onDownCallback = (function () {
+		this.game.input.keyboard.onUpCallback = (function () {
 			this.incChar();
 		}.bind(this));
 
