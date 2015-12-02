@@ -27,7 +27,7 @@ Can you jam with the console cowboys in cyberspace?
 
 
 - Code up the subroutines independently
-    - Password Cracker
+    - ~~Password Cracker~~
     - Firewall Bypasser
     - Worm
     - SQL Inject
@@ -35,7 +35,8 @@ Can you jam with the console cowboys in cyberspace?
     - Buffer Overflow
     - Packet Sniffer
     - Voice Cracker
-    
+	
+- Implement subroutine tutorial screens    
 
 - Link up the subroutines to the main screen and implement lives (proxies), game over & game win states
 
