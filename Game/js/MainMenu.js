@@ -47,7 +47,7 @@ MainframeGame.MainMenu.prototype = {
 		title.animations.add('anim');
 		title.animations.play('anim', 16, false);		
 		
-		this.elementLayer.add(centreText(this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: Password Cracker', 30), this.game.width));
+		this.elementLayer.add(centreText(this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: Firewall', 30), this.game.width));
 		
 		this.gameOption = this.game.add.bitmapText(0,400, 'green_font', 'Hack The Planet', 30);
 		centreText(this.gameOption, this.game.width);
@@ -89,7 +89,7 @@ MainframeGame.MainMenu.prototype = {
 	select: function () {
 		this.music.stop();
 		if(this.gameSelected) {
-			this.state.start('PasswordCracker');
+			this.state.start('Firewall');
 		} else {
 			this.state.start('Credits');
 		}

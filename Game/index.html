@@ -9,6 +9,7 @@
 	<script src="js/MainMenu.js"></script>
 	<script src="js/Credits.js"></script>
 	<script src="js/PasswordCracker.js"></script>
+	<script src="js/Firewall.js"></script>
 	
 	<style>
 		body { 
@@ -34,6 +35,7 @@ window.onload = function() {
 	game.state.add('MainMenu', MainframeGame.MainMenu);
 	game.state.add('Credits', MainframeGame.Credits);
 	game.state.add('PasswordCracker', MainframeGame.PasswordCracker);
+	game.state.add('Firewall', MainframeGame.Firewall);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');
