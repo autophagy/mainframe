@@ -12,13 +12,14 @@ MainframeGame.PasswordCracker = function (game) {
 	
 	this.music = null;
 	
-	this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+	this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	this.maxKey = null;
 	this.keyCount = 0;
-	this.currentChar = 0;
+	this.currentChar = -1;
 	this.usernameText = null;
 	this.username = null;
 	this.passwordText = null;
+	this.passwordCompleteText = null;
 	this.password = null;
 	
 	this.ready = false;
@@ -35,8 +36,7 @@ MainframeGame.PasswordCracker.prototype = {
 
 		this.loginScreenPicker();
 		
-		// We can say that about 350 characters per 15 second password crack is OK
-		this.maxKey = Math.round(350 / this.password.length);
+		this.maxKey = Math.round(300 / this.password.length);
 		
 		this.game.input.keyboard.onDownCallback = (function () {
 			this.incChar();
@@ -132,8 +132,12 @@ MainframeGame.PasswordCracker.prototype = {
 		this.passwordText = this.game.add.bitmapText(passLoc[0],passLoc[1], 'white_font', '', size);
 		this.elementLayer.add(this.passwordText);
 		
+		this.passwordCompleteText = this.game.add.bitmapText(passLoc[0],passLoc[1], 'green_font', '', size);
+		this.elementLayer.add(this.passwordCompleteText);
+		
 		var func = function () { 
 			this.initTimer(this);
+			this.nextChar();
 			}.bind(this);
 		
 		if(str.length > this.username.length) {
@@ -202,10 +206,10 @@ MainframeGame.PasswordCracker.prototype = {
 			if (this.keyCount == this.maxKey)
 			{
 				this.keyCount = 0;
-				this.passwordText.text = this.passwordText.text.substr(0,this.currentChar) + this.password[this.currentChar] + this.passwordText.text.substr(this.currentChar+1, this.passwordText.text.length-1);
+				this.passwordCompleteText.text = this.passwordCompleteText.text.substr(0,this.currentChar) + this.password[this.currentChar];
 				this.nextChar();
 			} else {
-				this.passwordText.text = this.passwordText.text.substr(0,this.currentChar) + this.alphabet[Math.floor(Math.random() * this.alphabet.length)] + this.passwordText.text.substr(this.currentChar+1, this.passwordText.text.length-1);
+				this.passwordCompleteText.text = this.passwordCompleteText.text.substr(0,this.currentChar) + this.alphabet[Math.floor(Math.random() * this.alphabet.length)];
 			}
 		}
 	},
@@ -216,6 +220,10 @@ MainframeGame.PasswordCracker.prototype = {
 		{
 			this.ready = false;
 			this.victory();
+		} else {
+			this.passwordCompleteText.text = this.passwordCompleteText.text + this.passwordText.text[0];
+			this.passwordText.text = this.passwordText.text.substr(1)
+			this.passwordText.x = this.passwordCompleteText.right - 10;
 		}
 	},
 	
