@@ -13,6 +13,10 @@ MainframeGame.Firewall = function (game) {
 	this.timerStartTime = null;
 	this.timeGoal = Phaser.Timer.SECOND * 20;
 	
+	// Firewall stuff
+	this.gapSize = 150;
+	this.rows = [];
+	
 	this.music = null;
 	
 	this.ready = false;
@@ -26,7 +30,8 @@ MainframeGame.Firewall.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
-
+		
+		this.createRow(100, 300);		
 	},
 	
 	update: function () {
@@ -44,8 +49,14 @@ MainframeGame.Firewall.prototype = {
 				this.timerTime = this.game.time.now;
 				this.incTimer();
 			}
+			
+			// Moves the bars. Although maybe tweening would be better?
+			for (var i = 0; i < this.rows.length; i++) {
+				for (var x = 0; x < this.rows[i].length; x++) {
+					this.rows[i][x].y += 1;
+				}
+			}	
 		}
-
     },
 
     victory: function () {				
@@ -54,6 +65,41 @@ MainframeGame.Firewall.prototype = {
 	
 	failure: function () {
 		
+	},
+	
+	createRow: function (y, gapX) {
+		var newRow = [];
+		
+		var gapLeft = this.game.add.sprite(gapX, y, 'atlas', 'Subroutines/Firewall/firewall_end_left.png');
+		this.elementLayer.add(gapLeft);
+		newRow.push(gapLeft);
+		
+		
+		var gapRight = this.game.add.sprite(gapX + this.gapSize, y, 'atlas', 'Subroutines/Firewall/firewall_end_right.png');
+		this.elementLayer.add(gapRight);
+		newRow.push(gapRight);
+		
+		var newX = gapLeft.x;
+
+		while (newX > 0) {
+			newX -= 61;
+			newRow.push(this.addBlock(newX, y));
+		}
+		
+		newX = gapRight.x + 12;
+		while (newX < this.game.width) {
+			newX += 61;
+			newRow.push(this.addBlock(newX, y));
+		}
+		
+		this.rows.push(newRow);
+		
+	},
+	
+	addBlock: function (x, y) {
+		var block = this.game.add.sprite(x, y, 'atlas', 'Subroutines/Firewall/firewall_block.png');
+		this.elementLayer.add(block);
+		return block;
 	},
 	
 	initTimer: function (context) {
