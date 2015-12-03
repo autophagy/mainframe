@@ -1,6 +1,8 @@
 var MainframeGame = {
 
 	//Globals go here!
+    hackerName: '',
+
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);
     		return sprite;
@@ -93,8 +95,39 @@ MainframeGame.Boot.prototype = {
 
         //  By this point the preloader assets have loaded to the cache, we've set the game settings
         //  So now let's start the real preloader going
+        this.generateHackerName();
         this.state.start('Preloader');
 
+    },
+
+    generateHackerName: function () {
+
+        var doubleNouns = ['Zero', 'Cool', 'Acid', 'Burn', 'Crash', 'Override', 'Flatline', 'Puppet', 'Master', 'Flux', 'Neon', 'Null', 'Void', 'Lord', 'King', 'Queen', 'Cyber', 'Net', 'Mantis', 'Soul', 'Shadow'];
+
+        var doubleVerbs = ['Laughing', 'Crying', 'Deadly', 'Crouching', 'Hidden', 'Pale', 'White', 'Black', 'Red', 'Dead', 'Toxic'];
+
+        var singleNouns = ['Morpheus', 'Trinity', 'Maelcum', 'Hideo', 'Pandora', 'Ozymandias', 'Xerxes', 'Turing', 'Tracer', 'Phoenix'];
+
+        var probability = Math.random();
+
+        if (probability <= 0.5) {
+            var n = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
+            var n2 = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
+
+            while (n == n2) {
+                n2 = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
+            }
+
+            MainframeGame.hackerName = n + ' ' + n2;
+        }
+
+        if (probability > 0.5 && probability <= 0.9) {
+            MainframeGame.hackerName = doubleVerbs[Math.floor(Math.random()*doubleVerbs.length)] + ' ' + doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
+        }
+
+        if (probability > 0.9) {
+            MainframeGame.hackerName = singleNouns[Math.floor(Math.random()*singleNouns.length)];
+        }
     }
 
 
