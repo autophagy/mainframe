@@ -17,6 +17,9 @@ MainframeGame.Firewall = function (game) {
 	this.gapSize = 150;
 	this.rows = [];
 	
+	this.player = null;
+	this.cursors = null;
+	
 	this.music = null;
 	
 	this.ready = false;
@@ -31,10 +34,17 @@ MainframeGame.Firewall.prototype = {
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 		
-		this.createRow(100, 300);		
+		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
+		this.player.scale.setTo(0.5, 0.5);
+		centreSprite(this.player, this.game.width);
+
+		this.cursors = this.game.input.keyboard.createCursorKeys();
+		
+		this.createRow(100, 300);
+		
 	},
 	
-	update: function () {
+	update: function () {		
 	
 		if (this.ready)
 		{
@@ -48,6 +58,20 @@ MainframeGame.Firewall.prototype = {
 			{
 				this.timerTime = this.game.time.now;
 				this.incTimer();
+			}
+			
+			// Player movement 
+			if (this.cursors.left.isDown)
+			{
+				if (this.player.x >= 35) {
+					this.player.x -= 5;
+				}
+			}
+			else if (this.cursors.right.isDown)
+			{
+				if (this.player.right <= 925.5) {
+					this.player.x += 5;
+				}
 			}
 			
 			// Moves the bars. Although maybe tweening would be better?
