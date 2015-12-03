@@ -70,10 +70,6 @@ MainframeGame.PasswordCracker.prototype = {
 		centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
-		victorySign.events.onAnimationComplete.add(function() {
-			this.state.restart(true);
-			}, this);
-
 	},
 
 	failure: function () {
