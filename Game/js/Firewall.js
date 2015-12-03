@@ -11,7 +11,7 @@ MainframeGame.Firewall = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeGoal = Phaser.Timer.SECOND * 20;
+	this.timeLimit = Phaser.Timer.SECOND * 20;
 
 	// Firewall stuff
 	this.gapSize = 150;
@@ -38,7 +38,7 @@ MainframeGame.Firewall.prototype = {
 
 		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
 		this.player.scale.setTo(0.5, 0.5);
-		centreSprite(this.player, this.game.width);
+		MainframeGame.centreSprite(this.player, this.game.width);
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
@@ -47,7 +47,7 @@ MainframeGame.Firewall.prototype = {
 		this.generateRow(120);
 		this.generateRow(-60);
 
-		this.initTimer();
+		MainframeGame.initTimer(this, false);
 
 	},
 
@@ -64,7 +64,7 @@ MainframeGame.Firewall.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				this.incTimer();
+				MainframeGame.incTimer(this, false);
 			}
 
 			// Player movement
@@ -110,7 +110,7 @@ MainframeGame.Firewall.prototype = {
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		centreSprite(victorySign, this.game.width);
+		MainframeGame.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -170,24 +170,6 @@ MainframeGame.Firewall.prototype = {
 		var block = this.game.add.sprite(x, y, 'atlas', 'Subroutines/Firewall/firewall_block.png');
 		this.elementLayer.add(block);
 		return block;
-	},
-
-	initTimer: function (context) {
-		var timerBar = this.game.add.sprite(0, 22, 'icebreak_in_progress');
-		this.timerLayer.add(timerBar);
-		centreSprite(timerBar, this.game.width);
-		timerBar.animations.add('anim');
-		timerBar.animations.play('anim', 16, false);
-		timerBar.events.onAnimationComplete.add(function() {
-				this.ready = true;
-				//this.music = this.add.audio('subroutine_rush');
-				//this.music.play();
-			}, this);
-		this.timerBlock = this.game.add.sprite(10,54,'atlas', 'Subroutines/General/trace_bar_full.png');
-		centreSprite(this.timerBlock, this.game.width);
-		this.timerLayer.add(this.timerBlock);
-
-		this.timerBlock.width = 0;
 	},
 
 	incTimer: function () {

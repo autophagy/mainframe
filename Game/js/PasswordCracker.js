@@ -54,20 +54,16 @@ MainframeGame.PasswordCracker.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				this.incTimer();
+				MainframeGame.incTimer(this, true);
 			}
 		}
 
     },
 
-	shutDown: function () {
-		console.log('honk');
-	},
-
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		centreSprite(victorySign, this.game.width);
+		MainframeGame.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -75,7 +71,7 @@ MainframeGame.PasswordCracker.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		centreSprite(failureSign, this.game.width);
+		MainframeGame.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},
@@ -137,7 +133,7 @@ MainframeGame.PasswordCracker.prototype = {
 		this.elementLayer.add(this.passwordCompleteText);
 
 		var func = function () {
-			this.initTimer(this);
+			MainframeGame.initTimer(this, true);
 			this.nextChar();
 			}.bind(this);
 
@@ -169,38 +165,6 @@ MainframeGame.PasswordCracker.prototype = {
 		'123123123', 'andrea', 'pepper', 'nicole', 'killer', 'abcdef', 'hannah', 'alexander', 'andrew', '222222', 'joshua',
 		'freedom', 'asdfghj', 'purple', 'ginger', '123654', 'matrix', 'secret', 'summer', '1q2w3e'];
 		return passwords[Math.floor(Math.random()*passwords.length)];
-	},
-
-	initTimer: function (context) {
-		var timerBar = this.game.add.sprite(0, 22, 'trace_detected');
-		this.timerLayer.add(timerBar);
-		centreSprite(timerBar, this.game.width);
-		timerBar.animations.add('anim');
-		timerBar.animations.play('anim', 16, false);
-		timerBar.events.onAnimationComplete.add(function() {
-			this.timerTime = this.game.time.now;
-			this.timerStartTime = this.timerTime;
-			this.ready = true;
-			//this.music = this.add.audio('subroutine_rush');
-			//this.music.play();
-			}, this);
-		this.timerBlock = this.game.add.sprite(10,55,'atlas', 'Subroutines/General/trace_bar_full.png');
-		centreSprite(this.timerBlock, this.game.width);
-		this.timerLayer.add(this.timerBlock);
-
-		this.timerBlock.width = 0;
-	},
-
-	incTimer: function () {
-		var barWidth = 859;
-		var percentage = (this.game.time.now - this.timerStartTime) / this.timeLimit;
-		this.timerBlock.width = percentage*barWidth;
-
-		if (percentage >= 1)
-		{
-			this.ready = false;
-			this.failure();
-		}
 	},
 
 	incChar: function () {

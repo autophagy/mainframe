@@ -11,12 +11,12 @@ MainframeGame.Preloader.prototype = {
 	preload: function () {
 
 		this.game.stage.backgroundColor = '#1b1b1b';
-	 
-		this.loadingText = this.game.add.bitmapText(200,270, 'green_font', 'Loading...', 30);
-		centreText(this.loadingText, this.game.width);
 
-		this.game.add.sprite(0,0,'monitor');		
-		
+		this.loadingText = this.game.add.bitmapText(200,270, 'green_font', 'Loading...', 30);
+		MainframeGame.centreText(this.loadingText, this.game.width);
+
+		this.game.add.sprite(0,0,'monitor');
+
 
 		//	This sets the preloadBar sprite as a loader sprite.
 		//	What that does is automatically crop the sprite from 0 to full-width
@@ -25,10 +25,10 @@ MainframeGame.Preloader.prototype = {
 		//this.load.setPreloadSprite(this.preloadBar);
 
 		this.game.load.atlasJSONHash('atlas', 'assets/sprites/mainframe_sprites.png', 'assets/sprites/mainframe_sprites.json');
-		
+
 		//Special Phaser Credits
 		this.load.image('phaser_credits', 'assets/sprites/phaser_pixel_large_shaded.png');
-		
+
 		// Sounds
 		this.game.load.audio('intro_music', 'assets/sounds/mainframe_beep.mp3');
 		this.game.load.audio('subroutine_rush', 'assets/sounds/subroutine_rush.mp3');
@@ -70,10 +70,10 @@ MainframeGame.Preloader.prototype = {
 		//	You can jump right into the menu if you want and still play the music, but you'll have a few
 		//	seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
 		//	it's best to wait for it to decode here first, then carry on.
-		
+
 		//	If you don't have any music in your game then put the game.state.start line into the create function and delete
 		//	the update function completely.
-		
+
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
