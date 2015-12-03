@@ -40,7 +40,11 @@ MainframeGame.Firewall.prototype = {
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 		
-		this.createRow(100, 300);
+		this.createRow(0, 300);		
+		this.createRow(150, 300);
+		this.createRow(300, 300);
+		
+		this.initTimer();
 		
 	},
 	
@@ -75,16 +79,37 @@ MainframeGame.Firewall.prototype = {
 			}
 			
 			// Moves the bars. Although maybe tweening would be better?
+			// Also destroys any bar and adds a new one if off screen
 			for (var i = 0; i < this.rows.length; i++) {
 				for (var x = 0; x < this.rows[i].length; x++) {
-					this.rows[i][x].y += 1;
+					this.rows[i][x].y += 1;					
 				}
-			}	
+				
+				if (this.rows[i][0].y > this.game.height - 50) {
+					for (var x = 0; x < this.rows[i].length; x++) {
+						this.rows[i][x].destroy();
+					}
+					
+					this.rows.splice(i, 1);
+					
+					this.createRow(-50, 300);
+					
+					// Un-increment the i pointer
+					i -= 1;
+				}
+				
+				
+			}
+
 		}
     },
 
     victory: function () {				
-		
+		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
+		this.timerLayer.add(victorySign);
+		centreSprite(victorySign, this.game.width);
+		victorySign.animations.add('anim');		
+		victorySign.animations.play('anim', 16, false);
 	},
 	
 	failure: function () {
@@ -127,7 +152,7 @@ MainframeGame.Firewall.prototype = {
 	},
 	
 	initTimer: function (context) {
-		var timerBar = this.game.add.sprite(0, 22, 'trace_detected');
+		var timerBar = this.game.add.sprite(0, 22, 'icebreak_in_progress');
 		this.timerLayer.add(timerBar);
 		centreSprite(timerBar, this.game.width);
 		timerBar.animations.add('anim');		
@@ -137,7 +162,7 @@ MainframeGame.Firewall.prototype = {
 				//this.music = this.add.audio('subroutine_rush');
 				//this.music.play();
 			}, this);
-		this.timerBlock = this.game.add.sprite(10,55,'atlas', 'Subroutines/General/trace_bar_full.png');
+		this.timerBlock = this.game.add.sprite(10,54,'atlas', 'Subroutines/General/trace_bar_full.png');
 		centreSprite(this.timerBlock, this.game.width);
 		this.timerLayer.add(this.timerBlock);
 		
@@ -146,13 +171,13 @@ MainframeGame.Firewall.prototype = {
 	
 	incTimer: function () {
 		var barWidth = 859;
-		var percentage = (this.game.time.now - this.timerStartTime) / this.timeLimit;
+		var percentage = (this.game.time.now - this.timerStartTime) / this.timeGoal;
 		this.timerBlock.width = percentage*barWidth;	
 
 		if (percentage >= 1)
 		{
 			this.ready = false;
-			this.failure();
+			this.victory();
 		}
 	}
 
