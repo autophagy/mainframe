@@ -19,6 +19,7 @@ MainframeGame.Firewall = function (game) {
 	this.lastGapX = null;
 
 	this.player = null;
+	this.playerSpeed = 7;
 	this.cursors = null;
 
 	this.music = null;
@@ -41,10 +42,10 @@ MainframeGame.Firewall.prototype = {
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
 
-		this.createRow(0, 370);
+		this.createRow(300, 370);
 		this.lastGapX = 370;
-		this.generateRow(150);
-		this.generateRow(300);
+		this.generateRow(120);
+		this.generateRow(-60);
 
 		this.initTimer();
 
@@ -70,13 +71,13 @@ MainframeGame.Firewall.prototype = {
 			if (this.cursors.left.isDown)
 			{
 				if (this.player.x >= 35) {
-					this.player.x -= 5;
+					this.player.x -= this.playerSpeed;
 				}
 			}
 			else if (this.cursors.right.isDown)
 			{
 				if (this.player.right <= 925.5) {
-					this.player.x += 5;
+					this.player.x += this.playerSpeed;
 				}
 			}
 
