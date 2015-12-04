@@ -56,6 +56,22 @@ var MainframeGame = {
             context.ready = false;
             finishedFunc();
         }
+    },
+
+    // Knuth shuffe
+    shuffleArray: function(array) {
+        var i = array.length;
+        var t, randomI ;
+
+        while (i != 0) {
+            randomI = Math.floor(Math.random()*i);
+            i -= 1;
+            t = array[i];
+            array[i] = array[randomI];
+            array[randomI] = t;
+        }
+
+        return array;
     }
 
 
