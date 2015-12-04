@@ -10,14 +10,15 @@
 	<script src="js/Credits.js"></script>
 	<script src="js/PasswordCracker.js"></script>
 	<script src="js/Firewall.js"></script>
-	
+	<script src="js/Worm.js"></script>
+
 	<style>
-		body { 
-			background-color: #1b1b1b; 
-		}		
-		
+		body {
+			background-color: #1b1b1b;
+		}
+
 	</style>
-	
+
 </head>
 <body>
 
@@ -36,6 +37,7 @@ window.onload = function() {
 	game.state.add('Credits', MainframeGame.Credits);
 	game.state.add('PasswordCracker', MainframeGame.PasswordCracker);
 	game.state.add('Firewall', MainframeGame.Firewall);
+	game.state.add('Worm', MainframeGame.Worm);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');

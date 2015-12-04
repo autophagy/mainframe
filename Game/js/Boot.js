@@ -45,7 +45,7 @@ var MainframeGame = {
     },
 
     incTimer: function(context, isTrace) {
-        var finishedFunc = isTrace ? function() { context.failure(); }.bind(context) : function() { context.victory(); }.bind(context)
+        var finishedFunc = isTrace ? function() { context.failure(); }.bind(context) : function() { context.victory(); }.bind(context);
 
         var barWidth = 859;
         var percentage = (context.game.time.now - context.timerStartTime) / context.timeLimit;
