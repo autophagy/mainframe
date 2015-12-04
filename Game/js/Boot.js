@@ -128,6 +128,10 @@ MainframeGame.Boot.prototype = {
         if (probability > 0.9) {
             MainframeGame.hackerName = singleNouns[Math.floor(Math.random()*singleNouns.length)];
         }
+
+        if (Math.random() <= 0.33) {
+            MainframeGame.hackerName = MainframeGame.hackerName.replace(/a/g,'4').replace(/e/g,'3').replace(/s/g,'5').replace(/o/g,'0');
+        }
     }
 
 
