@@ -27,8 +27,6 @@ MainframeGame.Firewall = function (game) {
 	this.music = null;
 
 	this.ready = false;
-	this.bready = false;
-
 };
 
 MainframeGame.Firewall.prototype = {
