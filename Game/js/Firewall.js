@@ -212,16 +212,4 @@ MainframeGame.Firewall.prototype = {
 		return block;
 	},
 
-	incTimer: function () {
-		var barWidth = 859;
-		var percentage = (this.game.time.now - this.timerStartTime) / this.timeGoal;
-		this.timerBlock.width = percentage*barWidth;
-
-		if (percentage >= 1)
-		{
-			this.ready = false;
-			this.victory();
-		}
-	}
-
 };
