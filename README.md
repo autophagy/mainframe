@@ -28,7 +28,7 @@ Can you jam with the console cowboys in cyberspace?
 
 - Code up the subroutines independently
     - ~~Password Cracker~~
-    - Firewall Bypasser
+    - ~~Firewall Bypasser~~
     - Worm
     - SQL Inject
     - Botnet DDoS

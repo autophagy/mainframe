@@ -15,16 +15,19 @@ MainframeGame.Firewall = function (game) {
 
 	// Firewall stuff
 	this.gapSize = 150;
-	this.rows = [];
+	this.rows = null;
+	this.rowBounds = null;
 	this.lastGapX = null;
 
 	this.player = null;
+	this.playerBounds = null;
 	this.playerSpeed = 7;
 	this.cursors = null;
 
 	this.music = null;
 
 	this.ready = false;
+	this.bready = false;
 
 };
 
@@ -39,8 +42,15 @@ MainframeGame.Firewall.prototype = {
 		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
 		this.player.scale.setTo(0.5, 0.5);
 		MainframeGame.centreSprite(this.player, this.game.width);
+		this.elementLayer.add(this.player);
+
+		// This crops the bounding box so that the edges are never above empty sprite space
+		this.playerBounds = new Phaser.Rectangle(this.player.x + 11, this.player.y + 5, this.player.width - 22, this.player.height - 10);
 
 		this.cursors = this.game.input.keyboard.createCursorKeys();
+
+		this.rows = [];
+		this.rowBounds = [];
 
 		this.createRow(300, 370);
 		this.lastGapX = 370;
@@ -72,12 +82,14 @@ MainframeGame.Firewall.prototype = {
 			{
 				if (this.player.x >= 35) {
 					this.player.x -= this.playerSpeed;
+					this.playerBounds.x -= this.playerSpeed;
 				}
 			}
 			else if (this.cursors.right.isDown)
 			{
 				if (this.player.right <= 925.5) {
 					this.player.x += this.playerSpeed;
+					this.playerBounds.x += this.playerSpeed;
 				}
 			}
 
@@ -88,12 +100,16 @@ MainframeGame.Firewall.prototype = {
 					this.rows[i][x].y += 3;
 				}
 
+				this.rowBounds[i][0].y += 3;
+				this.rowBounds[i][1].y += 3;
+
 				if (this.rows[i][0].y > this.game.height - 50) {
 					for (var x = 0; x < this.rows[i].length; x++) {
 						this.rows[i][x].destroy();
 					}
 
 					this.rows.splice(i, 1);
+					this.rowBounds.splice(i, 1);
 
 					this.generateRow(-50);
 
@@ -102,6 +118,14 @@ MainframeGame.Firewall.prototype = {
 				}
 
 
+			}
+
+			// Check collisions
+			for (var i = 0; i < this.rowBounds.length; i++) {
+				if (Phaser.Rectangle.intersects(this.playerBounds, this.rowBounds[i][0]) || Phaser.Rectangle.intersects(this.playerBounds, this.rowBounds[i][1])) {
+					this.ready = false;
+					this.failure();
+				}
 			}
 
 		}
@@ -116,7 +140,11 @@ MainframeGame.Firewall.prototype = {
 	},
 
 	failure: function () {
-
+		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
+		this.timerLayer.add(failureSign);
+		MainframeGame.centreSprite(failureSign, this.game.width);
+		failureSign.animations.add('anim');
+		failureSign.animations.play('anim', 16, false);
 	},
 
 	generateRow: function(y) {
@@ -156,11 +184,25 @@ MainframeGame.Firewall.prototype = {
 			newRow.push(this.addBlock(newX, y));
 		}
 
+		var x = newRow[newRow.length-1].x;
+		var y = newRow[newRow.length-1].y;
+		var width = gapLeft.right - x;
+		var height = gapLeft.height;
+		var leftRowRect = new Phaser.Rectangle(x+11, y+11, width-22, height-22);
+
 		newX = gapRight.x + 12;
 		while (newX < this.game.width) {
 			newX += 61;
 			newRow.push(this.addBlock(newX, y));
 		}
+
+		x = gapRight.x;
+		y = gapRight.y;
+		width = newRow[newRow.length-1].x - x;
+		height = gapRight.height;
+		var rightRowRect = new Phaser.Rectangle(x+11, y+11, width-22, height-22);
+
+		this.rowBounds.push([leftRowRect,rightRowRect]);
 
 		this.rows.push(newRow);
 
