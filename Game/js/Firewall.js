@@ -64,11 +64,6 @@ MainframeGame.Firewall.prototype = {
 		if (this.ready)
 		{
 			// Update
-			if(this.timerTime == null) {
-				this.timerTime = this.game.time.now;
-				this.timerStartTime = this.timerTime;
-			}
-
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
