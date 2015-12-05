@@ -11,6 +11,7 @@
 	<script src="js/PasswordCracker.js"></script>
 	<script src="js/Firewall.js"></script>
 	<script src="js/Worm.js"></script>
+	<script src="js/SQLInject.js"></script>
 
 	<style>
 		body {
@@ -38,6 +39,7 @@ window.onload = function() {
 	game.state.add('PasswordCracker', MainframeGame.PasswordCracker);
 	game.state.add('Firewall', MainframeGame.Firewall);
 	game.state.add('Worm', MainframeGame.Worm);
+	game.state.add('SQLInject', MainframeGame.SQLInject);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');
