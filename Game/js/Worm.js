@@ -145,9 +145,19 @@ MainframeGame.Worm.prototype = {
 	renderMaze(maze) {
 		var offsetX = 48;
 		var offsetY = 103;
-		for (var i = 0; i < maze.length; i++) {
-			this.elementLayer.add(this.game.add.sprite((maze[i][0] * 30) + offsetX, (maze[i][1] * 30) + offsetY,'atlas','Subroutines/Worm/worm_wall.png'));
+
+		for (var x = 0; x < 27; x++) {
+			for (var y = 0; y < 11; y++) {
+				if(this.notInMaze([x,y],maze)) {
+					this.elementLayer.add(this.game.add.sprite((x * 30) + offsetX, (y * 30) + offsetY,'atlas','Subroutines/Worm/worm_wall.png'));
+				}
+			}
 		}
+
+		for (var i = 0; i < 10; i++) {
+			this.elementLayer.add(this.game.add.sprite((27*30) + offsetX, (i*30) + offsetY, 'atlas', 'Subroutines/Worm/worm_wall.png'));
+		}
+
 		this.elementLayer.add(this.game.add.sprite((27*30) + offsetX, (10*30) + offsetY, 'atlas', 'Subroutines/Worm/worm_goal.png'))
 	}
 };
