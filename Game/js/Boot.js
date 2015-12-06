@@ -72,6 +72,11 @@ var MainframeGame = {
         }
 
         return array;
+    },
+
+    // Temp debug function
+    showRect: function(context, rect) {
+        context.game.debug.geom(rect, '#FF0000', false);
     }
 
 
