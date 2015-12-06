@@ -27,6 +27,8 @@ MainframeGame.SQLInject.prototype = {
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
+        this.generateBlocks();
+
         MainframeGame.initTimer(this, true);
 
 	},
@@ -50,5 +52,24 @@ MainframeGame.SQLInject.prototype = {
 
 	failure: function () {
 
-	}
+	},
+
+    generateBlocks: function () {
+        var xOffset = 37;
+        var xGap = 172;
+        var yOffset = 110;
+        var yGap = 30;
+
+        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,80,'atlas', 'Subroutines/SQL_Injector/central_database.png'), this.game.width));
+
+        for (var i = 1; i <= 3; i++) {
+            for (var x = 0; x < 5; x++) {
+                this.elementLayer.add(this.game.add.sprite(xOffset+(xGap*x),yOffset+(yGap*i),'atlas', 'Subroutines/SQL_Injector/tier_'+i+'_block.png'));
+            }
+        }
+
+        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,435,'atlas', 'Subroutines/SQL_Injector/player_paddle.png'), this.game.width));
+
+        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width));
+    }
 };
