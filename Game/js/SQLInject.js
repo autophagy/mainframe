@@ -20,6 +20,11 @@ MainframeGame.SQLInject = function (game) {
 
     this.blocks = [];
     this.blockBounds = [];
+    this.wallBounds = [];
+    this.failureBounds = null;
+
+    this.injection = null;
+    this.injectionBounds = null;
 
     this.databaseBounds = null;
 
@@ -62,14 +67,14 @@ MainframeGame.SQLInject.prototype = {
 			{
 				if (this.player.x >= 35) {
 					this.player.x -= this.playerSpeed;
-					//this.playerBounds.x -= this.playerSpeed;
+					this.playerBounds.x -= this.playerSpeed;
 				}
 			}
 			else if (this.cursors.right.isDown)
 			{
 				if (this.player.right <= 925.5) {
 					this.player.x += this.playerSpeed;
-					//this.playerBounds.x += this.playerSpeed;
+					this.playerBounds.x += this.playerSpeed;
 				}
 			}
 		}
@@ -90,17 +95,30 @@ MainframeGame.SQLInject.prototype = {
         var yOffset = 110;
         var yGap = 30;
 
-        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,80,'atlas', 'Subroutines/SQL_Injector/central_database.png'), this.game.width));
+        var databaseSprite = MainframeGame.centreSprite(this.game.add.sprite(0,80,'atlas', 'Subroutines/SQL_Injector/central_database.png'), this.game.width);
+        this.elementLayer.add(databaseSprite);
+        this.databaseBounds = new Phaser.Rectangle(databaseSprite.x+13,databaseSprite.y+13,databaseSprite.width-26,databaseSprite.height-26);
+
+        this.blockBounds = [];
 
         for (var i = 1; i <= 3; i++) {
             for (var x = 0; x < 5; x++) {
-                this.elementLayer.add(this.game.add.sprite(xOffset+(xGap*x),yOffset+(yGap*i),'atlas', 'Subroutines/SQL_Injector/tier_'+i+'_block.png'));
+                this.elementLayer.add(this.game.add.sprite(37+(172*x),110+(30*i),'atlas', 'Subroutines/SQL_Injector/tier_'+i+'_block.png'));
+                this.blockBounds.push(new Phaser.Rectangle(50+(172*x),123+(30*i),170,28));
             }
         }
 
+        this.wallBounds[0] = new Phaser.Rectangle(38, 0, 10, this.game.height);
+        this.wallBounds[1] = new Phaser.Rectangle(this.game.width-50, 0, 10, this.game.height);
+        this.failureBounds = new Phaser.Rectangle(0, this.game.height-60, this.game.width, 10);
+
         this.player = MainframeGame.centreSprite(this.game.add.sprite(0,435,'atlas', 'Subroutines/SQL_Injector/player_paddle.png'), this.game.width);
         this.elementLayer.add(this.player);
+        this.playerBounds = new Phaser.Rectangle(this.player.x+13, this.player.y+13, this.player.width-26, this.player.height-26);
 
-        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width));
+        this.injection = MainframeGame.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width);
+        this.elementLayer.add(this.injection);
+        this.injectionBounds = new Phaser.Rectangle(this.injection.x+13, this.injection.y+13, this.injection.width-26, this.injection.height-26);
+
     }
 };
