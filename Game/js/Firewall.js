@@ -3,6 +3,7 @@ MainframeGame.Firewall = function (game) {
 	// Standard Layering
 
 	this.elementLayer = null;
+	this.tutorialLayer = null;
 	this.timerLayer = null;
 	this.monitorLayer = null;
 
@@ -33,30 +34,18 @@ MainframeGame.Firewall.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
+		this.tutorialLayer = this.game.add.group();
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
-		this.player.scale.setTo(0.5, 0.5);
-		MainframeGame.centreSprite(this.player, this.game.width);
-		this.elementLayer.add(this.player);
+		var t = '> man HOLEPUNCH';
+		t += '\n\nNAME'
+		t += '\n	HOLEPUNCH - Allows access through firewalls';
+		t += '\n\nDESCRIPTION'
+		t += '\n	Use the arrow keys to maneuver the payload through\n	the gaps in the Corp\'s firewall.';
 
-		// This crops the bounding box so that the edges are never above empty sprite space
-		this.playerBounds = new Phaser.Rectangle(this.player.x + 11, this.player.y + 5, this.player.width - 22, this.player.height - 10);
-
-		this.cursors = this.game.input.keyboard.createCursorKeys();
-
-		this.rows = [];
-		this.rowBounds = [];
-
-		this.createRow(300, 370);
-		this.lastGapX = 370;
-		this.generateRow(120);
-		this.generateRow(-60);
-
-		MainframeGame.initTimer(this, false);
-
+		MainframeGame.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -123,6 +112,30 @@ MainframeGame.Firewall.prototype = {
 
 		}
     },
+
+	setupGame: function () {
+		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
+		this.player.scale.setTo(0.5, 0.5);
+		MainframeGame.centreSprite(this.player, this.game.width);
+		this.elementLayer.add(this.player);
+
+		// This crops the bounding box so that the edges are never above empty sprite space
+		this.playerBounds = new Phaser.Rectangle(this.player.x + 11, this.player.y + 5, this.player.width - 22, this.player.height - 10);
+
+		this.cursors = this.game.input.keyboard.createCursorKeys();
+
+		this.rows = [];
+		this.rowBounds = [];
+
+		this.createRow(300, 370);
+		this.lastGapX = 370;
+		this.generateRow(120);
+		this.generateRow(-60);
+	},
+
+	initGame: function () {
+		MainframeGame.initTimer(this, false);
+	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
