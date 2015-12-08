@@ -3,6 +3,7 @@ MainframeGame.Worm = function (game) {
 	// Standard Layering
 
 	this.elementLayer = null;
+	this.tutorialLayer = null;
 	this.timerLayer = null;
 	this.monitorLayer = null;
 
@@ -32,23 +33,19 @@ MainframeGame.Worm.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
+		this.tutorialLayer = this.game.add.group();
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-		var outline = MainframeGame.centreSprite(this.game.add.sprite(0,95,'atlas','Subroutines/Worm/worm_outline.png'), this.game.width);
-		outline.height -= 34;
-		this.elementLayer.add(outline);
+		var t = '> man YOURDOOM';
+		t += '\n\nNAME'
+		t += '\n	YOURDOOM - Worm that targets specific Corp files';
+		t += '\n\nDESCRIPTION'
+		t += '\n	Guide the YourDoom worm using the arrow keys to the\n	infection vector. ';
+		t += 'To prevent traces, you cannot cross\n	your own path!'
 
-		this.generateMaze();
-		this.movePlayer(59,114);
-
-		this.cursors = this.game.input.keyboard.createCursorKeys();
-
-		this.lastPlayerMove = this.game.time.now;
-
-		MainframeGame.initTimer(this, true);
-
+		MainframeGame.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -98,6 +95,23 @@ MainframeGame.Worm.prototype = {
 		}
 
     },
+
+	setupGame: function () {
+		var outline = MainframeGame.centreSprite(this.game.add.sprite(0,95,'atlas','Subroutines/Worm/worm_outline.png'), this.game.width);
+		outline.height -= 34;
+		this.elementLayer.add(outline);
+
+		this.generateMaze();
+		this.movePlayer(59,114);
+
+		this.cursors = this.game.input.keyboard.createCursorKeys();
+
+		this.lastPlayerMove = this.game.time.now;
+	},
+
+	initGame: function () {
+		MainframeGame.initTimer(this, true);
+	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
