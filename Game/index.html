@@ -12,6 +12,7 @@
 	<script src="js/Firewall.js"></script>
 	<script src="js/Worm.js"></script>
 	<script src="js/SQLInject.js"></script>
+	<script src="js/BotnetDDoS.js"></script>
 
 	<style>
 		body {
@@ -40,6 +41,7 @@ window.onload = function() {
 	game.state.add('Firewall', MainframeGame.Firewall);
 	game.state.add('Worm', MainframeGame.Worm);
 	game.state.add('SQLInject', MainframeGame.SQLInject);
+	game.state.add('BotnetDDoS', MainframeGame.BotnetDDoS);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');
