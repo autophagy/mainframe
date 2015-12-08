@@ -25,6 +25,7 @@ MainframeGame.SQLInject = function (game) {
 
     this.injection = null;
     this.injectionBounds = null;
+	this.injectionVelocity = null;
 
     this.databaseBounds = null;
 
@@ -77,16 +78,31 @@ MainframeGame.SQLInject.prototype = {
 					this.playerBounds.x += this.playerSpeed;
 				}
 			}
+
+			this.checkCollisions();
+
+			this.injection.x = this.injection.x + this.injectionVelocity.x;
+			this.injection.y = this.injection.y + this.injectionVelocity.y;
+			this.injectionBounds.x = this.injectionBounds.x + this.injectionVelocity.x;
+			this.injectionBounds.y = this.injectionBounds.y + this.injectionVelocity.y;
 		}
 
     },
 
     victory: function () {
-
+		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
+		this.timerLayer.add(victorySign);
+		MainframeGame.centreSprite(victorySign, this.game.width);
+		victorySign.animations.add('anim');
+		victorySign.animations.play('anim', 16, false);
 	},
 
 	failure: function () {
-
+		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
+		this.timerLayer.add(failureSign);
+		MainframeGame.centreSprite(failureSign, this.game.width);
+		failureSign.animations.add('anim');
+		failureSign.animations.play('anim', 16, false);
 	},
 
     generateBlocks: function () {
@@ -103,7 +119,9 @@ MainframeGame.SQLInject.prototype = {
 
         for (var i = 1; i <= 3; i++) {
             for (var x = 0; x < 5; x++) {
-                this.elementLayer.add(this.game.add.sprite(37+(172*x),110+(30*i),'atlas', 'Subroutines/SQL_Injector/tier_'+i+'_block.png'));
+				var block = this.game.add.sprite(37+(172*x),110+(30*i),'atlas', 'Subroutines/SQL_Injector/tier_'+i+'_block.png');
+				this.elementLayer.add(block);
+				this.blocks.push(block);
                 this.blockBounds.push(new Phaser.Rectangle(50+(172*x),123+(30*i),170,28));
             }
         }
@@ -119,6 +137,42 @@ MainframeGame.SQLInject.prototype = {
         this.injection = MainframeGame.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width);
         this.elementLayer.add(this.injection);
         this.injectionBounds = new Phaser.Rectangle(this.injection.x+13, this.injection.y+13, this.injection.width-26, this.injection.height-26);
+		this.injectionVelocity = new Phaser.Point(Math.floor(Math.random() * 3)+1, -3);
 
-    }
+    },
+
+	checkCollisions: function () {
+		// Check block collisions
+		for (var i = 0; i < this.blockBounds.length; i++) {
+			if (Phaser.Rectangle.intersects(this.injectionBounds, this.blockBounds[i])) {
+				this.injectionVelocity.y = this.injectionVelocity.y * -1;
+				this.blocks[i].destroy();
+				this.blocks.splice(i, 1);
+				this.blockBounds.splice(i, 1);
+				break;
+			}
+		}
+
+		// Check wall collisions
+		if (Phaser.Rectangle.intersects(this.injectionBounds, this.wallBounds[0]) || Phaser.Rectangle.intersects(this.injectionBounds, this.wallBounds[1])) {
+			this.injectionVelocity.x = this.injectionVelocity.x * -1;
+		}
+
+		if (Phaser.Rectangle.intersects(this.injectionBounds, this.playerBounds)) {
+			this.injectionVelocity.y = this.injectionVelocity.y * -1;
+			this.injectionVelocity.x = this.injectionVelocity.x + ((this.injectionBounds.x + (this.injectionBounds.width/2)) - (this.playerBounds.x + (this.playerBounds.width/2)))/10;
+		}
+
+		// Check fail collisions
+		if (Phaser.Rectangle.intersects(this.injectionBounds, this.failureBounds)) {
+			this.ready = false;
+			this.failure();
+		}
+
+		// Check victory collision
+		if (Phaser.Rectangle.intersects(this.injectionBounds, this.databaseBounds)) {
+			this.ready = false;
+			this.victory();
+		}
+	}
 };
