@@ -43,7 +43,7 @@ MainframeGame.PasswordCracker.prototype = {
 		t += '\n\nDESCRIPTION'
 		t += '\n	The finest bruteforce cracker money can buy.\n	Mash those keys!';
 
-		MainframeGame.setupTutorial(this, t, true);
+		MainframeGame.setupTutorial(this, t);
 
 	},
 

@@ -74,10 +74,7 @@ var MainframeGame = {
 				context.initGame();
 			}, context);
 
-            // This is in case of any special pre-init animations
-            if (setup) {
-                context.setupGame();
-            }
+            context.setupGame();
 
 			bg_flicker.animations.play('anim', 28, false);
         }, context);
