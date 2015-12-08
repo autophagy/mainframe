@@ -58,6 +58,31 @@ var MainframeGame = {
         }
     },
 
+    setupTutorial: function(context, tutorial, setup) {
+        context.tutorialLayer.add(context.game.add.bitmapText(30,50, 'green_font', tutorial, 30));
+
+		context.tutorialLayer.add(MainframeGame.centreText(context.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), context.game.width));
+
+		var space = context.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		space.onDown.addOnce(function () {
+			context.tutorialLayer.removeAll();
+			bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker');
+			context.tutorialLayer.add(bg_flicker);
+			bg_flicker.animations.add('anim');
+			bg_flicker.events.onAnimationComplete.add(function() {
+				context.tutorialLayer.removeAll();
+				context.initGame();
+			}, context);
+
+            // This is in case of any special pre-init animations
+            if (setup) {
+                context.setupGame();
+            }
+
+			bg_flicker.animations.play('anim', 28, false);
+        }, context);
+    },
+
     // Knuth shuffe
     shuffleArray: function(array) {
         var i = array.length;
