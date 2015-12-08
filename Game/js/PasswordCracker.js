@@ -43,23 +43,7 @@ MainframeGame.PasswordCracker.prototype = {
 		t += '\n\nDESCRIPTION'
 		t += '\n	The finest bruteforce cracker money can buy.\n	Mash those keys!';
 
-		this.tutorialLayer.add(this.game.add.bitmapText(30,50, 'green_font', t, 30));
-
-		this.tutorialLayer.add(MainframeGame.centreText(this.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), this.game.width));
-
-		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		space.onDown.addOnce(function () {
-			this.tutorialLayer.removeAll();
-			bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
-			this.tutorialLayer.add(bg_flicker);
-			bg_flicker.animations.add('anim');
-			bg_flicker.events.onAnimationComplete.add(function() {
-				this.tutorialLayer.removeAll();
-				this.initGame();
-			}, this);
-			this.setupGame();
-			bg_flicker.animations.play('anim', 28, false);
-			}, this);
+		MainframeGame.setupTutorial(this, t, true);
 
 	},
 
