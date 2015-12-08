@@ -12,7 +12,7 @@ MainframeGame.SQLInject = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 20;
+	this.timeLimit = Phaser.Timer.SECOND * 15;
 
     this.player = null;
     this.playerSpeed = 10;
