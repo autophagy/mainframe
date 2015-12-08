@@ -1,6 +1,7 @@
 MainframeGame.PasswordCracker = function (game) {
 
 	this.elementLayer = null;
+	this.tutorialLayer = null;
 	this.timerLayer = null;
 	this.monitorLayer = null;
 
@@ -13,6 +14,7 @@ MainframeGame.PasswordCracker = function (game) {
 	this.music = null;
 
 	this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	this.str = null;
 	this.maxKey = null;
 	this.keyCount = 0;
 	this.currentChar = -1;
@@ -30,20 +32,34 @@ MainframeGame.PasswordCracker.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
+		this.tutorialLayer = this.game.add.group();
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-		this.keyCount = 0;
-		this.currentChar = -1;
+		var t = '> man PHIL_THE_RIPPER';
+		t += '\n\nNAME'
+		t += '\n	PHIL_THE_RIPPER - Bruteforce password cracker';
+		t += '\n\nDESCRIPTION'
+		t += '\n	The finest bruteforce cracker money can buy.\n	Mash those keys!';
 
-		this.loginScreenPicker();
+		this.tutorialLayer.add(this.game.add.bitmapText(30,50, 'green_font', t, 30));
 
-		this.maxKey = Math.round(300 / this.password.length);
+		this.tutorialLayer.add(MainframeGame.centreText(this.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), this.game.width));
 
-		this.game.input.keyboard.onUpCallback = (function () {
-			this.incChar();
-		}.bind(this));
+		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		space.onDown.addOnce(function () {
+			this.tutorialLayer.removeAll();
+			bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
+			this.tutorialLayer.add(bg_flicker);
+			bg_flicker.animations.add('anim');
+			bg_flicker.events.onAnimationComplete.add(function() {
+				this.tutorialLayer.removeAll();
+				this.initGame();
+			}, this);
+			this.setupGame();
+			bg_flicker.animations.play('anim', 28, false);
+			}, this);
 
 	},
 
@@ -59,6 +75,34 @@ MainframeGame.PasswordCracker.prototype = {
 		}
 
     },
+
+	setupGame: function () {
+		this.keyCount = 0;
+		this.currentChar = -1;
+
+		this.str = this.loginScreenPicker();
+
+		this.maxKey = Math.round(300 / this.password.length);
+	},
+
+	initGame: function () {
+		var func = function () {
+			MainframeGame.initTimer(this, true);
+			this.nextChar();
+			}.bind(this);
+
+		if(this.str.length > this.username.length) {
+			this.textScroll(this.passwordText, this.str, 200, func);
+			this.textScroll(this.usernameText, this.username, 200, null);
+		} else {
+			this.textScroll(this.passwordText, this.str, 200, null);
+			this.textScroll(this.usernameText, this.username, 200, func);
+		}
+
+		this.game.input.keyboard.onUpCallback = (function () {
+			this.incChar();
+		}.bind(this));
+	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
@@ -132,20 +176,7 @@ MainframeGame.PasswordCracker.prototype = {
 		this.passwordCompleteText = this.game.add.bitmapText(passLoc[0],passLoc[1], 'green_font', '', size);
 		this.elementLayer.add(this.passwordCompleteText);
 
-		var func = function () {
-			MainframeGame.initTimer(this, true);
-			this.nextChar();
-			}.bind(this);
-
-		if(str.length > this.username.length) {
-			this.textScroll(this.passwordText, str, 200, func);
-			this.textScroll(this.usernameText, this.username, 200, null);
-		} else {
-			this.textScroll(this.passwordText, str, 200, null);
-			this.textScroll(this.usernameText, this.username, 200, func);
-		}
-
-
+		return str;
 	},
 
 	usernamePicker: function () {
