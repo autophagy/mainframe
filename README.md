@@ -30,7 +30,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Password Cracker~~
     - ~~Firewall Bypasser~~
     - ~~Worm~~
-    - ~SQL Inject~
+    - ~~SQL Inject~~
     - Botnet DDoS
     - Buffer Overflow
     - Packet Sniffer
