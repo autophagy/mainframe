@@ -38,6 +38,8 @@ Can you jam with the console cowboys in cyberspace?
 	
 - Implement subroutine tutorial screens    
 
+- Clean up subroutine code + generalise common functions
+
 - Link up the subroutines to the main screen and implement lives (proxies), game over & game win states
 
 - Music and sound design for everything
