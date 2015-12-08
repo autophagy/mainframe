@@ -76,7 +76,7 @@ var MainframeGame = {
 
             context.setupGame();
 
-			bg_flicker.animations.play('anim', 28, false);
+			bg_flicker.animations.play('anim', 16, false);
         }, context);
     },
 

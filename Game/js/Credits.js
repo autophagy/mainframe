@@ -20,7 +20,7 @@ MainframeGame.Credits.prototype = {
 
 		var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
 		bg_flicker.animations.add('anim');
-		bg_flicker.animations.play('anim', 28, false);
+		bg_flicker.animations.play('anim', 16, false);
 
 		this.game.add.sprite(0,0,'atlas','General/monitor.png');
 
