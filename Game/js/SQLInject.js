@@ -3,6 +3,7 @@ MainframeGame.SQLInject = function (game) {
 	// Standard Layering
 
 	this.elementLayer = null;
+	this.tutorialLayer = null;
 	this.timerLayer = null;
 	this.monitorLayer = null;
 
@@ -41,16 +42,18 @@ MainframeGame.SQLInject.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
+		this.tutorialLayer = this.game.add.group();
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-        this.generateBlocks();
+		var t = '> man DB_BREAKER';
+		t += '\n\nNAME'
+		t += '\n	DB_BREAKER - SQL injection script';
+		t += '\n\nDESCRIPTION'
+		t += '\n	Control the bar with left and right keys. Keep\n	knocking away rows with the SQL injection until you\n	can hit the central database.';
 
-        this.cursors = this.game.input.keyboard.createCursorKeys();
-
-        MainframeGame.initTimer(this, true);
-
+		MainframeGame.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -88,6 +91,15 @@ MainframeGame.SQLInject.prototype = {
 		}
 
     },
+
+	setupGame: function () {
+		this.generateBlocks();
+        this.cursors = this.game.input.keyboard.createCursorKeys();
+	},
+
+	initGame: function () {
+		MainframeGame.initTimer(this, true);
+	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
