@@ -12,7 +12,13 @@ MainframeGame.BotnetDDoS = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 20;
+	this.timeLimit = Phaser.Timer.SECOND * 40;
+
+	// Bots
+	this.bots = null;
+	this.botBandwidthLimit = 100;
+	this.botPacketSize = 40;
+
 
 	this.music = null;
 
@@ -38,7 +44,9 @@ MainframeGame.BotnetDDoS.prototype = {
         t += '\n	Sending packets too quickly will result in your bandwidth being';
         t += '\n	reached, and it will be temporarily disabled';
 
-		MainframeGame.setupTutorial(this, t);
+	//	MainframeGame.setupTutorial(this, t);
+	this.setupGame();
+	this.initGame();
 	},
 
 	update: function () {
@@ -55,13 +63,25 @@ MainframeGame.BotnetDDoS.prototype = {
     },
 
     setupGame: function () {
+		this.bots = [];
         for (var i = 0; i < 5; i++) {
-            this.game.add.sprite(60+(174*i),320,'atlas', 'Subroutines/DDOS/online_bot.png');
-            this.game.add.bitmapText(98+(174*i),430,'green_font', 'BOT'+(i+1), 30);
+			var bot = new Bot(this, 60+(174*i), 320, i+1);
+			this.bots.push(bot);
         }
 
-        MainframeGame.centreSprite(this.game.add.sprite(0,100,'atlas', 'Subroutines/DDOS/server.png'), this.game.width);
-        MainframeGame.centreSprite(this.game.add.bitmapText(0,80,'white_font', 'SERVER', 30), this.game.width);
+        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,100,'atlas', 'Subroutines/DDOS/server.png'), this.game.width));
+        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.bitmapText(0,80,'white_font', 'SERVER', 30), this.game.width));
+
+		key1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+		key2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);
+		key3 = this.game.input.keyboard.addKey(Phaser.Keyboard.THREE);
+		key4 = this.game.input.keyboard.addKey(Phaser.Keyboard.FOUR);
+		key5 = this.game.input.keyboard.addKey(Phaser.Keyboard.FIVE);
+		key1.onDown.add(function () { this.sendPacket(0); }, this);
+		key2.onDown.add(function () { this.sendPacket(1); }, this);
+		key3.onDown.add(function () { this.sendPacket(2); }, this);
+		key4.onDown.add(function () { this.sendPacket(3); }, this);
+		key5.onDown.add(function () { this.sendPacket(4); }, this);
 
     },
 
@@ -75,5 +95,88 @@ MainframeGame.BotnetDDoS.prototype = {
 
 	failure: function () {
 
+	},
+
+	sendPacket: function (botNum) {
+		this.bots[botNum].sendPacket();
 	}
 };
+
+var Bot = (function () {
+    function Bot(context, x, y, num) {
+        this.context = context;
+        this.sprite = context.game.add.sprite(x,y,'atlas', 'Subroutines/DDOS/online_bot.png');
+		context.elementLayer.add(this.sprite);
+
+		this.disabledSprite = null;
+        this.bandwidth = 0;
+		this.enabled = true;
+
+        this.bandwidthBar = context.game.add.sprite(x+40,y+95,'atlas', 'Subroutines/General/trace_bar_full.png');
+		context.elementLayer.add(this.bandwidthBar);
+		this.bandwidthBar.width = 0;
+		this.bandwidthBar.height = 4;
+
+		this.botText = context.game.add.bitmapText(x+38,y+110,'green_font', 'BOT'+num, 30);
+
+        this.timeSinceSent = context.game.time.now;
+    }
+
+    Bot.prototype.sendPacket = function () {
+		if (this.enabled) {
+			this.timeSinceSent = this.context.game.time.now;
+			this.bandwidth += this.context.botPacketSize;
+			var barWidth = 85;
+	        var percentage = this.bandwidth / this.context.botBandwidthLimit;
+	        this.bandwidthBar.width = percentage*barWidth;
+
+			var packet = this.context.game.add.sprite(this.sprite.x+52, this.sprite.y, 'atlas', 'Subroutines/DDOS/packet.png');
+			this.context.elementLayer.add(packet);
+			var sendPacket = this.context.game.add.tween(packet);
+			sendPacket.to({ x: this.context.game.width/2, y: 150}, 200, Phaser.Easing.Linear.In);
+			sendPacket.start();
+			sendPacket.onComplete.add( function() {
+				packet.destroy();
+			}, this);
+
+	        if (percentage >= 1)
+	        {
+	            this.disable();
+	        }
+		}
+    };
+    Bot.prototype.decBandwidth = function () {
+        // do a thing
+    };
+    Bot.prototype.disable = function () {
+		this.enabled = false;
+		this.disabledSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_offline');
+    	this.context.elementLayer.add(this.disabledSprite);
+		this.sprite.alpha = 0;
+		this.botText.alpha = 0;
+		this.bandwidthBar.alpha = 0;
+    	this.disabledSprite.animations.add('anim');
+    	this.disabledSprite.animations.play('anim', 32, false);
+    	this.disabledSprite.events.onAnimationComplete.add(function() {
+			this.context.game.time.events.add(Phaser.Timer.SECOND * 4, function() {
+				this.disabledSprite.destroy();
+				this.disabledSprite =this. context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_online');
+		    	this.context.elementLayer.add(this.disabledSprite);
+		    	this.disabledSprite.animations.add('anim');
+		    	this.disabledSprite.animations.play('anim', 32, false);
+				this.disabledSprite.events.onAnimationComplete.add(function() {
+					this.disabledSprite.destroy();
+					this.sprite.alpha = 1;
+					this.botText.alpha = 1;
+					this.bandwidthBar.alpha = 1;
+					this.bandwidth = 0;
+					this.bandwidthBar.width = 0;
+					this.enabled = true;
+				}, this);
+			}, this);
+		}, this);
+
+
+    };
+    return Bot;
+})();
