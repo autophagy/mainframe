@@ -12,13 +12,19 @@ MainframeGame.BotnetDDoS = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 40;
+	this.timeLimit = Phaser.Timer.SECOND * 20;
 
 	// Bots
 	this.bots = null;
 	this.botBandwidthLimit = 100;
 	this.botPacketSize = 40;
 
+	// Server
+	this.serverLoadBar = 0;
+	this.serverLoad = null;
+	this.serverLoadGoal = 1300;
+	this.serverLastRecieved = null;
+	this.serverPacketSize = 75;
 
 	this.music = null;
 
@@ -44,9 +50,7 @@ MainframeGame.BotnetDDoS.prototype = {
         t += '\n	Sending packets too quickly will result in your bandwidth being';
         t += '\n	reached, and it will be temporarily disabled';
 
-	//	MainframeGame.setupTutorial(this, t);
-	this.setupGame();
-	this.initGame();
+		MainframeGame.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -58,6 +62,21 @@ MainframeGame.BotnetDDoS.prototype = {
 				this.timerTime = this.game.time.now;
 				MainframeGame.incTimer(this, true);
 			}
+
+			for (var i = 0; i < this.bots.length; i++) {
+				this.bots[i].decBandwidth();
+			}
+
+			this.serverLoad -= Math.pow(1.1, (this.game.time.now - this.serverLastRecieved)/100) - 1;
+			this.serverLoad = this.serverLoad < 0 ? 0 : this.serverLoad;
+			this.serverLoadBar.width = (this.serverLoad / this.serverLoadGoal)*437;
+			if (this.serverLoad >= this.serverLoadGoal) {
+				this.ready = false;
+				this.serverLoad = this.serverLoadGoal
+				this.serverLoadBar.width = 437;
+				this.victory();
+			}
+
 		}
 
     },
@@ -83,6 +102,12 @@ MainframeGame.BotnetDDoS.prototype = {
 		key4.onDown.add(function () { this.sendPacket(3); }, this);
 		key5.onDown.add(function () { this.sendPacket(4); }, this);
 
+		this.serverLoadBar = this.game.add.sprite(262,214,'atlas', 'Subroutines/General/trace_bar_full.png');
+		this.serverLoadBar.height = 11;
+		this.serverLoadBar.width = 0;
+		this.elementLayer.add(this.serverLoadBar);
+		this.serverLastRecieved = this.game.time.now;
+
     },
 
     initGame: function () {
@@ -90,11 +115,19 @@ MainframeGame.BotnetDDoS.prototype = {
     },
 
     victory: function () {
-
+		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
+		this.timerLayer.add(victorySign);
+		MainframeGame.centreSprite(victorySign, this.game.width);
+		victorySign.animations.add('anim');
+		victorySign.animations.play('anim', 16, false);
 	},
 
 	failure: function () {
-
+		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
+		this.timerLayer.add(failureSign);
+		MainframeGame.centreSprite(failureSign, this.game.width);
+		failureSign.animations.add('anim');
+		failureSign.animations.play('anim', 16, false);
 	},
 
 	sendPacket: function (botNum) {
@@ -123,12 +156,9 @@ var Bot = (function () {
     }
 
     Bot.prototype.sendPacket = function () {
-		if (this.enabled) {
+		if (this.enabled && this.context.ready) {
 			this.timeSinceSent = this.context.game.time.now;
 			this.bandwidth += this.context.botPacketSize;
-			var barWidth = 85;
-	        var percentage = this.bandwidth / this.context.botBandwidthLimit;
-	        this.bandwidthBar.width = percentage*barWidth;
 
 			var packet = this.context.game.add.sprite(this.sprite.x+52, this.sprite.y, 'atlas', 'Subroutines/DDOS/packet.png');
 			this.context.elementLayer.add(packet);
@@ -137,17 +167,27 @@ var Bot = (function () {
 			sendPacket.start();
 			sendPacket.onComplete.add( function() {
 				packet.destroy();
+				this.context.serverLastRecieved = this.context.game.time.now;
+				this.context.serverLoad += this.context.serverPacketSize;
 			}, this);
 
-	        if (percentage >= 1)
-	        {
-	            this.disable();
-	        }
+			if (this.bandwidth / this.context.botBandwidthLimit >= 1)
+			{
+				this.disable();
+			}
 		}
     };
+
     Bot.prototype.decBandwidth = function () {
-        // do a thing
+        this.bandwidth -= Math.pow(1.1, (this.context.game.time.now - this.timeSinceSent)/1000) - 1;
+		this.bandwidth = this.bandwidth < 0 ? 0 : this.bandwidth;
+		this.refreshBandwidth();
     };
+
+	Bot.prototype.refreshBandwidth = function () {
+		this.bandwidthBar.width = (this.bandwidth / this.context.botBandwidthLimit)*85;
+	};
+
     Bot.prototype.disable = function () {
 		this.enabled = false;
 		this.disabledSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_offline');
@@ -158,7 +198,7 @@ var Bot = (function () {
     	this.disabledSprite.animations.add('anim');
     	this.disabledSprite.animations.play('anim', 32, false);
     	this.disabledSprite.events.onAnimationComplete.add(function() {
-			this.context.game.time.events.add(Phaser.Timer.SECOND * 4, function() {
+			this.context.game.time.events.add(Phaser.Timer.SECOND * 7, function() {
 				this.disabledSprite.destroy();
 				this.disabledSprite =this. context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_online');
 		    	this.context.elementLayer.add(this.disabledSprite);
@@ -170,7 +210,7 @@ var Bot = (function () {
 					this.botText.alpha = 1;
 					this.bandwidthBar.alpha = 1;
 					this.bandwidth = 0;
-					this.bandwidthBar.width = 0;
+					this.refreshBandwidth();
 					this.enabled = true;
 				}, this);
 			}, this);
