@@ -24,7 +24,7 @@ MainframeGame.BotnetDDoS = function (game) {
 	this.serverLoad = null;
 	this.serverLoadGoal = 1300;
 	this.serverLastRecieved = null;
-	this.serverPacketSize = 75;
+	this.serverPacketSize = 60;
 
 	this.music = null;
 
