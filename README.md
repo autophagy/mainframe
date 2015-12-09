@@ -31,7 +31,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Firewall Bypasser~~
     - ~~Worm~~
     - ~~SQL Inject~~
-    - Botnet DDoS
+    - ~~Botnet DDoS~~
     - Buffer Overflow
     - Packet Sniffer
     - Voice Cracker
