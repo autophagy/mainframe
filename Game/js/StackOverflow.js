@@ -1,4 +1,4 @@
-MainframeGame.BufferOverflow = function (game) {
+MainframeGame.StackOverflow = function (game) {
 
 	// Standard Layering
 
@@ -12,7 +12,7 @@ MainframeGame.BufferOverflow = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 20;
+	this.timeLimit = Phaser.Timer.SECOND * 60;
 
 	this.music = null;
 
@@ -20,7 +20,7 @@ MainframeGame.BufferOverflow = function (game) {
 
 };
 
-MainframeGame.BufferOverflow.prototype = {
+MainframeGame.StackOverflow.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -38,7 +38,9 @@ MainframeGame.BufferOverflow.prototype = {
         t += '\n	jump to the next stack. Jump from 3 buffers to inject your';
         t += '\n	ICE-BREAK payload.';
 
-		MainframeGame.setupTutorial(this, t);
+		//MainframeGame.setupTutorial(this, t);
+        this.setupGame();
+        //this.initGame();
 	},
 
 	update: function () {
@@ -56,7 +58,6 @@ MainframeGame.BufferOverflow.prototype = {
     },
 
     setupGame: function () {
-
 
     },
 
