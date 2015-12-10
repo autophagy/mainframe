@@ -10,7 +10,7 @@ Mainframe.Credits.prototype = {
 	create: function () {
 
 		Mainframe.centreText(this.game.add.bitmapText(0,50, 'green_font', 'CREDITS', 40), this.game.width);
-		Mainframe.centreText(this.game.add.bitmapText(0,170, 'green_font', 'Words, pictures and code by Mika / Autophagy', 30), this.game.width);
+		Mainframe.centreText(this.game.add.bitmapText(0,170, 'green_font', 'Design and code by Mika / Autophagy', 30), this.game.width);
 		Mainframe.centreText(this.game.add.bitmapText(0,200, 'green_font', 'Music by ????', 30), this.game.width);
 		Mainframe.centreText(this.game.add.bitmapText(0,260, 'green_font', 'Made with:', 30), this.game.width);
 
