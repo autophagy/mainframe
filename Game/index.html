@@ -14,6 +14,8 @@
 	<script src="js/SQLInject.js"></script>
 	<script src="js/BotnetDDoS.js"></script>
 	<script src="js/StackOverflow.js"></script>
+	<script src="js/PacketSniffer.js"></script>
+	<script src="js/VoiceCracker.js"></script>
 
 	<style>
 		body {
@@ -44,6 +46,8 @@ window.onload = function() {
 	game.state.add('SQLInject', Mainframe.SQLInject);
 	game.state.add('BotnetDDoS', Mainframe.BotnetDDoS);
 	game.state.add('StackOverflow', Mainframe.StackOverflow);
+	game.state.add('PacketSniffer', Mainframe.PacketSniffer);
+	game.state.add('VoiceCracker', Mainframe.VoiceCracker);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');
