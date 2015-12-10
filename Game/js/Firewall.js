@@ -106,7 +106,7 @@ Mainframe.Firewall.prototype = {
 			for (var i = 0; i < this.rowBounds.length; i++) {
 				if (Phaser.Rectangle.intersects(this.playerBounds, this.rowBounds[i][0]) || Phaser.Rectangle.intersects(this.playerBounds, this.rowBounds[i][1])) {
 					this.ready = false;
-					this.failure();
+					Mainframe.subroutineFailure(this);
 				}
 			}
 
@@ -135,22 +135,6 @@ Mainframe.Firewall.prototype = {
 
 	initGame: function () {
 		Mainframe.initTimer(this, false);
-	},
-
-    victory: function () {
-		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
-		this.timerLayer.add(victorySign);
-		Mainframe.centreSprite(victorySign, this.game.width);
-		victorySign.animations.add('anim');
-		victorySign.animations.play('anim', 16, false);
-	},
-
-	failure: function () {
-		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
-		this.timerLayer.add(failureSign);
-		Mainframe.centreSprite(failureSign, this.game.width);
-		failureSign.animations.add('anim');
-		failureSign.animations.play('anim', 16, false);
 	},
 
 	generateRow: function(y) {

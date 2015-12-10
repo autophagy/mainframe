@@ -45,7 +45,7 @@ var Mainframe = {
     },
 
     incTimer: function(context, isTrace) {
-        var finishedFunc = isTrace ? function() { context.failure(); }.bind(context) : function() { context.victory(); }.bind(context);
+        var finishedFunc = isTrace ? function() { this.subroutineFailure(context); }.bind(this) : function() { this.subroutineVictory(context); }.bind(this);
 
         var barWidth = 859;
         var percentage = (context.game.time.now - context.timerStartTime) / context.timeLimit;
@@ -78,6 +78,22 @@ var Mainframe = {
 
 			bg_flicker.animations.play('anim', 16, false);
         }, context);
+    },
+
+    subroutineVictory: function(context) {
+        var victorySign = context.game.add.sprite(0, 200, 'subroutine_complete');
+        context.timerLayer.add(victorySign);
+        Mainframe.centreSprite(victorySign, context.game.width);
+        victorySign.animations.add('anim');
+        victorySign.animations.play('anim', 16, false);
+    },
+
+    subroutineFailure: function(context) {
+        var failureSign = context.game.add.sprite(0, 200, 'subroutine_failed');
+        context.timerLayer.add(failureSign);
+        Mainframe.centreSprite(failureSign, context.game.width);
+        failureSign.animations.add('anim');
+        failureSign.animations.play('anim', 16, false);
     },
 
     // Knuth shuffe

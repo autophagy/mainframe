@@ -88,22 +88,6 @@ Mainframe.PasswordCracker.prototype = {
 		}.bind(this));
 	},
 
-    victory: function () {
-		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
-		this.timerLayer.add(victorySign);
-		Mainframe.centreSprite(victorySign, this.game.width);
-		victorySign.animations.add('anim');
-		victorySign.animations.play('anim', 16, false);
-	},
-
-	failure: function () {
-		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
-		this.timerLayer.add(failureSign);
-		Mainframe.centreSprite(failureSign, this.game.width);
-		failureSign.animations.add('anim');
-		failureSign.animations.play('anim', 16, false);
-	},
-
 	loginScreenPicker: function () {
 		this.elementLayer.removeAll(true);
 		var loginLoc = [0,0];
@@ -201,7 +185,7 @@ Mainframe.PasswordCracker.prototype = {
 		if(this.currentChar == this.password.length)
 		{
 			this.ready = false;
-			this.victory();
+			Mainframe.subroutineVictory(this);
 		} else {
 			this.passwordCompleteText.text = this.passwordCompleteText.text + this.passwordText.text[0];
 			this.passwordText.text = this.passwordText.text.substr(1)

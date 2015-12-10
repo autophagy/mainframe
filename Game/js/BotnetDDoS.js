@@ -74,7 +74,7 @@ Mainframe.BotnetDDoS.prototype = {
 				this.ready = false;
 				this.serverLoad = this.serverLoadGoal
 				this.serverLoadBar.width = 437;
-				this.victory();
+				Mainframe.subroutineVictory(this);
 			}
 
 		}
@@ -113,22 +113,6 @@ Mainframe.BotnetDDoS.prototype = {
     initGame: function () {
         Mainframe.initTimer(this, true);
     },
-
-    victory: function () {
-		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
-		this.timerLayer.add(victorySign);
-		Mainframe.centreSprite(victorySign, this.game.width);
-		victorySign.animations.add('anim');
-		victorySign.animations.play('anim', 16, false);
-	},
-
-	failure: function () {
-		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
-		this.timerLayer.add(failureSign);
-		Mainframe.centreSprite(failureSign, this.game.width);
-		failureSign.animations.add('anim');
-		failureSign.animations.play('anim', 16, false);
-	},
 
 	sendPacket: function (botNum) {
 		this.bots[botNum].sendPacket();

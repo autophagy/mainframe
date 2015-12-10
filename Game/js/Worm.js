@@ -90,7 +90,7 @@ Mainframe.Worm.prototype = {
 
 			if (Phaser.Rectangle.intersects(this.playerBounds[this.playerBounds.length - 1], this.goalBounds)) {
 				this.ready = false;
-				this.victory();
+				Mainframe.subroutineVictory(this);
 			}
 		}
 
@@ -111,22 +111,6 @@ Mainframe.Worm.prototype = {
 
 	initGame: function () {
 		Mainframe.initTimer(this, true);
-	},
-
-    victory: function () {
-		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
-		this.timerLayer.add(victorySign);
-		Mainframe.centreSprite(victorySign, this.game.width);
-		victorySign.animations.add('anim');
-		victorySign.animations.play('anim', 16, false);
-	},
-
-	failure: function () {
-		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
-		this.timerLayer.add(failureSign);
-		Mainframe.centreSprite(failureSign, this.game.width);
-		failureSign.animations.add('anim');
-		failureSign.animations.play('anim', 16, false);
 	},
 
 	validMove: function (newX, newY) {

@@ -101,22 +101,6 @@ Mainframe.SQLInject.prototype = {
 		Mainframe.initTimer(this, true);
 	},
 
-    victory: function () {
-		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
-		this.timerLayer.add(victorySign);
-		Mainframe.centreSprite(victorySign, this.game.width);
-		victorySign.animations.add('anim');
-		victorySign.animations.play('anim', 16, false);
-	},
-
-	failure: function () {
-		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
-		this.timerLayer.add(failureSign);
-		Mainframe.centreSprite(failureSign, this.game.width);
-		failureSign.animations.add('anim');
-		failureSign.animations.play('anim', 16, false);
-	},
-
     generateBlocks: function () {
         var xOffset = 37;
         var xGap = 172;
@@ -178,13 +162,13 @@ Mainframe.SQLInject.prototype = {
 		// Check fail collisions
 		if (Phaser.Rectangle.intersects(this.injectionBounds, this.failureBounds)) {
 			this.ready = false;
-			this.failure();
+			Mainframe.subroutineFailure(this);
 		}
 
 		// Check victory collision
 		if (Phaser.Rectangle.intersects(this.injectionBounds, this.databaseBounds)) {
 			this.ready = false;
-			this.victory();
+			Mainframe.subroutineVictory(this);
 		}
 	}
 };
