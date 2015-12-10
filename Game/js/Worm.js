@@ -1,4 +1,4 @@
-MainframeGame.Worm = function (game) {
+Mainframe.Worm = function (game) {
 
 	// Standard Layering
 
@@ -29,7 +29,7 @@ MainframeGame.Worm = function (game) {
 
 };
 
-MainframeGame.Worm.prototype = {
+Mainframe.Worm.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -45,7 +45,7 @@ MainframeGame.Worm.prototype = {
 		t += '\n	Guide the YourDoom worm using the arrow keys to the\n	infection vector. ';
 		t += 'To prevent traces, you cannot cross\n	your own path!'
 
-		MainframeGame.setupTutorial(this, t);
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -55,7 +55,7 @@ MainframeGame.Worm.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, true);
+				Mainframe.incTimer(this, true);
 			}
 
 			if ((this.game.time.now - this.lastPlayerMove) >= this.playerSpeed) {
@@ -97,7 +97,7 @@ MainframeGame.Worm.prototype = {
     },
 
 	setupGame: function () {
-		var outline = MainframeGame.centreSprite(this.game.add.sprite(0,95,'atlas','Subroutines/Worm/worm_outline.png'), this.game.width);
+		var outline = Mainframe.centreSprite(this.game.add.sprite(0,95,'atlas','Subroutines/Worm/worm_outline.png'), this.game.width);
 		outline.height -= 34;
 		this.elementLayer.add(outline);
 
@@ -110,13 +110,13 @@ MainframeGame.Worm.prototype = {
 	},
 
 	initGame: function () {
-		MainframeGame.initTimer(this, true);
+		Mainframe.initTimer(this, true);
 	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -124,7 +124,7 @@ MainframeGame.Worm.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		MainframeGame.centreSprite(failureSign, this.game.width);
+		Mainframe.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},
@@ -174,7 +174,7 @@ MainframeGame.Worm.prototype = {
 
 			//Randomly choose a direction
 			var dirs = ['N', 'E', 'S', 'W'];
-			dirs = MainframeGame.shuffleArray(dirs);
+			dirs = Mainframe.shuffleArray(dirs);
 
 			var validDir = false;
 

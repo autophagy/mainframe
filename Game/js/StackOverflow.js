@@ -1,4 +1,4 @@
-MainframeGame.StackOverflow = function (game) {
+Mainframe.StackOverflow = function (game) {
 
 	// Standard Layering
 
@@ -20,7 +20,7 @@ MainframeGame.StackOverflow = function (game) {
 
 };
 
-MainframeGame.StackOverflow.prototype = {
+Mainframe.StackOverflow.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -38,9 +38,7 @@ MainframeGame.StackOverflow.prototype = {
         t += '\n	jump to the next stack. Jump from 3 buffers to inject your';
         t += '\n	ICE-BREAK payload.';
 
-		//MainframeGame.setupTutorial(this, t);
-        this.setupGame();
-        //this.initGame();
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -50,7 +48,7 @@ MainframeGame.StackOverflow.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, true);
+				Mainframe.incTimer(this, true);
 			}
 
 		}
@@ -62,13 +60,13 @@ MainframeGame.StackOverflow.prototype = {
     },
 
     initGame: function () {
-        MainframeGame.initTimer(this, true);
+        Mainframe.initTimer(this, true);
     },
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -76,7 +74,7 @@ MainframeGame.StackOverflow.prototype = {
     failure: function () {
         var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
         this.timerLayer.add(failureSign);
-        MainframeGame.centreSprite(failureSign, this.game.width);
+        Mainframe.centreSprite(failureSign, this.game.width);
         failureSign.animations.add('anim');
         failureSign.animations.play('anim', 16, false);
     }

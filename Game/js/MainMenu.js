@@ -1,5 +1,5 @@
 
-MainframeGame.MainMenu = function (game) {
+Mainframe.MainMenu = function (game) {
 	this.elementLayer = null;
 	this.monitorLayer = null;
 
@@ -13,7 +13,7 @@ MainframeGame.MainMenu = function (game) {
 	this.selectionIcon = null;
 };
 
-MainframeGame.MainMenu.prototype = {
+Mainframe.MainMenu.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -24,7 +24,7 @@ MainframeGame.MainMenu.prototype = {
 		if(this.firstBoot) {
 			// I'm sorry, but this is a requirement.
 			this.cyberpunkText = this.game.add.bitmapText(0,100,'green_font', 'This is dedicated to all those\ncyberpunks who fight against injustice\nevery day of their lives.', 30);
-			MainframeGame.centreText(this.cyberpunkText, this.game.width);
+			Mainframe.centreText(this.cyberpunkText, this.game.width);
 			this.elementLayer.add(this.cyberpunkText);
 			this.game.time.events.add(Phaser.Timer.SECOND * 3, this.renderMainMenu, this);
 		} else
@@ -43,18 +43,16 @@ MainframeGame.MainMenu.prototype = {
 
 		var title = this.game.add.sprite(0, 100, 'mainframe_logo');
 		this.elementLayer.add(title);
-		MainframeGame.centreSprite(title, this.game.width);
+		Mainframe.centreSprite(title, this.game.width);
 		title.animations.add('anim');
 		title.animations.play('anim', 16, false);
 
-		this.elementLayer.add(MainframeGame.centreText(this.game.add.bitmapText(0,250, 'green_font', 'Subroutine Development Initative\nCurrent Subroutine: SQL Inject\nHacker Name: ' + MainframeGame.hackerName, 30), this.game.width));
-
 		this.gameOption = this.game.add.bitmapText(0,400, 'green_font', 'Hack The Planet', 30);
-		MainframeGame.centreText(this.gameOption, this.game.width);
+		Mainframe.centreText(this.gameOption, this.game.width);
 		this.elementLayer.add(this.gameOption);
 
 		this.creditsOption = this.game.add.bitmapText(0,430, 'green_font', 'Credits', 30);
-		MainframeGame.centreText(this.creditsOption, this.game.width);
+		Mainframe.centreText(this.creditsOption, this.game.width);
 		this.elementLayer.add(this.creditsOption);
 
 		this.selectionIcon = this.game.add.bitmapText(200,430, 'green_font', '>', 30);
@@ -89,7 +87,7 @@ MainframeGame.MainMenu.prototype = {
 	select: function () {
 		this.music.stop();
 		if(this.gameSelected) {
-			this.state.start('SQLInject');
+			this.state.start('MainScreen');
 		} else {
 			this.state.start('Credits');
 		}

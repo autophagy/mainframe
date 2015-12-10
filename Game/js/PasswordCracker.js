@@ -1,4 +1,4 @@
-MainframeGame.PasswordCracker = function (game) {
+Mainframe.PasswordCracker = function (game) {
 
 	this.elementLayer = null;
 	this.tutorialLayer = null;
@@ -28,7 +28,7 @@ MainframeGame.PasswordCracker = function (game) {
 
 };
 
-MainframeGame.PasswordCracker.prototype = {
+Mainframe.PasswordCracker.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -43,7 +43,7 @@ MainframeGame.PasswordCracker.prototype = {
 		t += '\n\nDESCRIPTION'
 		t += '\n	The finest bruteforce cracker money can buy.\n	Mash those keys!';
 
-		MainframeGame.setupTutorial(this, t);
+		Mainframe.setupTutorial(this, t);
 
 	},
 
@@ -54,7 +54,7 @@ MainframeGame.PasswordCracker.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, true);
+				Mainframe.incTimer(this, true);
 			}
 		}
 
@@ -71,7 +71,7 @@ MainframeGame.PasswordCracker.prototype = {
 
 	initGame: function () {
 		var func = function () {
-			MainframeGame.initTimer(this, true);
+			Mainframe.initTimer(this, true);
 			this.nextChar();
 			}.bind(this);
 
@@ -91,7 +91,7 @@ MainframeGame.PasswordCracker.prototype = {
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -99,7 +99,7 @@ MainframeGame.PasswordCracker.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		MainframeGame.centreSprite(failureSign, this.game.width);
+		Mainframe.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},

@@ -34,16 +34,16 @@ window.onload = function() {
 
 	var game = new Phaser.Game(960, 540, Phaser.AUTO, 'gameContainer');
 
-	game.state.add('Boot', MainframeGame.Boot);
-	game.state.add('Preloader', MainframeGame.Preloader);
-	game.state.add('MainMenu', MainframeGame.MainMenu);
-	game.state.add('Credits', MainframeGame.Credits);
-	game.state.add('PasswordCracker', MainframeGame.PasswordCracker);
-	game.state.add('Firewall', MainframeGame.Firewall);
-	game.state.add('Worm', MainframeGame.Worm);
-	game.state.add('SQLInject', MainframeGame.SQLInject);
-	game.state.add('BotnetDDoS', MainframeGame.BotnetDDoS);
-	game.state.add('StackOverflow', MainframeGame.StackOverflow);
+	game.state.add('Boot', Mainframe.Boot);
+	game.state.add('Preloader', Mainframe.Preloader);
+	game.state.add('MainMenu', Mainframe.MainMenu);
+	game.state.add('Credits', Mainframe.Credits);
+	game.state.add('PasswordCracker', Mainframe.PasswordCracker);
+	game.state.add('Firewall', Mainframe.Firewall);
+	game.state.add('Worm', Mainframe.Worm);
+	game.state.add('SQLInject', Mainframe.SQLInject);
+	game.state.add('BotnetDDoS', Mainframe.BotnetDDoS);
+	game.state.add('StackOverflow', Mainframe.StackOverflow);
 
 	//	Now start the Boot state.
 	game.state.start('Boot');

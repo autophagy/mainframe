@@ -1,4 +1,4 @@
-MainframeGame.Firewall = function (game) {
+Mainframe.Firewall = function (game) {
 
 	// Standard Layering
 
@@ -30,7 +30,7 @@ MainframeGame.Firewall = function (game) {
 	this.ready = false;
 };
 
-MainframeGame.Firewall.prototype = {
+Mainframe.Firewall.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -45,7 +45,7 @@ MainframeGame.Firewall.prototype = {
 		t += '\n\nDESCRIPTION'
 		t += '\n	Use the arrow keys to maneuver the payload through\n	the gaps in the Corp\'s firewall.';
 
-		MainframeGame.setupTutorial(this, t);
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -56,7 +56,7 @@ MainframeGame.Firewall.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, false);
+				Mainframe.incTimer(this, false);
 			}
 
 			// Player movement
@@ -116,7 +116,7 @@ MainframeGame.Firewall.prototype = {
 	setupGame: function () {
 		this.player = this.game.add.sprite(0, 425, 'atlas', 'Subroutines/General/player_skull.png');
 		this.player.scale.setTo(0.5, 0.5);
-		MainframeGame.centreSprite(this.player, this.game.width);
+		Mainframe.centreSprite(this.player, this.game.width);
 		this.elementLayer.add(this.player);
 
 		// This crops the bounding box so that the edges are never above empty sprite space
@@ -134,13 +134,13 @@ MainframeGame.Firewall.prototype = {
 	},
 
 	initGame: function () {
-		MainframeGame.initTimer(this, false);
+		Mainframe.initTimer(this, false);
 	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -148,7 +148,7 @@ MainframeGame.Firewall.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		MainframeGame.centreSprite(failureSign, this.game.width);
+		Mainframe.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},

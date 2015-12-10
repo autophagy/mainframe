@@ -1,4 +1,4 @@
-MainframeGame.BotnetDDoS = function (game) {
+Mainframe.BotnetDDoS = function (game) {
 
 	// Standard Layering
 
@@ -32,7 +32,7 @@ MainframeGame.BotnetDDoS = function (game) {
 
 };
 
-MainframeGame.BotnetDDoS.prototype = {
+Mainframe.BotnetDDoS.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -50,7 +50,7 @@ MainframeGame.BotnetDDoS.prototype = {
         t += '\n	Sending packets too quickly will result in your bandwidth being';
         t += '\n	reached, and it will be temporarily disabled';
 
-		MainframeGame.setupTutorial(this, t);
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -60,7 +60,7 @@ MainframeGame.BotnetDDoS.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, true);
+				Mainframe.incTimer(this, true);
 			}
 
 			for (var i = 0; i < this.bots.length; i++) {
@@ -88,8 +88,8 @@ MainframeGame.BotnetDDoS.prototype = {
 			this.bots.push(bot);
         }
 
-        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.sprite(0,100,'atlas', 'Subroutines/DDOS/server.png'), this.game.width));
-        this.elementLayer.add(MainframeGame.centreSprite(this.game.add.bitmapText(0,80,'white_font', 'SERVER', 30), this.game.width));
+        this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0,100,'atlas', 'Subroutines/DDOS/server.png'), this.game.width));
+        this.elementLayer.add(Mainframe.centreSprite(this.game.add.bitmapText(0,80,'white_font', 'SERVER', 30), this.game.width));
 
 		key1 = this.game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 		key2 = this.game.input.keyboard.addKey(Phaser.Keyboard.TWO);
@@ -111,13 +111,13 @@ MainframeGame.BotnetDDoS.prototype = {
     },
 
     initGame: function () {
-        MainframeGame.initTimer(this, true);
+        Mainframe.initTimer(this, true);
     },
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -125,7 +125,7 @@ MainframeGame.BotnetDDoS.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		MainframeGame.centreSprite(failureSign, this.game.width);
+		Mainframe.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},

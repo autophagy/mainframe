@@ -1,19 +1,18 @@
-
-MainframeGame.Preloader = function (game) {
+Mainframe.Preloader = function (game) {
 
 	this.ready = false;
 	this.loadingText = null;
 
 };
 
-MainframeGame.Preloader.prototype = {
+Mainframe.Preloader.prototype = {
 
 	preload: function () {
 
 		this.game.stage.backgroundColor = '#1b1b1b';
 
 		this.loadingText = this.game.add.bitmapText(200,270, 'green_font', 'Loading...', 30);
-		MainframeGame.centreText(this.loadingText, this.game.width);
+		Mainframe.centreText(this.loadingText, this.game.width);
 
 		this.game.add.sprite(0,0,'monitor');
 
@@ -77,7 +76,7 @@ MainframeGame.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('MainMenu');
+			this.state.start('StackOverflow');
 		}
 
 	}

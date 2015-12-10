@@ -1,4 +1,4 @@
-MainframeGame.SQLInject = function (game) {
+Mainframe.SQLInject = function (game) {
 
 	// Standard Layering
 
@@ -38,7 +38,7 @@ MainframeGame.SQLInject = function (game) {
 
 };
 
-MainframeGame.SQLInject.prototype = {
+Mainframe.SQLInject.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
@@ -53,7 +53,7 @@ MainframeGame.SQLInject.prototype = {
 		t += '\n\nDESCRIPTION'
 		t += '\n	Control the bar with left and right keys. Keep\n	knocking away rows with the SQL injection until you\n	can hit the central database.';
 
-		MainframeGame.setupTutorial(this, t);
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -63,7 +63,7 @@ MainframeGame.SQLInject.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				MainframeGame.incTimer(this, true);
+				Mainframe.incTimer(this, true);
 			}
 
             // Player movement
@@ -98,13 +98,13 @@ MainframeGame.SQLInject.prototype = {
 	},
 
 	initGame: function () {
-		MainframeGame.initTimer(this, true);
+		Mainframe.initTimer(this, true);
 	},
 
     victory: function () {
 		var victorySign = this.game.add.sprite(0, 200, 'subroutine_complete');
 		this.timerLayer.add(victorySign);
-		MainframeGame.centreSprite(victorySign, this.game.width);
+		Mainframe.centreSprite(victorySign, this.game.width);
 		victorySign.animations.add('anim');
 		victorySign.animations.play('anim', 16, false);
 	},
@@ -112,7 +112,7 @@ MainframeGame.SQLInject.prototype = {
 	failure: function () {
 		var failureSign = this.game.add.sprite(0, 200, 'subroutine_failed');
 		this.timerLayer.add(failureSign);
-		MainframeGame.centreSprite(failureSign, this.game.width);
+		Mainframe.centreSprite(failureSign, this.game.width);
 		failureSign.animations.add('anim');
 		failureSign.animations.play('anim', 16, false);
 	},
@@ -123,7 +123,7 @@ MainframeGame.SQLInject.prototype = {
         var yOffset = 110;
         var yGap = 30;
 
-        var databaseSprite = MainframeGame.centreSprite(this.game.add.sprite(0,80,'atlas', 'Subroutines/SQL_Injector/central_database.png'), this.game.width);
+        var databaseSprite = Mainframe.centreSprite(this.game.add.sprite(0,80,'atlas', 'Subroutines/SQL_Injector/central_database.png'), this.game.width);
         this.elementLayer.add(databaseSprite);
         this.databaseBounds = new Phaser.Rectangle(databaseSprite.x+13,databaseSprite.y+13,databaseSprite.width-26,databaseSprite.height-26);
 
@@ -142,11 +142,11 @@ MainframeGame.SQLInject.prototype = {
         this.wallBounds[1] = new Phaser.Rectangle(this.game.width-50, 0, 10, this.game.height);
         this.failureBounds = new Phaser.Rectangle(0, this.game.height-60, this.game.width, 10);
 
-        this.player = MainframeGame.centreSprite(this.game.add.sprite(0,435,'atlas', 'Subroutines/SQL_Injector/player_paddle.png'), this.game.width);
+        this.player = Mainframe.centreSprite(this.game.add.sprite(0,435,'atlas', 'Subroutines/SQL_Injector/player_paddle.png'), this.game.width);
         this.elementLayer.add(this.player);
         this.playerBounds = new Phaser.Rectangle(this.player.x+13, this.player.y+13, this.player.width-26, this.player.height-26);
 
-        this.injection = MainframeGame.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width);
+        this.injection = Mainframe.centreSprite(this.game.add.sprite(0,390,'atlas', 'Subroutines/SQL_Injector/sql_injector_ball.png'), this.game.width);
         this.elementLayer.add(this.injection);
         this.injectionBounds = new Phaser.Rectangle(this.injection.x+13, this.injection.y+13, this.injection.width-26, this.injection.height-26);
 		this.injectionVelocity = new Phaser.Point(Math.floor(Math.random() * 3)+1, -3);
