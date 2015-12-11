@@ -75,7 +75,7 @@ Mainframe.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('StackOverflow');
+			this.state.start('VoiceCracker');
 		}
 
 	}
