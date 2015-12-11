@@ -30,7 +30,6 @@ Mainframe.Preloader.prototype = {
 
 		// Sounds
 		this.game.load.audio('intro_music', 'assets/sounds/mainframe_beep.mp3');
-		this.game.load.audio('subroutine_rush', 'assets/sounds/subroutine_rush.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
