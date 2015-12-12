@@ -25,9 +25,6 @@ Mainframe.Preloader.prototype = {
 
 		this.game.load.atlasJSONHash('atlas', 'assets/sprites/mainframe_sprites.png', 'assets/sprites/mainframe_sprites.json');
 
-		//Special Phaser Credits
-		this.load.image('phaser_credits', 'assets/sprites/phaser_pixel_large_shaded.png');
-
 		// Sounds
 		this.game.load.audio('intro_music', 'assets/sounds/mainframe_beep.mp3');
 
@@ -75,7 +72,7 @@ Mainframe.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('VoiceCracker');
+			this.state.start('MainMenu');
 		}
 
 	}
