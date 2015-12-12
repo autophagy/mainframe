@@ -34,7 +34,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Botnet DDoS~~
     - Buffer Overflow
     - Packet Sniffer
-    - Voice Cracker
+    - ~~Voice Cracker~~
 	
 - Implement subroutine tutorial screens    
 
