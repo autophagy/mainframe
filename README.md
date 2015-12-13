@@ -33,7 +33,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~SQL Inject~~
     - ~~Botnet DDoS~~
     - Buffer Overflow
-    - Packet Sniffer
+    - ~~Packet Sniffer~~
     - ~~Voice Cracker~~
 	
 - Implement subroutine tutorial screens    

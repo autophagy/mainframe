@@ -51,9 +51,7 @@ Mainframe.PacketSniffer.prototype = {
         t += '\n	Capturing non-key packets will lock up the sniffer and require';
         t += '\n	it to be rebooted.';
 
-		//Mainframe.setupTutorial(this, t);
-		this.setupGame();
-		this.initGame();
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -63,15 +61,17 @@ Mainframe.PacketSniffer.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				Mainframe.incTimer(this, true);
+				Mainframe.incTimer(this, true);							
 				this.streams[0].queueKeyPacket();
 				this.streams[1].queueKeyPacket();
 				this.streams[2].queueKeyPacket();
+
 			}
 			
 			if(!this.streamsInit) {
 				for (var i = 0; i < this.streams.length; i++) {
 					this.streams[i].addPacketRepeat();
+					this.streams[i].timeSinceLastKey = this.game.time.now;
 				}
 				this.streamsInit = true;
 			}
@@ -118,7 +118,7 @@ Mainframe.PacketSniffer.prototype = {
 			for (var i = 0; i < this.streams.length; i++) {
 				if(this.streams[i].capturePackets()) {
 					validCapture = true;
-					this.sniffer.alpha = 0.5
+					this.sniffer.alpha = 0.25
 					this.enabled = false;
 					// A bit of re-appropriation from the DDOS game
 					var captured = Mainframe.centreSprite(this.game.add.sprite(0, 370, 'atlas', 'Subroutines/DDOS/packet.png'), this.game.width);
@@ -187,8 +187,9 @@ var PacketStream = (function () {
 		this.speed = Math.floor( (Math.random()*5) + 3);
 		this.xLimit = direction == 1 ? context.game.width : 0;
 		this.buffer = 0;
+		this.timeSinceLastKey = null;
 		
-		for (var i = direction == 1 ? 1 : 0; i < 64; i++) {
+		for (var i = direction == 1 ? 1 : 0; i < 60; i++) {
 			this.addPacket(16*i);
 		}
     }
@@ -220,7 +221,12 @@ var PacketStream = (function () {
 	};
 
 	PacketStream.prototype.queueKeyPacket = function () {
-		this.queuedPacket = this.keyPackets[Math.floor(Math.random()*this.keyPackets.length)];
+		var time = this.context.game.time.now - this.timeSinceLastKey;
+		time = time/Phaser.Timer.SECOND;
+		if (Math.random() <= time*0.05) {
+			this.queuedPacket = this.keyPackets[Math.floor(Math.random()*this.keyPackets.length)];
+			this.timeSinceLastKey = this.context.game.time.now;
+		}		
 	};
 	
 	PacketStream.prototype.addPacket = function (x) {
