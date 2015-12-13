@@ -80,8 +80,8 @@ Mainframe.PacketSniffer.prototype = {
 	 
 	 this.packets = [];
 	 this.packets.push(new PacketStream(this, 390, 1));
-	 this.packets.push(new PacketStream(this, 410, -1));
-	 this.packets.push(new PacketStream(this, 430, 1));
+	 this.packets.push(new PacketStream(this, 412, -1));
+	 this.packets.push(new PacketStream(this, 433, 1));
 
     },
 
@@ -116,6 +116,7 @@ var PacketStream = (function () {
 		this.y = y;
 		this.direction = direction;
 		this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		this.keyPackets = ['email', 'pass', 'root', 'admin', 'HTTP', 'SSH', 'TCP', 'UDP'];
 		this.packets = [];
 		this.speed = Math.floor( (Math.random()*3) + 2);
 		this.xLimit = direction == 1 ? context.game.width : 0;
