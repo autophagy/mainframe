@@ -13,13 +13,14 @@ Mainframe.PacketSniffer = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 300;
+	this.timeLimit = Phaser.Timer.SECOND * 4;
 	
 	this.playerSkull = null;
 	this.packetBar = null;
 	this.sniffer = null;
 	
 	this.packets = null;
+	this.streamsInit = null;
 
 	this.music = null;
 
@@ -62,6 +63,13 @@ Mainframe.PacketSniffer.prototype = {
 				Mainframe.incTimer(this, true);
 			}
 			
+			if(!this.streamsInit) {
+				for (var i = 0; i < this.packets.length; i++) {
+					this.packets[i].addPacketRepeat();
+				}
+				this.streamsInit = true;
+			}
+			
 			for (var i = 0; i < this.packets.length; i++) {
 				this.packets[i].moveStream();
 			}
@@ -82,11 +90,12 @@ Mainframe.PacketSniffer.prototype = {
 	 this.packets.push(new PacketStream(this, 390, 1));
 	 this.packets.push(new PacketStream(this, 412, -1));
 	 this.packets.push(new PacketStream(this, 433, 1));
-
+	 this.streamsInit = false;
     },
 
     initGame: function () {
         Mainframe.initTimer(this, true);
+
     },
 	
 	disableSniffer: function () {
@@ -122,8 +131,8 @@ var PacketStream = (function () {
 		this.xLimit = direction == 1 ? context.game.width : 0;
 		this.buffer = 0;
 		
-		for (var i = 0; i < 64; i++) {
-			this.addPacket((15*i));
+		for (var i = direction == 1 ? 1 : 0; i < 64; i++) {
+			this.addPacket(15*i);
 		}
     }
 
@@ -134,22 +143,27 @@ var PacketStream = (function () {
 				this.packets[i].destroy();
 				this.packets.splice(i, 1);
 				i--;
-				
-				if (this.buffer > 0) {
-					buffer--;
-				} else {
-					x = this.direction == 1 ? 0 : this.context.game.width;
-					this.addPacket(x);
-				}
 			}
 		}
-    };	
+    };
+
+	PacketStream.prototype.addPacketRepeat = function () {
+		if (this.context.ready) {
+			x = this.direction == 1 ? 0 : this.context.game.width;
+			this.addPacket(x);
+			this.context.game.time.events.add((Phaser.Timer.SECOND/4)/this.speed, function() { this.addPacketRepeat(x); }, this);
+		}
+	},	
 	
 	PacketStream.prototype.addPacket = function (x) {
-		var c = this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
-		var packet = this.context.game.add.bitmapText(x,this.y, 'white_font', c, 30);
-		this.context.streamLayer.add(packet);
-		this.packets.push(packet);
+			if (this.buffer > 0) {
+				buffer--;
+			} else {
+				var c = this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
+				var packet = this.context.game.add.bitmapText(x,this.y, 'white_font', c, 30);
+				this.context.streamLayer.add(packet);
+				this.packets.push(packet);
+			}
 	};
  
     return PacketStream;
