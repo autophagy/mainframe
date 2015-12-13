@@ -18,9 +18,12 @@ Mainframe.PacketSniffer = function (game) {
 	this.playerSkull = null;
 	this.packetBar = null;
 	this.sniffer = null;
+	this.packetsCaptured = null;
+	this.packetGoal = 5;
 	
-	this.packets = null;
+	this.streams = null;
 	this.streamsInit = null;
+	
 
 	this.music = null;
 
@@ -61,17 +64,25 @@ Mainframe.PacketSniffer.prototype = {
 			{
 				this.timerTime = this.game.time.now;
 				Mainframe.incTimer(this, true);
+				this.streams[0].queueKeyPacket();
+				this.streams[1].queueKeyPacket();
+				this.streams[2].queueKeyPacket();
 			}
 			
 			if(!this.streamsInit) {
-				for (var i = 0; i < this.packets.length; i++) {
-					this.packets[i].addPacketRepeat();
+				for (var i = 0; i < this.streams.length; i++) {
+					this.streams[i].addPacketRepeat();
 				}
 				this.streamsInit = true;
 			}
 			
-			for (var i = 0; i < this.packets.length; i++) {
-				this.packets[i].moveStream();
+			for (var i = 0; i < this.streams.length; i++) {
+				this.streams[i].moveStream();
+			}
+			
+			if (this.packetsCaptured == this.packetGoal) {
+				this.ready = false;
+				Mainframe.subroutineVictory(this);
 			}
 
 		}
@@ -80,17 +91,58 @@ Mainframe.PacketSniffer.prototype = {
 
     setupGame: function () {
 	
-	 this.playerSkull = Mainframe.centreSprite(this.game.add.sprite(0,90,'atlas', 'Subroutines/General/player_skull.png'), this.game.width);
-	 this.elementLayer.add(this.playerSkull);
-	 this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0,170,'atlas', 'Subroutines/Packet_Sniffer/progress_bar.png'), this.game.width));
-	 this.sniffer = Mainframe.centreSprite(this.game.add.sprite(0,210,'atlas', 'Subroutines/Packet_Sniffer/pipe.png'), this.game.width);
-	 this.elementLayer.add(this.sniffer);
-	 
-	 this.packets = [];
-	 this.packets.push(new PacketStream(this, 390, 1));
-	 this.packets.push(new PacketStream(this, 412, -1));
-	 this.packets.push(new PacketStream(this, 433, 1));
-	 this.streamsInit = false;
+	this.packetsCaptured = 0;
+	this.playerSkull = Mainframe.centreSprite(this.game.add.sprite(0,90,'atlas', 'Subroutines/General/player_skull.png'), this.game.width);
+	this.elementLayer.add(this.playerSkull);
+	this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0,170,'atlas', 'Subroutines/Packet_Sniffer/progress_bar.png'), this.game.width));
+	
+	this.packetBar = this.game.add.sprite(415,187,'atlas', 'Subroutines/General/trace_bar_full.png');
+	this.elementLayer.add(this.packetBar);
+	this.packetBar.width = 0;
+	this.packetBar.height = 12;
+	
+	this.sniffer = Mainframe.centreSprite(this.game.add.sprite(0,210,'atlas', 'Subroutines/Packet_Sniffer/pipe.png'), this.game.width);
+	this.elementLayer.add(this.sniffer);
+	
+	this.streams = [];
+	this.streams.push(new PacketStream(this, 390, 1));
+	this.streams.push(new PacketStream(this, 412, -1));
+	this.streams.push(new PacketStream(this, 433, 1));
+	this.streamsInit = false;
+	this.enabled = true;
+
+	var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	space.onDown.add(function () { 
+		if (this.ready && this.enabled) {
+			var validCapture = false;
+			for (var i = 0; i < this.streams.length; i++) {
+				if(this.streams[i].capturePackets()) {
+					validCapture = true;
+					this.sniffer.alpha = 0.5
+					this.enabled = false;
+					// A bit of re-appropriation from the DDOS game
+					var captured = Mainframe.centreSprite(this.game.add.sprite(0, 370, 'atlas', 'Subroutines/DDOS/packet.png'), this.game.width);
+					this.elementLayer.add(captured);
+					var sendPacket = this.game.add.tween(captured);
+					sendPacket.to({y: 180}, 500, Phaser.Easing.Linear.In);
+					sendPacket.start();
+					sendPacket.onComplete.add( function() {
+						captured.destroy();
+						this.packetsCaptured++;
+						this.refreshPacketBar();
+						this.sniffer.alpha = 1;
+						this.enabled = true;
+					}, this);
+					break;
+				}
+			}
+			if (!validCapture) {
+				this.disableSniffer();
+			}
+		}
+	}, this);
+
+
     },
 
     initGame: function () {
@@ -115,6 +167,10 @@ Mainframe.PacketSniffer.prototype = {
 				this.enabled = true;
 			}, this);
 		}, this);
+	},
+	
+	refreshPacketBar: function () {
+		this.packetBar.width = (this.packetsCaptured / this.packetGoal)*130;
 	}
 
 };
@@ -183,6 +239,22 @@ var PacketStream = (function () {
 		this.context.streamLayer.add(packet);
 		this.packets.push(packet);
 	};
+	
+	PacketStream.prototype.capturePackets = function () {
+		for (var i = 0; i < this.packets.length; i++) {
+			var c = this.context.game.width/2;
+			if (this.packets[i].font == 'green_font') {
+				if((this.packets[i].x >= c-33 && this.packets[i].x <= c+33) || (this.packets[i].right >= c-33 && this.packets[i].right <= c+33) || (this.packets[i].right >= c+33 && this.packets[i].x <= c-33)) {
+					this.packets[i].destroy();
+					this.packets.splice(i, 1);
+					i--;
+					return true;
+				}
+			}
+		}
+		return false;		
+	};
+	
  
     return PacketStream;
 })();
