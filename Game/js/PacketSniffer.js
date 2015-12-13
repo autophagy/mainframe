@@ -13,11 +13,13 @@ Mainframe.PacketSniffer = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 60;
+	this.timeLimit = Phaser.Timer.SECOND * 300;
 	
 	this.playerSkull = null;
 	this.packetBar = null;
 	this.sniffer = null;
+	
+	this.packets = null;
 
 	this.music = null;
 
@@ -59,6 +61,10 @@ Mainframe.PacketSniffer.prototype = {
 				this.timerTime = this.game.time.now;
 				Mainframe.incTimer(this, true);
 			}
+			
+			for (var i = 0; i < this.packets.length; i++) {
+				this.packets[i].moveStream();
+			}
 
 		}
 
@@ -71,6 +77,11 @@ Mainframe.PacketSniffer.prototype = {
 	 this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0,170,'atlas', 'Subroutines/Packet_Sniffer/progress_bar.png'), this.game.width));
 	 this.sniffer = Mainframe.centreSprite(this.game.add.sprite(0,210,'atlas', 'Subroutines/Packet_Sniffer/pipe.png'), this.game.width);
 	 this.elementLayer.add(this.sniffer);
+	 
+	 this.packets = [];
+	 this.packets.push(new PacketStream(this, 390, 1));
+	 this.packets.push(new PacketStream(this, 410, -1));
+	 this.packets.push(new PacketStream(this, 430, 1));
 
     },
 
@@ -98,3 +109,47 @@ Mainframe.PacketSniffer.prototype = {
 	}
 
 };
+
+var PacketStream = (function () {
+    function PacketStream(context, y, direction) {
+        this.context = context;
+		this.y = y;
+		this.direction = direction;
+		this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		this.packets = [];
+		this.speed = Math.floor( (Math.random()*3) + 2);
+		this.xLimit = direction == 1 ? context.game.width : 0;
+		this.buffer = 0;
+		
+		for (var i = 0; i < 64; i++) {
+			this.addPacket((15*i));
+		}
+    }
+
+    PacketStream.prototype.moveStream = function () {
+		for (var i = 0; i < this.packets.length; i++) {
+			this.packets[i].x += (this.speed * this.direction);
+			if ((this.direction == 1 && this.packets[i].x >= this.xLimit) || (this.direction == -1 && this.packets[i].x <= this.xLimit)) {
+				this.packets[i].destroy();
+				this.packets.splice(i, 1);
+				i--;
+				
+				if (this.buffer > 0) {
+					buffer--;
+				} else {
+					x = this.direction == 1 ? 0 : this.context.game.width;
+					this.addPacket(x);
+				}
+			}
+		}
+    };	
+	
+	PacketStream.prototype.addPacket = function (x) {
+		var c = this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
+		var packet = this.context.game.add.bitmapText(x,this.y, 'white_font', c, 30);
+		this.context.streamLayer.add(packet);
+		this.packets.push(packet);
+	};
+ 
+    return PacketStream;
+})();
