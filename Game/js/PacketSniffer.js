@@ -13,7 +13,7 @@ Mainframe.PacketSniffer = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 4;
+	this.timeLimit = Phaser.Timer.SECOND * 20;
 	
 	this.playerSkull = null;
 	this.packetBar = null;
@@ -125,21 +125,22 @@ var PacketStream = (function () {
 		this.y = y;
 		this.direction = direction;
 		this.alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		this.keyPackets = ['email', 'pass', 'root', 'admin', 'HTTP', 'SSH', 'TCP', 'UDP'];
+		this.keyPackets = ['email', 'password', 'root', 'admin', 'http', 'ssh', 'tcp', 'udp'];
+		this.queuedPacket = '';
 		this.packets = [];
-		this.speed = Math.floor( (Math.random()*3) + 2);
+		this.speed = Math.floor( (Math.random()*5) + 3);
 		this.xLimit = direction == 1 ? context.game.width : 0;
 		this.buffer = 0;
 		
 		for (var i = direction == 1 ? 1 : 0; i < 64; i++) {
-			this.addPacket(15*i);
+			this.addPacket(16*i);
 		}
     }
 
     PacketStream.prototype.moveStream = function () {
 		for (var i = 0; i < this.packets.length; i++) {
 			this.packets[i].x += (this.speed * this.direction);
-			if ((this.direction == 1 && this.packets[i].x >= this.xLimit) || (this.direction == -1 && this.packets[i].x <= this.xLimit)) {
+			if ((this.direction == 1 && this.packets[i].x >= this.xLimit) || (this.direction == -1 && this.packets[i].right <= this.xLimit)) {
 				this.packets[i].destroy();
 				this.packets.splice(i, 1);
 				i--;
@@ -149,21 +150,38 @@ var PacketStream = (function () {
 
 	PacketStream.prototype.addPacketRepeat = function () {
 		if (this.context.ready) {
-			x = this.direction == 1 ? 0 : this.context.game.width;
-			this.addPacket(x);
-			this.context.game.time.events.add((Phaser.Timer.SECOND/4)/this.speed, function() { this.addPacketRepeat(x); }, this);
+			if (this.queuedPacket.length <= 0) {
+				x = this.direction == 1 ? 0 : this.context.game.width;
+				this.addPacket(x);
+				this.context.game.time.events.add((Phaser.Timer.SECOND/4)/this.speed, function() { this.addPacketRepeat(); }, this);
+			} else {
+				x = this.direction == 1 ? 0 - (15*(this.queuedPacket.length-1)-3) : this.context.game.width + 3;
+				this.addKeyPacket(x);
+				this.context.game.time.events.add( ((Phaser.Timer.SECOND/4)/this.speed)*this.queuedPacket.length, function() { this.addPacketRepeat(); }, this);
+				this.queuedPacket = '';				
+			}
 		}
-	},	
+	};
+
+	PacketStream.prototype.queueKeyPacket = function () {
+		this.queuedPacket = this.keyPackets[Math.floor(Math.random()*this.keyPackets.length)];
+	};
 	
 	PacketStream.prototype.addPacket = function (x) {
 			if (this.buffer > 0) {
-				buffer--;
+				this.buffer--;
 			} else {
 				var c = this.alphabet[Math.floor(Math.random()*this.alphabet.length)];
 				var packet = this.context.game.add.bitmapText(x,this.y, 'white_font', c, 30);
 				this.context.streamLayer.add(packet);
 				this.packets.push(packet);
 			}
+	};
+	
+	PacketStream.prototype.addKeyPacket = function (x) {
+		var packet = this.context.game.add.bitmapText(x, this.y, 'green_font', this.queuedPacket, 28);		
+		this.context.streamLayer.add(packet);
+		this.packets.push(packet);
 	};
  
     return PacketStream;
