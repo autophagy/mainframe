@@ -36,7 +36,7 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Packet Sniffer~~
     - ~~Voice Cracker~~
 	
-- Implement subroutine tutorial screens    
+- ~~Implement subroutine tutorial screens~~
 
 - Clean up subroutine code + generalise common functions
 
