@@ -204,7 +204,7 @@ var VoiceDial = (function () {
 		this.context.dialLayer.add(this.dial);
 		this.context.dialLayer.add(this.text);
 		
-0    }
+    }
 
     VoiceDial.prototype.rotateDial = function (dialPosition) {
 		this.dial.angle = dialPosition*90;
