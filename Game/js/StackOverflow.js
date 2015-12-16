@@ -13,9 +13,11 @@ Mainframe.StackOverflow = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 60;
+	this.timeLimit = Phaser.Timer.SECOND * 10;
 	
 	this.stackFrames = null;
+	this.selectedStack = null;
+	this.payloadInjecting = null;
 
 	this.music = null;
 
@@ -42,9 +44,7 @@ Mainframe.StackOverflow.prototype = {
         t += '\n	jump to the next stack. Jump from 3 buffers to inject your';
         t += '\n	ICE-BREAK payload.';
 
-		//Mainframe.setupTutorial(this, t);
-		this.setupGame();
-		//this.initGame();
+		Mainframe.setupTutorial(this, t);
 	},
 
 	update: function () {
@@ -56,6 +56,10 @@ Mainframe.StackOverflow.prototype = {
 				this.timerTime = this.game.time.now;
 				Mainframe.incTimer(this, true);
 			}
+			
+			if (this.payloadInjecting) {
+				this.stackFrames[this.selectedStack].movePayload();
+			}
 
 		}
 
@@ -64,20 +68,47 @@ Mainframe.StackOverflow.prototype = {
     setupGame: function () {
 		this.stackFrames = [];
 		for (var i = 0; i < 3; i++) {
-			this.stackFrames.push(new StackFrame(this, 80+(270*i), 85));
+			this.stackFrames.push(new StackFrame(this, 80+(270*i), 85, i+1));
 		}
+		this.selectedStack = -1;
+		this.selectNextStack();
+		
+		this.payloadInjecting = false;
+		
+		var payloadKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		payloadKey.onDown.add(function () { this.payloadInjecting = true; }, this);
+		payloadKey.onUp.add(function () { 
+			this.payloadInjecting = false;
+			if (this.stackFrames[this.selectedStack].payloadInjected()) {
+				this.selectNextStack();
+			} else {
+				this.stackFrames[this.selectedStack].resetPayload();
+			}
+		}, this);
     },
 
     initGame: function () {
         Mainframe.initTimer(this, true);
-    }
+    },
+	
+	selectNextStack: function () {
+		this.selectedStack++;
+		if (this.selectedStack > 2) {
+			this.ready = false;
+			Mainframe.subroutineVictory(this);
+		} else {
+			this.stackFrames[this.selectedStack].selectFrame();
+		}
+	}
 	
 };
 
 var StackFrame = (function () {
-    function StackFrame(context, x, y) {
+    function StackFrame(context, x, y, difficulty) {
         this.context = context;
 		this.sprite = context.game.add.sprite(x,y,'atlas', 'Subroutines/Stack_Overflow/stack_frame.png');		
+		
+		this.speed = 6 * difficulty;
 		
 		var returnAddr = Math.floor(Math.random()*230);
 		returnAddr = y + returnAddr + 50;
@@ -89,7 +120,45 @@ var StackFrame = (function () {
 		this.lowerStackText = context.game.add.bitmapText(x+50, (returnAddr+38) + ((this.sprite.bottom-(returnAddr+38))/2) - 20,'white_font', 'STACK SPACE', 26);;
 		
 		this.context.elementLayer.add(this.sprite);	
+		this.context.elementLayer.add(this.upperStackText);
+		this.context.elementLayer.add(this.lowerStackText);
 		this.context.elementLayer.add(this.returnSprite);
+	};
+	
+	StackFrame.prototype.selectFrame = function () {
+		this.payload = this.context.game.add.sprite(this.sprite.x+6, this.sprite.bottom-49,'atlas', 'Subroutines/Stack_Overflow/payload_bar.png');
+		this.payloadBounds = new Phaser.Rectangle(this.payload.x+12, this.payload.bottom-17, this.payload.width-24, 5);
+		this.context.elementLayer.add(this.payload);
+		
+    };
+	
+	StackFrame.prototype.movePayload = function () {
+		if (this.payload.y + this.speed < 80) {
+			this.payload.y = 80;
+			this.speed = this.speed * -1;
+		} else if (this.payload.y + this.speed > this.sprite.bottom-49) {
+			this.payload.y = this.sprite.bottom-49;
+			this.speed = this.speed * -1;
+		} else {
+			this.payload.y += this.speed;
+		}
+		this.payloadBounds.y = this.payload.bottom-17;
+	};
+	
+	StackFrame.prototype.resetPayload = function () {
+		this.payload.y = this.sprite.bottom - 49;
+	};
+	
+	StackFrame.prototype.payloadInjected = function () {
+		if (Phaser.Rectangle.intersects(this.payloadBounds, this.returnBounds)) {
+			this.payload.destroy();
+			this.sprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y,'stack_smashed');
+			this.context.elementLayer.add(this.sprite);
+			this.sprite.animations.add('anim');
+			this.sprite.animations.play('anim', 16, false);
+			return true;
+		}
+		return false;
 	};
 
     return StackFrame;
