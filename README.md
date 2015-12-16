@@ -26,21 +26,23 @@ Can you jam with the console cowboys in cyberspace?
     - ~~Packing their textures into atlasses via TexturePacker~~
 
 
-- Code up the subroutines independently
+- ~~Code up the subroutines independently~~
     - ~~Password Cracker~~
     - ~~Firewall Bypasser~~
     - ~~Worm~~
     - ~~SQL Inject~~
     - ~~Botnet DDoS~~
-    - Buffer Overflow
+    - ~~Buffer Overflow~~
     - ~~Packet Sniffer~~
     - ~~Voice Cracker~~
 	
 - ~~Implement subroutine tutorial screens~~
 
-- Clean up subroutine code + generalise common functions
-
 - Link up the subroutines to the main screen and implement lives (proxies), game over & game win states
+
+- Clean up code + generalise common functions
+
+- Tweaking of game mechanics for MAXIMUM CYBERFUN
 
 - Music and sound design for everything
 
