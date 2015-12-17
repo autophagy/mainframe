@@ -8,6 +8,8 @@ var Mainframe = {
     hackerName: [],
 	corpName: [],
 	
+	remainingICE: 0,
+	
 	// Of the form [IP, IP, IP] (when empty, you're flatlined!)
 	hackerProxies = [],
 	

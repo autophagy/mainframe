@@ -102,5 +102,14 @@ Mainframe.MainScreen.prototype = {
 		} else {
 			return generateIP();
 		}
-	}	
+	},
+	
+	generateSubroutineSequence: function () {
+		var subroutines = ['PasswordCracker', 'Firewall', 'Worm', 'SQLInject', 'BotnetDDoS', 'StackOverflow', 'PacketSniffer', 'VoiceCracker'];
+		subroutines = Mainframe.shuffleArray(subroutines);
+		
+		Mainframe.subroutineSequence = subroutines;
+		Mainframe.subroutinePosition = 0;
+	}
+	
 };
