@@ -1,7 +1,18 @@
 var Mainframe = {
 
 	//Globals go here!
-    hackerName: '',
+	
+	// Global Variables that need to be tracked across states
+	
+	// Of the form [name, IP]
+    hackerName: [],
+	corpName: [],
+	
+	// Of the form [IP, IP, IP] (when empty, you're flatlined!)
+	hackerProxies = [],
+	
+	subroutineSequence = [],
+	subroutinePosition = 0,
 
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);
