@@ -168,41 +168,5 @@ Mainframe.Boot.prototype = {
         this.generateHackerName();
         this.state.start('Preloader');
 
-    },
-
-    generateHackerName: function () {
-
-        var doubleNouns = ['Zero', 'Cool', 'Acid', 'Burn', 'Crash', 'Override', 'Flatline', 'Puppet', 'Master', 'Flux', 'Neon', 'Null', 'Void', 'Lord', 'King', 'Queen', 'Cyber', 'Net', 'Mantis', 'Soul', 'Shadow'];
-
-        var doubleVerbs = ['Laughing', 'Crying', 'Deadly', 'Crouching', 'Hidden', 'Pale', 'White', 'Black', 'Red', 'Dead', 'Toxic'];
-
-        var singleNouns = ['Morpheus', 'Trinity', 'Maelcum', 'Hideo', 'Pandora', 'Ozymandias', 'Xerxes', 'Turing', 'Tracer', 'Phoenix'];
-
-        var probability = Math.random();
-
-        if (probability <= 0.5) {
-            var n = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
-            var n2 = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
-
-            while (n == n2) {
-                n2 = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
-            }
-
-            Mainframe.hackerName = n + ' ' + n2;
-        }
-
-        if (probability > 0.5 && probability <= 0.9) {
-            Mainframe.hackerName = doubleVerbs[Math.floor(Math.random()*doubleVerbs.length)] + ' ' + doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
-        }
-
-        if (probability > 0.9) {
-            Mainframe.hackerName = singleNouns[Math.floor(Math.random()*singleNouns.length)];
-        }
-
-        if (Math.random() <= 0.33) {
-            Mainframe.hackerName = Mainframe.hackerName.replace(/a/g,'4').replace(/e/g,'3').replace(/s/g,'5').replace(/o/g,'0');
-        }
     }
-
-
 };
