@@ -87,7 +87,13 @@ Mainframe.MainMenu.prototype = {
 	select: function () {
 		this.music.stop();
 		if(this.gameSelected) {
-			this.state.start('MainScreen', true, false, true, null);
+			var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker_on');
+			this.elementLayer.add(bg_flicker);
+			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.play('anim', 16, false);
+			bg_flicker.events.onAnimationComplete.add(function () { 
+				this.state.start('MainScreen', true, false, true, null);
+			}, this);			
 		} else {
 			this.state.start('Credits');
 		}
