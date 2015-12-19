@@ -11,6 +11,8 @@ Mainframe.MainScreen = function (game) {
 	this.firstBoot = null;
 	
 	this.generatedIPs = null;
+	
+	this.inputField = null;
 };
 
 Mainframe.MainScreen.prototype = {
@@ -43,14 +45,12 @@ Mainframe.MainScreen.prototype = {
 		
 		Mainframe.hackerProxies = [this.generateIP(), this.generateIP(), this.generateIP()];
 		
-		this.bootSequence();	
+		this.bootSequence();
 	},
 	
-	bootSequence: function() {
-	
+	bootSequence: function() {	
 		var sequence = function () {
 			var timer = 0;
-			//this.game.time.events.add(timer = timer + Phaser.Timer.SECOND, function () { this.bootLayer.add(this.game.add.bitmapText(30,50, 'green_font', '> mainframe -target ' + Mainframe.corpName[1], 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,100, 'green_font', 'Establishing proxies . . .', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,125, 'green_font', 'Connecting to ' + Mainframe.hackerProxies[0], 25)); }, this);
@@ -64,6 +64,7 @@ Mainframe.MainScreen.prototype = {
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,325, 'green_font', 'ICE-Breaks LOADED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,350, 'green_font', 'Trace detector INITIALISED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,375, 'green_font', 'Booting MAINFRAME', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, this.bootInitialiseSequence, this);
 		}.bind(this);
 		
 		var initText = this.game.add.bitmapText(30,50, 'green_font', '>', 25);
@@ -72,12 +73,150 @@ Mainframe.MainScreen.prototype = {
 		Mainframe.textScroll(this, initText, ' mainframe -target ' + Mainframe.corpName[1], 100, sequence);
 	},
 	
+	bootInitialiseSequence: function() {	
+		this.bootLayer.removeAll(true, false);
+		bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
+		this.bootLayer.add(bg_flicker);
+		bg_flicker.animations.add('anim');
+		
+		this.hackerInitialise();
+		this.proxiesInitialise();
+		this.corpInitialise();
+	
+		bg_flicker.animations.play('anim', 16, false);
+	},
+	
+	hackerInitialise: function () {
+		this.elementLayer.add(this.game.add.sprite(39, 120, 'atlas', 'Main_Screen/Hacker/hacker_frame.png'));
+		
+		var hackerName = this.game.add.bitmapText(98,90, 'green_font', Mainframe.hackerName[0], 35);
+		hackerName.anchor.setTo(0.5, 0.5);
+		hackerName.align = 'center';
+		
+		var hackerIP = this.game.add.bitmapText(100,360, 'green_font', Mainframe.hackerName[1], 20);
+		hackerIP.anchor.setTo(0.5, 0.5);
+		hackerIP.align = 'center';
+		
+		this.elementLayer.add(hackerName);
+		this.elementLayer.add(hackerIP);
+		
+		this.connectionLayer.add(this.game.add.sprite(93, 224, 'atlas', 'Main_Screen/Corp/hacker-corp_connection.png'));
+		
+		this.inputField = this.game.add.bitmapText(30, 430, 'green_font', '> ', 45);
+		this.elementLayer.add(this.inputField);
+	}, 
+	
+	proxiesInitialise: function () {
+		this.elementLayer.add(this.game.add.sprite(160, 120, 'atlas', 'Main_Screen/Proxy/proxies_outline.png'));
+		
+		if (this.firstBoot) {
+			var func = function(offset) {
+				this.game.time.events.add(Phaser.Timer.HALF + (150*offset), function () {
+					var proxy = this.game.add.sprite(176 + (38*offset), 136, 'proxy_activate');
+					this.elementLayer.add(proxy);
+					proxy.animations.add('anim');
+					proxy.animations.play('anim', 32, false);
+					
+					if(offset == 2) {
+						proxy.events.onAnimationComplete.add(function() {
+							var currentProxyA = this.game.add.bitmapText(375,195, 'green_font', 'current', 35);
+							var currentProxyB = this.game.add.bitmapText(375,215, 'green_font', 'proxy', 35);
+							currentProxyA.anchor.setTo(0.5, 0.5);
+							currentProxyB.anchor.setTo(0.5, 0.5);
+							currentProxyA.align = 'center';
+							currentProxyB.align = 'center';
+							
+							var currentProxyIP = this.game.add.bitmapText(380,255, 'green_font', Mainframe.hackerProxies[Mainframe.hackerProxies.length -1], 20);
+							currentProxyIP.anchor.setTo(0.5, 0.5);
+							
+							this.elementLayer.add(currentProxyA);
+							this.elementLayer.add(currentProxyB);
+							this.elementLayer.add(currentProxyIP);
+						}, this);
+					}
+					
+				}, this);
+			}.bind(this);
+			
+			for (i = 0; i < 3; i++) {
+				func(i);
+			}
+		} else {
+		
+		}
+	}, 
+	
+	corpInitialise: function () {
+		this.elementLayer.add(this.game.add.sprite(445, 120, 'atlas', 'Main_Screen/Corp/corp_outline.png'));
+		
+		var corpName = this.game.add.bitmapText(673,110, 'white_font', Mainframe.corpName[0], 35);
+		corpName.anchor.setTo(0.5, 0.5);
+		corpName.align = 'center';
+		
+		var corpIP = this.game.add.bitmapText(673,365, 'white_font', Mainframe.corpName[1], 35);
+		corpIP.anchor.setTo(0.5, 0.5);
+		corpIP.align = 'center';
+		
+		this.elementLayer.add(this.game.add.sprite(777, 136, 'atlas', 'Main_Screen/Corp/mainframe.png'));
+		
+		
+		this.elementLayer.add(corpName);
+		this.elementLayer.add(corpIP);
+		
+		if (this.firstBoot) {
+			var func = function(offset) {
+				this.game.time.events.add(Phaser.Timer.HALF + (150*offset), function () {
+					var ICE = this.game.add.sprite(461 + (46*offset), 136, 'ICE_activate');
+					this.elementLayer.add(ICE);
+					ICE.animations.add('anim');
+					ICE.animations.play('anim', 32, false);
+					
+					ICE.events.onAnimationComplete.add(function() {
+						if (offset < 4) {
+							var ICEConn = this.game.add.sprite(499 + (46*offset), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_inactive.png');
+						} else {
+							var ICEConn = this.game.add.sprite(499 + (46*offset), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_inactive.png');
+							this.game.time.events.add(Phaser.Timer.HALF, function () {
+								this.selectICE();
+							}, this);
+						}
+						
+						this.connectionLayer.add(ICEConn);
+					}, this);
+					
+					
+					
+				}, this);
+			}.bind(this);
+			
+			for (var i = 0; i < 5; i++) {
+				func(i);
+			}
+		
+		} else {
+		
+		}
+	},
+	
 	victorySubroutineInit: function() {
 	
 	},
 	
 	failedSubroutineInit: function() {
 	
+	},
+	
+	selectICE: function() {
+		// Select ICE at current pointer (Play anim)
+		// Wait a couple secs, trail out > SUBROUTINE
+		console.log('bur!');
+		var func = function () {
+			this.game.time.events.add(Phaser.Timer.HALF * 1.5, function () {
+				this.state.start(Mainframe.subroutineSequence[Mainframe.subroutinePosition][0]);
+			}, this);
+		}.bind(this);
+		
+		Mainframe.textScroll(this, this.inputField, Mainframe.subroutineSequence[Mainframe.subroutinePosition][1], 200, func);
 	},
 	
     generateHackerName: function () {
@@ -101,11 +240,11 @@ Mainframe.MainScreen.prototype = {
                 n2 = doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
             }
 
-            name = n + ' ' + n2;
+            name = n + '\n' + n2;
         }
 
         if (probability > 0.5 && probability <= 0.9) {
-            name = doubleVerbs[Math.floor(Math.random()*doubleVerbs.length)] + ' ' + doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
+            name = doubleVerbs[Math.floor(Math.random()*doubleVerbs.length)] + '\n' + doubleNouns[Math.floor(Math.random()*doubleNouns.length)];
         }
 
         if (probability > 0.9) {
@@ -149,7 +288,7 @@ Mainframe.MainScreen.prototype = {
 	},
 	
 	generateSubroutineSequence: function () {
-		var subroutines = ['PasswordCracker', 'Firewall', 'Worm', 'SQLInject', 'BotnetDDoS', 'StackOverflow', 'PacketSniffer', 'VoiceCracker'];
+		var subroutines = [ ['PasswordCracker', 'JOHN_THE_RIPPER'], ['Firewall', 'HOLEPUNCH'], ['Worm', 'YOURDOOM'], ['SQLInject', 'DB_BREAKER'], ['BotnetDDoS', 'SWARMNET'], ['StackOverflow', 'STACK_SMASHER'], ['PacketSniffer', 'CONN_SHARK'], ['VoiceCracker', 'MIMIC'] ];
 		subroutines = Mainframe.shuffleArray(subroutines);
 		
 		Mainframe.subroutineSequence = subroutines;

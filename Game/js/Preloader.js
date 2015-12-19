@@ -38,6 +38,7 @@ Mainframe.Preloader.prototype = {
 		this.game.load.spritesheet('conn_activate', 'assets/animations/conn_activate.png', 40, 27, 7);
 		this.game.load.spritesheet('crash', 'assets/animations/crash.png', 960, 540, 4);
 		this.game.load.spritesheet('ICE_broken', 'assets/animations/ICE_broken.png', 50, 203, 7);
+		this.game.load.spritesheet('ICE_activate', 'assets/animations/ICE_activate.png', 50, 203, 6);
 		this.game.load.spritesheet('mainframe_accessed', 'assets/animations/mainframe_accessed.png', 128, 203, 7);
 		this.game.load.spritesheet('mainframe_logo', 'assets/animations/mainframe_logo.png', 857, 136, 12);
 		this.game.load.spritesheet('MF_conn_activate', 'assets/animations/MF_conn_activate.png', 107, 27, 7);
@@ -72,7 +73,7 @@ Mainframe.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('MainMenu');
+			this.state.start('MainScreen', true, false, true, null);
 		}
 
 	}
