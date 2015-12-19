@@ -10,13 +10,14 @@ Mainframe.MainScreen = function (game) {
 	this.firstBoot = null;
 	
 	this.generatedIPs = null;
+};
 
 Mainframe.MainScreen.prototype = {
 
 	init: function (firstBoot, subroutineReturn) {
 		this.firstBoot = firstBoot;
 		this.subroutineReturn = subroutineReturn;		
-	}
+	},
 
 	create: function () {
 		if (firstBoot) {
@@ -28,10 +29,14 @@ Mainframe.MainScreen.prototype = {
 		}
 		
 	},
-
+	
 	firstBootInit: function() {
 	
-	}
+	},
+	
+	bootSequence: function() {
+	
+	},
 	
 	victorySubroutineInit: function() {
 	

@@ -11,10 +11,10 @@ var Mainframe = {
 	remainingICE: 0,
 	
 	// Of the form [IP, IP, IP] (when empty, you're flatlined!)
-	hackerProxies = [],
+	hackerProxies: [],
 	
-	subroutineSequence = [],
-	subroutinePosition = 0,
+	subroutineSequence: [],
+	subroutinePosition: 0,
 
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);
@@ -167,7 +167,6 @@ Mainframe.Boot.prototype = {
 
         //  By this point the preloader assets have loaded to the cache, we've set the game settings
         //  So now let's start the real preloader going
-        this.generateHackerName();
         this.state.start('Preloader');
 
     }
