@@ -20,14 +20,13 @@ Mainframe.MainScreen.prototype = {
 	},
 
 	create: function () {
-		if (firstBoot) {
+		if (this.firstBoot) {
 			this.firstBootInit();
-		} else if (subroutineReturn) {
+		} else if (this.subroutineReturn) {
 			this.victorySubroutineInit();
 		} else {
 			this.failedSubroutineInit();
-		}
-		
+		}		
 	},
 	
 	firstBootInit: function() {

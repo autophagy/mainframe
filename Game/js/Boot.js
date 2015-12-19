@@ -99,6 +99,7 @@ var Mainframe = {
         Mainframe.centreSprite(victorySign, context.game.width);
         victorySign.animations.add('anim');
         victorySign.animations.play('anim', 16, false);
+		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() { context.state.start('MainScreen', true, false, false, true); }, this);
     },
 
     subroutineFailure: function(context) {
@@ -107,6 +108,7 @@ var Mainframe = {
         Mainframe.centreSprite(failureSign, context.game.width);
         failureSign.animations.add('anim');
         failureSign.animations.play('anim', 16, false);
+		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() { context.state.start('MainScreen', true, false, false, false); }, this);
     },
 
     // Knuth shuffe

@@ -87,7 +87,7 @@ Mainframe.MainMenu.prototype = {
 	select: function () {
 		this.music.stop();
 		if(this.gameSelected) {
-			this.state.start('MainScreen');
+			this.state.start('MainScreen', true, false, true, null);
 		} else {
 			this.state.start('Credits');
 		}
