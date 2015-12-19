@@ -30,6 +30,7 @@ Mainframe.Preloader.prototype = {
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
+		this.game.load.spritesheet('bg_flicker_on', 'assets/animations/bg_flicker_on.png', 960, 540, 6);
 		this.game.load.spritesheet('trace_detected', 'assets/animations/trace_detected.png', 893, 62, 7);
 		this.game.load.spritesheet('icebreak_in_progress', 'assets/animations/icebreak_in_progress.png', 893, 61, 7);
 		this.game.load.spritesheet('black_ice_detected', 'assets/animations/black_ice_detected.png', 851, 69, 6);

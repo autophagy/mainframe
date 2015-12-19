@@ -207,12 +207,15 @@ Mainframe.MainScreen.prototype = {
 	},
 	
 	selectICE: function() {
-		// Select ICE at current pointer (Play anim)
-		// Wait a couple secs, trail out > SUBROUTINE
-		console.log('bur!');
 		var func = function () {
 			this.game.time.events.add(Phaser.Timer.HALF * 1.5, function () {
-				this.state.start(Mainframe.subroutineSequence[Mainframe.subroutinePosition][0]);
+				var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker_on');
+				this.bootLayer.add(bg_flicker);
+				bg_flicker.animations.add('anim');	
+				bg_flicker.animations.play('anim', 16, false);
+				bg_flicker.events.onAnimationComplete.add(function () { 
+					this.state.start(Mainframe.subroutineSequence[Mainframe.subroutinePosition][0]);
+				}, this);
 			}, this);
 		}.bind(this);
 		

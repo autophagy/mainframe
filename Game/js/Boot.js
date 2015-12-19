@@ -99,7 +99,17 @@ var Mainframe = {
         Mainframe.centreSprite(victorySign, context.game.width);
         victorySign.animations.add('anim');
         victorySign.animations.play('anim', 16, false);
-		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() { context.state.start('MainScreen', true, false, false, true); }, this);
+
+		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
+			context.timerLayer.add(bg_flicker);
+			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.play('anim', 16, false);
+			bg_flicker.events.onAnimationComplete.add(function () { 
+				context.state.start('MainScreen', true, false, false, true); 
+			}, this);
+		}, this);
+		
     },
 
     subroutineFailure: function(context) {
@@ -108,7 +118,17 @@ var Mainframe = {
         Mainframe.centreSprite(failureSign, context.game.width);
         failureSign.animations.add('anim');
         failureSign.animations.play('anim', 16, false);
-		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() { context.state.start('MainScreen', true, false, false, false); }, this);
+		
+		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
+			context.timerLayer.add(bg_flicker);
+			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.play('anim', 16, false);
+			bg_flicker.events.onAnimationComplete.add(function () { 
+				context.state.start('MainScreen', true, false, false, false); 
+			}, this);
+		}, this);
+		
     },
 	
 	textScroll : function (context, bitmapText, text, speed, nextFunc) {
