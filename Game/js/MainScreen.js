@@ -13,6 +13,13 @@ Mainframe.MainScreen = function (game) {
 	this.generatedIPs = null;
 	
 	this.inputField = null;
+	
+	this.proxies = [];
+	this.ICEs = [];
+	
+	this.currentProxyA = null;
+	this.currentProxyB = null;
+	this.currentProxyIP = null;
 };
 
 Mainframe.MainScreen.prototype = {
@@ -45,7 +52,7 @@ Mainframe.MainScreen.prototype = {
 		
 		Mainframe.hackerProxies = [this.generateIP(), this.generateIP(), this.generateIP()];
 		
-		this.bootSequence();
+		this.bootInitialiseSequence();
 	},
 	
 	bootSequence: function() {	
@@ -119,19 +126,7 @@ Mainframe.MainScreen.prototype = {
 					
 					if(offset == 2) {
 						proxy.events.onAnimationComplete.add(function() {
-							var currentProxyA = this.game.add.bitmapText(375,195, 'green_font', 'current', 35);
-							var currentProxyB = this.game.add.bitmapText(375,215, 'green_font', 'proxy', 35);
-							currentProxyA.anchor.setTo(0.5, 0.5);
-							currentProxyB.anchor.setTo(0.5, 0.5);
-							currentProxyA.align = 'center';
-							currentProxyB.align = 'center';
-							
-							var currentProxyIP = this.game.add.bitmapText(380,255, 'green_font', Mainframe.hackerProxies[Mainframe.hackerProxies.length -1], 20);
-							currentProxyIP.anchor.setTo(0.5, 0.5);
-							
-							this.elementLayer.add(currentProxyA);
-							this.elementLayer.add(currentProxyB);
-							this.elementLayer.add(currentProxyIP);
+						this.setupProxyDisplay();						
 						}, this);
 					}
 					
@@ -142,7 +137,13 @@ Mainframe.MainScreen.prototype = {
 				func(i);
 			}
 		} else {
-		
+			this.proxies = [];
+			for (i = 0; i < Mainframe.hackerProxies.length; i++) {
+				var proxy = this.game.add.sprite(176 + (38*i), 136, 'atlas', 'Main_Screen/Proxy/proxy.png');
+				this.elementLayer.add(proxy);
+				this.proxies.push(proxy);
+			}
+			this.setupProxyDisplay();
 		}
 	}, 
 	
@@ -192,18 +193,133 @@ Mainframe.MainScreen.prototype = {
 			for (var i = 0; i < 5; i++) {
 				func(i);
 			}
+			
+			Mainframe.remainingICE = 5;
 		
 		} else {
-		
+			this.ICEs = [];
+			for (var i = 0; i < 5; i++) {
+				if (i < (5-Mainframe.remainingICE)) {
+					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/broken_ICE.png');
+				} else {
+					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/ICE.png');
+				}
+				this.elementLayer.add(ICE);
+				this.ICEs.push(ICE);
+			}
 		}
 	},
 	
-	victorySubroutineInit: function() {
+	removeICE: function() {
+		var index = 5 - Mainframe.remainingICE;
+		this.ICEs[index].destroy();
+		this.ICEs[index] = this.game.add.sprite(461 + (46*index), 136, 'ICE_broken');
+		this.elementLayer.add(this.ICEs[index]);
+		this.ICEs[index].animations.add('anim');
+		this.ICEs[index].animations.play('anim', 16, false);	
+		this.ICEs[index].events.onAnimationComplete.add(function () {
+			Mainframe.remainingICE--;			
+			if (Mainframe.remainingICE == 0) {
+				// YOU WIN!
+				console.log('you win!! nice one');
+			} else {
+				Mainframe.subroutineSequence.splice(0, 1);
+				this.selectICE();
+			}
+		}, this);
+	},
 	
+	removeProxy: function() {
+		var index = Mainframe.hackerProxies.length - 1;
+		this.proxies[index].destroy();
+		this.proxies[index] = this.game.add.sprite(176 + (38*index), 136, 'proxy_deactivate');
+		this.elementLayer.add(this.proxies[index]);
+		this.proxies[index].animations.add('anim');
+		this.proxies[index].animations.play('anim', 16, false);	
+		this.proxies[index].events.onAnimationComplete.add(function () {
+			Mainframe.hackerProxies.splice(Mainframe.hackerProxies.length - 1, 1);
+			this.refreshProxyDisplay();
+			if (Mainframe.hackerProxies.length == 0) {
+				// YOU DIE!
+				this.flatline();
+			} else {
+				Mainframe.subroutineSequence.splice(0, 1);
+				this.selectICE();
+			}
+		}, this);	
+	},
+	
+	setupProxyDisplay: function () {
+		this.currentProxyA = this.game.add.bitmapText(375,195, 'green_font', 'current', 35);
+		this.currentProxyB = this.game.add.bitmapText(375,215, 'green_font', 'proxy', 35);
+		this.currentProxyA.anchor.setTo(0.5, 0.5);
+		this.currentProxyB.anchor.setTo(0.5, 0.5);
+		this.currentProxyA.align = 'center';
+		this.currentProxyB.align = 'center';
+		
+		this.currentProxyIP = this.game.add.bitmapText(380,255, 'green_font', Mainframe.hackerProxies[Mainframe.hackerProxies.length -1], 20);
+		this.currentProxyIP.anchor.setTo(0.5, 0.5);
+		
+		this.elementLayer.add(this.currentProxyA);
+		this.elementLayer.add(this.currentProxyB);
+		this.elementLayer.add(this.currentProxyIP);
+	},
+	
+	refreshProxyDisplay: function () {		
+		if (Mainframe.hackerProxies.length > 0) {
+			this.currentProxyIP.text = Mainframe.hackerProxies[Mainframe.hackerProxies.length -1];
+		} else {
+			this.currentProxyIP.text = '';
+		}
+	},
+	
+	flatline: function () {
+		
+		var blackICE = this.game.add.sprite(this.game.width/2, this.game.height/2, 'black_ice_detected');
+		blackICE.anchor.setTo(0.5, 0.5);
+		this.elementLayer.add(blackICE);
+		blackICE.animations.add('anim');
+		blackICE.animations.play('anim', 32, false);
+		blackICE.events.onAnimationComplete.add(function () {
+			this.game.time.events.add(Phaser.Timer.HALF, function () {
+				var death = this.game.add.sprite(0, 0, 'crash');
+				this.elementLayer.add(death);
+				death.animations.add('anim');
+				death.animations.play('anim', 1, false);
+				death.events.onAnimationComplete.add(function () {
+					this.state.start('DeathScreen');
+				}, this);
+			}, this);
+			
+		}, this);
+		
+		
+	},
+	
+	victorySubroutineInit: function() {
+		bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
+		this.bootLayer.add(bg_flicker);
+		bg_flicker.animations.add('anim');
+		
+		this.hackerInitialise();
+		this.proxiesInitialise();
+		this.corpInitialise();
+	
+		bg_flicker.animations.play('anim', 16, false);
+		bg_flicker.events.onAnimationComplete.add(function() { this.removeICE(); }, this);
 	},
 	
 	failedSubroutineInit: function() {
+		bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
+		this.bootLayer.add(bg_flicker);
+		bg_flicker.animations.add('anim');
+		
+		this.hackerInitialise();
+		this.proxiesInitialise();
+		this.corpInitialise();
 	
+		bg_flicker.animations.play('anim', 16, false);
+		bg_flicker.events.onAnimationComplete.add(function() { this.removeProxy(); }, this);
 	},
 	
 	selectICE: function() {
