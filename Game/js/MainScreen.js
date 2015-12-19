@@ -47,20 +47,29 @@ Mainframe.MainScreen.prototype = {
 	},
 	
 	bootSequence: function() {
-		this.bootLayer.add(this.game.add.bitmapText(30,50, 'green_font', '> mainframe -target ' + Mainframe.corpName[1], 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,100, 'green_font', 'Establishing proxies . . .', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,125, 'green_font', 'Connecting to ' + Mainframe.hackerProxies[0], 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,150, 'green_font', 'Proxy 0 CONNECTED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,175, 'green_font', 'Connecting to: ' + Mainframe.hackerProxies[1], 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,200, 'green_font', 'Proxy 1 CONNECTED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,225, 'green_font', 'Connecting to: ' + Mainframe.hackerProxies[2], 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,250, 'green_font', 'Proxy 2 CONNECTED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,275, 'green_font', 'All proxies CONNECTED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,300, 'green_font', 'Loading ICE-Breaks . . .', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,325, 'green_font', 'ICE-Breaks LOADED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,350, 'green_font', 'Trace detector INITIALISED', 25));
-		this.bootLayer.add(this.game.add.bitmapText(50,375, 'green_font', 'Booting MAINFRAME', 25));
+	
+		var sequence = function () {
+			var timer = 0;
+			//this.game.time.events.add(timer = timer + Phaser.Timer.SECOND, function () { this.bootLayer.add(this.game.add.bitmapText(30,50, 'green_font', '> mainframe -target ' + Mainframe.corpName[1], 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,100, 'green_font', 'Establishing proxies . . .', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,125, 'green_font', 'Connecting to ' + Mainframe.hackerProxies[0], 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.HALF, function () { this.bootLayer.add(this.game.add.bitmapText(50,150, 'green_font', 'Proxy 0 CONNECTED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,175, 'green_font', 'Connecting to: ' + Mainframe.hackerProxies[1], 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.HALF, function () { this.bootLayer.add(this.game.add.bitmapText(50,200, 'green_font', 'Proxy 1 CONNECTED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,225, 'green_font', 'Connecting to: ' + Mainframe.hackerProxies[2], 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.HALF, function () { this.bootLayer.add(this.game.add.bitmapText(50,250, 'green_font', 'Proxy 2 CONNECTED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,275, 'green_font', 'All proxies CONNECTED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,300, 'green_font', 'Loading ICE-Breaks . . .', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,325, 'green_font', 'ICE-Breaks LOADED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,350, 'green_font', 'Trace detector INITIALISED', 25)); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,375, 'green_font', 'Booting MAINFRAME', 25)); }, this);
+		}.bind(this);
+		
+		var initText = this.game.add.bitmapText(30,50, 'green_font', '>', 25);
+		this.bootLayer.add(initText);
+		
+		Mainframe.textScroll(this, initText, ' mainframe -target ' + Mainframe.corpName[1], 100, sequence);
 	},
 	
 	victorySubroutineInit: function() {

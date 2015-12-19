@@ -76,11 +76,11 @@ Mainframe.PasswordCracker.prototype = {
 			}.bind(this);
 
 		if(this.str.length > this.username.length) {
-			this.textScroll(this.passwordText, this.str, 200, func);
-			this.textScroll(this.usernameText, this.username, 200, null);
+			Mainframe.textScroll(this, this.passwordText, this.str, 200, func);
+			Mainframe.textScroll(this, this.usernameText, this.username, 200, null);
 		} else {
-			this.textScroll(this.passwordText, this.str, 200, null);
-			this.textScroll(this.usernameText, this.username, 200, func);
+			Mainframe.textScroll(this, this.passwordText, this.str, 200, null);
+			Mainframe.textScroll(this, this.usernameText, this.username, 200, func);
 		}
 
 		this.game.input.keyboard.onUpCallback = (function () {
@@ -190,16 +190,6 @@ Mainframe.PasswordCracker.prototype = {
 			this.passwordCompleteText.text = this.passwordCompleteText.text + this.passwordText.text[0];
 			this.passwordText.text = this.passwordText.text.substr(1)
 			this.passwordText.x = this.passwordCompleteText.right - 10;
-		}
-	},
-
-	textScroll : function (bitmapText, text, speed, nextFunc) {
-		if (text.length > 0) {
-			bitmapText.text = bitmapText.text + text[0]
-			this.game.time.events.add(speed, function() { this.textScroll(bitmapText, text.substr(1), speed, nextFunc); }, this);
-
-		} else if (nextFunc != null) {
-			nextFunc();
 		}
 	}
 

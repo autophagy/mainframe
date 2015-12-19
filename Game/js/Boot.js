@@ -110,6 +110,16 @@ var Mainframe = {
         failureSign.animations.play('anim', 16, false);
 		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() { context.state.start('MainScreen', true, false, false, false); }, this);
     },
+	
+	textScroll : function (context, bitmapText, text, speed, nextFunc) {
+		if (text.length > 0) {
+			bitmapText.text = bitmapText.text + text[0]
+			context.game.time.events.add(speed, function() { this.textScroll(context, bitmapText, text.substr(1), speed, nextFunc); }, this);
+
+		} else if (nextFunc != null) {
+			nextFunc();
+		}
+	},
 
     // Knuth shuffe
     shuffleArray: function(array) {
