@@ -210,7 +210,7 @@ Mainframe.MainScreen.prototype = {
 					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/broken_ICE.png');
 					var conn = this.game.add.sprite(473 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
 					conn.width += 6;
-					this.elementLayer.add(conn);
+					this.connectionLayer.add(conn);
 					var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
 				} else {
 					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/ICE.png');
@@ -222,7 +222,7 @@ Mainframe.MainScreen.prototype = {
 
 				}
 				this.elementLayer.add(ICE);
-				this.elementLayer.add(ICEConn);
+				this.connectionLayer.add(ICEConn);
 				this.ICEs.push(ICE);
 				this.ICEConns.push(ICEConn);
 			}
@@ -241,14 +241,14 @@ Mainframe.MainScreen.prototype = {
 			this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
 			var conn = this.game.add.sprite(473 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
 			conn.width += 6;
-			this.elementLayer.add(this.ICEConns[index]);
-			this.elementLayer.add(conn);
+			this.connectionLayer.add(this.ICEConns[index]);
+			this.connectionLayer.add(conn);
 			Mainframe.remainingICE--;
 			if (Mainframe.remainingICE == 0) {
 				// YOU WIN!
 				this.ICEConns[index].destroy();
 				this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_active.png');
-				this.elementLayer.add(this.ICEConns[index]);
+				this.connectionLayer.add(this.ICEConns[index]);
 				this.victoryAnimation();
 			} else {
 				Mainframe.subroutineSequence.splice(0, 1);
@@ -327,7 +327,6 @@ Mainframe.MainScreen.prototype = {
 	},
 
 	flatline: function () {
-
 		var blackICE = this.game.add.sprite(this.game.width/2, this.game.height/2, 'black_ice_detected');
 		blackICE.anchor.setTo(0.5, 0.5);
 		this.elementLayer.add(blackICE);
@@ -338,15 +337,16 @@ Mainframe.MainScreen.prototype = {
 				var death = this.game.add.sprite(0, 0, 'crash');
 				this.elementLayer.add(death);
 				death.animations.add('anim');
-				death.animations.play('anim', 1, false);
+				death.animations.play('anim', 2, false);
 				death.events.onAnimationComplete.add(function () {
-					this.state.start('DeathScreen');
+					this.elementLayer.alpha = 0;
+					this.connectionLayer.alpha = 0;
+					this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function () {
+						this.state.start('DeathScreen');
+					}, this);
 				}, this);
 			}, this);
-
 		}, this);
-
-
 	},
 
 	victorySubroutineInit: function() {
