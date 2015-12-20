@@ -160,7 +160,7 @@ Mainframe.MainScreen.prototype = {
 		corpIP.anchor.setTo(0.5, 0.5);
 		corpIP.align = 'center';
 
-		this.mainframe = this.game.add.sprite(777, 136, 'atlas', 'Main_Screen/Corp/mainframe.png'));
+		this.mainframe = this.game.add.sprite(777, 136, 'atlas', 'Main_Screen/Corp/mainframe.png');
 		this.elementLayer.add(this.mainframe);
 
 		this.elementLayer.add(corpName);
@@ -248,6 +248,7 @@ Mainframe.MainScreen.prototype = {
 				// YOU WIN!
 				this.ICEConns[index].destroy();
 				this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_active.png');
+				this.elementLayer.add(this.ICEConns[index]);
 				this.victoryAnimation();
 			} else {
 				Mainframe.subroutineSequence.splice(0, 1);
@@ -257,7 +258,29 @@ Mainframe.MainScreen.prototype = {
 	},
 
 	victoryAnimation: function() {
-
+		this.mainframe.destroy();
+		this.mainframe = this.game.add.sprite(777, 136, 'mainframe_accessed');
+		this.elementLayer.add(this.mainframe);
+		this.mainframe.animations.add('anim');
+		this.mainframe.animations.play('anim', 16, false);
+		this.mainframe.events.onAnimationComplete.add(function () {
+			var banner = this.game.add.sprite(this.game.width/2, this.game.height/2, 'victory_banner');
+			banner.anchor.setTo(0.5, 0.5);
+			this.elementLayer.add(banner);
+			banner.animations.add('anim');
+			banner.animations.play('anim', 16, false);
+			banner.events.onAnimationComplete.add(function () {
+				banner.destroy();
+				banner = this.game.add.sprite(this.game.width/2, this.game.height/2 - 2, 'victory_blink');
+				banner.anchor.setTo(0.5, 0.5);
+				this.elementLayer.add(banner);
+				banner.animations.add('anim');
+				banner.animations.play('anim', 2, false);
+				banner.events.onAnimationComplete.add(function () {
+					console.log('You win!');
+				}, this);
+			}, this);
+		}, this);
 	},
 
 	removeProxy: function() {
