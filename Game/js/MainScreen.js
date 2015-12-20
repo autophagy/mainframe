@@ -235,7 +235,7 @@ Mainframe.MainScreen.prototype = {
 		this.ICEs[index] = this.game.add.sprite(461 + (46*index), 136, 'ICE_broken');
 		this.elementLayer.add(this.ICEs[index]);
 		this.ICEs[index].animations.add('anim');
-		this.ICEs[index].animations.play('anim', 16, false);
+		this.ICEs[index].animations.play('anim', 32, false);
 		this.ICEs[index].events.onAnimationComplete.add(function () {
 			this.ICEConns[index].destroy();
 			this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
@@ -289,7 +289,7 @@ Mainframe.MainScreen.prototype = {
 		this.proxies[index] = this.game.add.sprite(176 + (38*index), 136, 'proxy_deactivate');
 		this.elementLayer.add(this.proxies[index]);
 		this.proxies[index].animations.add('anim');
-		this.proxies[index].animations.play('anim', 16, false);
+		this.proxies[index].animations.play('anim', 32, false);
 		this.proxies[index].events.onAnimationComplete.add(function () {
 			Mainframe.hackerProxies.splice(Mainframe.hackerProxies.length - 1, 1);
 			this.refreshProxyDisplay();
