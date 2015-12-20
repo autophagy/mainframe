@@ -16,6 +16,8 @@ Mainframe.MainScreen = function (game) {
 
 	this.proxies = [];
 	this.ICEs = [];
+	this.ICEConns = [];
+	this.mainframe = null;
 
 	this.currentProxyA = null;
 	this.currentProxyB = null;
@@ -52,7 +54,7 @@ Mainframe.MainScreen.prototype = {
 
 		Mainframe.hackerProxies = [this.generateIP(), this.generateIP(), this.generateIP()];
 
-		this.bootInitialiseSequence();
+		this.bootSequence();
 	},
 
 	bootSequence: function() {
@@ -158,12 +160,14 @@ Mainframe.MainScreen.prototype = {
 		corpIP.anchor.setTo(0.5, 0.5);
 		corpIP.align = 'center';
 
-		this.elementLayer.add(this.game.add.sprite(777, 136, 'atlas', 'Main_Screen/Corp/mainframe.png'));
+		this.mainframe = this.game.add.sprite(777, 136, 'atlas', 'Main_Screen/Corp/mainframe.png'));
+		this.elementLayer.add(this.mainframe);
 
 		this.elementLayer.add(corpName);
 		this.elementLayer.add(corpIP);
 
 		this.ICEs = [];
+		this.ICEConns = [];
 
 		if (this.firstBoot) {
 			var func = function(offset) {
@@ -178,6 +182,7 @@ Mainframe.MainScreen.prototype = {
 					ICE.events.onAnimationComplete.add(function() {
 						if (offset < 4) {
 							var ICEConn = this.game.add.sprite(499 + (46*offset), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_inactive.png');
+							this.ICEConns.push(ICEConn);
 						} else {
 							var ICEConn = this.game.add.sprite(499 + (46*offset), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_inactive.png');
 							this.game.time.events.add(Phaser.Timer.HALF, function () {
@@ -203,11 +208,23 @@ Mainframe.MainScreen.prototype = {
 			for (var i = 0; i < 5; i++) {
 				if (i < (5-Mainframe.remainingICE)) {
 					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/broken_ICE.png');
+					var conn = this.game.add.sprite(473 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
+					conn.width += 6;
+					this.elementLayer.add(conn);
+					var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
 				} else {
 					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/ICE.png');
+					if (i == 4) {
+						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_inactive.png');
+					} else {
+						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_inactive.png');
+					}
+
 				}
 				this.elementLayer.add(ICE);
+				this.elementLayer.add(ICEConn);
 				this.ICEs.push(ICE);
+				this.ICEConns.push(ICEConn);
 			}
 		}
 	},
@@ -220,15 +237,27 @@ Mainframe.MainScreen.prototype = {
 		this.ICEs[index].animations.add('anim');
 		this.ICEs[index].animations.play('anim', 16, false);
 		this.ICEs[index].events.onAnimationComplete.add(function () {
+			this.ICEConns[index].destroy();
+			this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
+			var conn = this.game.add.sprite(473 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
+			conn.width += 6;
+			this.elementLayer.add(this.ICEConns[index]);
+			this.elementLayer.add(conn);
 			Mainframe.remainingICE--;
 			if (Mainframe.remainingICE == 0) {
 				// YOU WIN!
-				console.log('you win!! nice one');
+				this.ICEConns[index].destroy();
+				this.ICEConns[index] = this.game.add.sprite(499 + (46*index), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_active.png');
+				this.victoryAnimation();
 			} else {
 				Mainframe.subroutineSequence.splice(0, 1);
 				this.selectICE();
 			}
 		}, this);
+	},
+
+	victoryAnimation: function() {
+
 	},
 
 	removeProxy: function() {
