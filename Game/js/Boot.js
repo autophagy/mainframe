@@ -1,20 +1,23 @@
 var Mainframe = {
 
 	//Globals go here!
-	
+
 	// Global Variables that need to be tracked across states
-	
+
 	// Of the form [name, IP]
     hackerName: [],
 	corpName: [],
-	
+
 	remainingICE: 0,
-	
+
 	// Of the form [IP, IP, IP] (when empty, you're flatlined!)
 	hackerProxies: [],
-	
+
 	subroutineSequence: [],
 	subroutinePosition: 0,
+
+	corpDifficulty: 1.0,
+	totalEarned: 0,
 
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);
@@ -103,13 +106,13 @@ var Mainframe = {
 		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
 			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
 			context.timerLayer.add(bg_flicker);
-			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.add('anim');
 			bg_flicker.animations.play('anim', 16, false);
-			bg_flicker.events.onAnimationComplete.add(function () { 
-				context.state.start('MainScreen', true, false, false, true); 
+			bg_flicker.events.onAnimationComplete.add(function () {
+				context.state.start('MainScreen', true, false, false, true);
 			}, this);
 		}, this);
-		
+
     },
 
     subroutineFailure: function(context) {
@@ -118,19 +121,19 @@ var Mainframe = {
         Mainframe.centreSprite(failureSign, context.game.width);
         failureSign.animations.add('anim');
         failureSign.animations.play('anim', 16, false);
-		
+
 		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
 			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
 			context.timerLayer.add(bg_flicker);
-			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.add('anim');
 			bg_flicker.animations.play('anim', 16, false);
-			bg_flicker.events.onAnimationComplete.add(function () { 
-				context.state.start('MainScreen', true, false, false, false); 
+			bg_flicker.events.onAnimationComplete.add(function () {
+				context.state.start('MainScreen', true, false, false, false);
 			}, this);
 		}, this);
-		
+
     },
-	
+
 	textScroll : function (context, bitmapText, text, speed, nextFunc) {
 		if (text.length > 0) {
 			bitmapText.text = bitmapText.text + text[0]

@@ -277,7 +277,7 @@ Mainframe.MainScreen.prototype = {
 				banner.animations.add('anim');
 				banner.animations.play('anim', 2, false);
 				banner.events.onAnimationComplete.add(function () {
-					console.log('You win!');
+					this.state.start('VictoryScreen');
 				}, this);
 			}, this);
 		}, this);
