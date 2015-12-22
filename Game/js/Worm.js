@@ -97,6 +97,14 @@ Mainframe.Worm.prototype = {
     },
 
 	setupGame: function () {
+		this.mazeBounds = [];
+		this.goalBounds = null;
+
+		this.player = null;
+		this.lastPlayerMove = null;
+		this.playerBounds = [];
+		this.cursors = [];
+
 		var outline = Mainframe.centreSprite(this.game.add.sprite(0,95,'atlas','Subroutines/Worm/worm_outline.png'), this.game.width);
 		outline.height -= 34;
 		this.elementLayer.add(outline);
@@ -227,8 +235,6 @@ Mainframe.Worm.prototype = {
 	renderMaze(maze) {
 		var offsetX = 48;
 		var offsetY = 103;
-
-		this.mazeBounds = [];
 
 		for (var x = 0; x < 27; x++) {
 			for (var y = 0; y < 11; y++) {
