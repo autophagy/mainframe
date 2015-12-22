@@ -7,6 +7,11 @@ Mainframe.VictoryScreen = function (game) {
 
 	this.dataValue = null;
 
+	this.nextCorpOption = null;
+	this.exitOption = null;
+	this.selectionIcon = null;
+	this.nextCorpSelected = null;
+
 };
 
 Mainframe.VictoryScreen.prototype = {
@@ -38,11 +43,58 @@ Mainframe.VictoryScreen.prototype = {
 
 		this.game.add.tween(b).to( { width: (percentage/100)*718 }, 1000, Phaser.Easing.Linear.None, true, 0, 0, false);
 
+		this.nextCorpOption = this.game.add.bitmapText(0,400, 'green_font', 'Next Corp', 30);
+		Mainframe.centreText(this.nextCorpOption, this.game.width);
+
+		this.exitOption = this.game.add.bitmapText(0,430, 'green_font', 'Exit', 30);
+		Mainframe.centreText(this.exitOption, this.game.width);
+
+		this.selectionIcon = this.game.add.bitmapText(200,430, 'green_font', '>', 30);
+
+		var cursors = this.game.input.keyboard.createCursorKeys();
+
+		cursors.down.onDown.add(this.toggleSelection, this);
+		cursors.up.onDown.add(this.toggleSelection, this);
+
+		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+		space.onDown.add(this.select, this);
+
+		this.nextCorpSelected = true;
+
+		this.repositionSelector();
 		var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
 		bg_flicker.animations.add('anim');
 		bg_flicker.animations.play('anim', 16, false);
 
 		this.game.add.sprite(0,0,'atlas','General/monitor.png');
-	}
+	},
 
+	toggleSelection: function () {
+		this.nextCorpSelected = !this.nextCorpSelected;
+		this.repositionSelector();
+	},
+
+	repositionSelector: function () {
+		if(this.nextCorpSelected) {
+			this.selectionIcon.y = this.nextCorpOption.y;
+			this.selectionIcon.x = this.nextCorpOption.x - 15;
+		} else {
+			this.selectionIcon.y = this.exitOption.y;
+			this.selectionIcon.x = this.exitOption.x - 15;
+		}
+	},
+
+	select: function () {
+		var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker_on');
+		bg_flicker.animations.add('anim');
+		bg_flicker.animations.play('anim', 16, false);
+		bg_flicker.events.onAnimationComplete.add(function () {
+			if(this.nextCorpSelected) {
+				Mainframe.corpDifficulty += 0.2;
+				this.state.start('MainScreen', true, false, true, null);
+			} else {
+				this.state.start('MainMenu');
+			}
+		}, this);
+	}
 };
