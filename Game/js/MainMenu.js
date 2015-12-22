@@ -67,6 +67,10 @@ Mainframe.MainMenu.prototype = {
 		space.onDown.add(this.select, this);
 
 		this.repositionSelector();
+
+		// Reset game variables
+		Mainframe.corpDifficulty = 1.0;
+		Mainframe.totalEarned = 0;
 	},
 
 	toggleSelection: function () {
@@ -89,11 +93,11 @@ Mainframe.MainMenu.prototype = {
 		if(this.gameSelected) {
 			var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker_on');
 			this.elementLayer.add(bg_flicker);
-			bg_flicker.animations.add('anim');	
+			bg_flicker.animations.add('anim');
 			bg_flicker.animations.play('anim', 16, false);
-			bg_flicker.events.onAnimationComplete.add(function () { 
+			bg_flicker.events.onAnimationComplete.add(function () {
 				this.state.start('MainScreen', true, false, true, null);
-			}, this);			
+			}, this);
 		} else {
 			this.state.start('Credits');
 		}

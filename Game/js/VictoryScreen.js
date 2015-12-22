@@ -21,7 +21,7 @@ Mainframe.VictoryScreen.prototype = {
 		this.game.add.bitmapText(333,285, 'green_font', 'Data Value: ', 28);
 		this.game.add.bitmapText(304,310, 'green_font', 'Total Earned: ', 28);
 
-		this.game.add.bitmapText(480, 260, 'green_font', '1.0x', 28);
+		this.game.add.bitmapText(480, 260, 'green_font', Mainframe.corpDifficulty.toFixed(1) + 'x', 28);
 
 		var percentage = 100 - ((3 - Mainframe.hackerProxies.length ) * 20)
 		var value = percentage * 48;
