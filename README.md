@@ -40,7 +40,7 @@ Can you jam with the console cowboys in cyberspace?
 
 - ~~Link up the subroutines to the main screen and implement lives (proxies), game over & game win states~~
 
-- Ensure all of the subroutines are repeatable - variable initalisation is not dependent on constructor
+- ~~Ensure all of the subroutines are repeatable - variable initalisation is not dependent on constructor~~
 
 - Clean up code + generalise common functions
 
