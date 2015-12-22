@@ -105,6 +105,7 @@ Mainframe.BotnetDDoS.prototype = {
 		this.serverLoadBar = this.game.add.sprite(262,214,'atlas', 'Subroutines/General/trace_bar_full.png');
 		this.serverLoadBar.height = 11;
 		this.serverLoadBar.width = 0;
+		this.serverLoad = 0;
 		this.elementLayer.add(this.serverLoadBar);
 		this.serverLastRecieved = this.game.time.now;
 
