@@ -38,7 +38,7 @@ Can you jam with the console cowboys in cyberspace?
 
 - ~~Implement subroutine tutorial screens~~
 
-- Link up the subroutines to the main screen and implement lives (proxies), game over & game win states
+- ~~Link up the subroutines to the main screen and implement lives (proxies), game over & game win states~~
 
 - Ensure all of the subroutines are repeatable - variable initalisation is not dependent on constructor
 
