@@ -112,6 +112,7 @@ Mainframe.SQLInject.prototype = {
         this.databaseBounds = new Phaser.Rectangle(databaseSprite.x+13,databaseSprite.y+13,databaseSprite.width-26,databaseSprite.height-26);
 
         this.blockBounds = [];
+		this.blocks = [];
 
         for (var i = 1; i <= 3; i++) {
             for (var x = 0; x < 5; x++) {
