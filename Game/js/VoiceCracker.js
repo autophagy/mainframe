@@ -21,7 +21,7 @@ Mainframe.VoiceCracker = function (game) {
 	this.waveHeights = null;
 	this.goalConfig = null;
 	this.playerConfig = null;
-	
+
 	this.music = null;
 
 	this.ready = false;
@@ -56,7 +56,7 @@ Mainframe.VoiceCracker.prototype = {
 			{
 				this.timerTime = this.game.time.now;
 				Mainframe.incTimer(this, true);
-			}			
+			}
 		}
 
     },
@@ -66,59 +66,59 @@ Mainframe.VoiceCracker.prototype = {
 		for (var i = 0; i < 20; i++) {
 			this.waveHeights.push(Math.random());
 		}
-		
+
 		this.goalConfig = [];
 		for (var i = 0; i < 3; i++) {
 			this.goalConfig[i] = Math.floor(Math.random()*4);
 		}
-				
+
 		this.playerConfig = [];
 		for (var i = 0; i < 3; i++) {
 			var v = this.goalConfig[i];
 			while (v == this.goalConfig[i]) {
 				v = Math.floor(Math.random()*4);
 			}
-			this.playerConfig[i] = v			
+			this.playerConfig[i] = v
 		}
-	
+
 		this.renderConfiguration(this.goalConfig[0], this.goalConfig[1], this.goalConfig[2], false);
-		
-		var dialNames = ['FREQUENCY', 'AMPLITUDE', 'WAVELENGTH'];
+
+		var dialNames = ['FREQUENCY', 'WAVELENGTH', 'AMPLITUDE'];
 		this.dials = [];
 		for (var i = 0; i < 3; i++) {
 			this.dials.push(new VoiceDial(this, 250+(179*i), 360, dialNames[i], this.playerConfig[i]));
 		}
-		
+
 		var cursors = this.game.input.keyboard.createCursorKeys();
 
 		cursors.left.onDown.add(function () { this.moveSelection(-1); }, this);
 		cursors.right.onDown.add(function () { this.moveSelection(1); }, this);
-		
+
 		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		space.onDown.add(this.turnDial, this);
     },
 
     initGame: function () {
-		this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function() { 
+		this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
 			Mainframe.initTimer(this, true);
 			this.renderConfiguration(this.playerConfig[0], this.playerConfig[1], this.playerConfig[2], true);
 			this.selectedDial = 0;
 			this.dials[this.selectedDial].toggleActive();
 		}, this);
     },
-	
-	renderConfiguration: function (frequency, amplitude, wavelength, active) {
+
+	renderConfiguration: function (frequency, wavelength, amplitude, active) {
 		var s = active ? 'active' : 'template';
 		var l = active ? this.activeLayer : this.templateLayer;
 		var a = 1 + ( (amplitude-1) * 0.2);
 		var w = 1 + ( (wavelength-1) * 0.2);
-		
+
 		l.removeAll(true);
-		
+
 		var bits = [];
-				
+
 		var initialX = (this.game.width/2) - ((((frequency+1) * 4)*((77 - Math.pow(10, w))*0.75))/2);
-		
+
 		for (var i = 0; i < (frequency+1)*4; i++) {
 					bits.push(this.game.add.sprite(initialX, 220,'atlas', 'Subroutines/Voice_Cracker/'+ s +'_freq.png'));
 					bits[i].anchor.setTo(0, 0.5);
@@ -127,17 +127,17 @@ Mainframe.VoiceCracker.prototype = {
 					bits[i].x = bits[i].x + ((bits[i].width*0.7) * i);
 					l.add(bits[i]);
 		}
-		
+
 		var base = this.game.add.sprite(200,220,'atlas', 'Subroutines/Voice_Cracker/'+ s +'_base.png');
 		Mainframe.centreSprite(base, this.game.width);
 		l.add(base);
-		base.anchor.setTo(0, 0.5);		
+		base.anchor.setTo(0, 0.5);
 	},
-	
+
 	updateActiveWave: function () {
 		this.renderConfiguration(this.playerConfig[0], this.playerConfig[1], this.playerConfig[2], true);
 	},
-	
+
 	validConfig: function () {
 		for (var i = 0; i < this.playerConfig.length; i++) {
 			if (this.playerConfig[i] != this.goalConfig[i]) {
@@ -146,17 +146,17 @@ Mainframe.VoiceCracker.prototype = {
 		}
 		return true;
 	},
-	
+
 	moveSelection: function (direction) {
 		if (this.ready) {
 			this.dials[this.selectedDial].toggleActive();
 			this.selectedDial += direction;
 			if (this.selectedDial < 0) this.selectedDial = 2;
 			if (this.selectedDial > 2) this.selectedDial = 0;
-			this.dials[this.selectedDial].toggleActive();		
+			this.dials[this.selectedDial].toggleActive();
 		}
 	},
-	
+
 	turnDial: function () {
 		if (this.ready) {
 			this.playerConfig[this.selectedDial]++;
@@ -170,18 +170,18 @@ Mainframe.VoiceCracker.prototype = {
 			}
 		}
 	},
-	
+
 	playWave: function(heights, wavelength) {
 		var tone = this.game.add.audio('voice_crack_tone');
 		tone.volume = heights[0];
 		heights.splice(0, 1);
 		if (heights.length > 0 )
 		{
-			tone.onStop.add(function () { this.playWave(heights, wavelength); }, this);	
+			tone.onStop.add(function () { this.playWave(heights, wavelength); }, this);
 		}
 		tone.play();
-		tone._sound.playbackRate.value = wavelength - 0.3;	
-		
+		tone._sound.playbackRate.value = wavelength - 0.3;
+
 	}
 
 };
@@ -198,22 +198,22 @@ var VoiceDial = (function () {
 		this.rotateDial(rotation);
 		this.text = context.game.add.bitmapText(x+(this.sprite.width/2)-5,y+110,'green_font', name, 23);
 		this.text.anchor.setTo(0.5, 0.5);
-		
+
 		this.context.dialLayer.add(this.sprite);
 		this.context.dialLayer.add(this.activeSprite);
 		this.context.dialLayer.add(this.dial);
 		this.context.dialLayer.add(this.text);
-		
+
     }
 
     VoiceDial.prototype.rotateDial = function (dialPosition) {
 		this.dial.angle = dialPosition*90;
     };
-	
+
 	VoiceDial.prototype.toggleActive = function () {
 		this.activeSprite.alpha = 1 - this.activeSprite.alpha;
 	};
 
- 
+
     return VoiceDial;
 })();
