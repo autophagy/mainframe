@@ -14,7 +14,7 @@ Mainframe.VoiceCracker = function (game) {
 	this.timerBlock = null;
 	this.timerTime = null;
 	this.timerStartTime = null;
-	this.timeLimit = Phaser.Timer.SECOND * 20;
+	this.timeLimit = Phaser.Timer.SECOND * 10;
 
 	this.dials = null;
 	this.selectedDial = null;
