@@ -27,6 +27,7 @@ Mainframe.Preloader.prototype = {
 
 		// Sounds
 		this.game.load.audio('intro_music', 'assets/sounds/mainframe_beep.mp3');
+		this.game.load.audio('flatline', 'assets/sounds/flatline.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
@@ -74,7 +75,7 @@ Mainframe.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			this.ready = true;
-			this.state.start('MainScreen', true, false, true, null);
+			this.state.start('MainMenu');
 		}
 
 	}

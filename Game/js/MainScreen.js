@@ -334,11 +334,15 @@ Mainframe.MainScreen.prototype = {
 		blackICE.animations.play('anim', 32, false);
 		blackICE.events.onAnimationComplete.add(function () {
 			this.game.time.events.add(Phaser.Timer.HALF, function () {
+				var flatlineSound = this.add.audio('flatline');
+				flatlineSound.play();
 				var death = this.game.add.sprite(0, 0, 'crash');
 				this.elementLayer.add(death);
 				death.animations.add('anim');
 				death.animations.play('anim', 2, false);
 				death.events.onAnimationComplete.add(function () {
+					flatlineSound.stop();
+					flatlineSound.destroy();
 					this.elementLayer.alpha = 0;
 					this.connectionLayer.alpha = 0;
 					this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function () {
