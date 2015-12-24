@@ -125,8 +125,12 @@ var Mainframe = {
         Mainframe.centreSprite(failureSign, context.game.width);
         failureSign.animations.add('anim');
         failureSign.animations.play('anim', 16, false);
+        var failureTone = context.add.audio('subroutine_failure');
+        failureTone.play();
 
 		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+            failureTone.stop();
+            failureTone.destroy();
 			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
 			context.timerLayer.add(bg_flicker);
 			bg_flicker.animations.add('anim');
