@@ -11,6 +11,8 @@ Mainframe.MainMenu = function (game) {
 	this.gameOption = null;
 	this.creditsOption = null;
 	this.selectionIcon = null;
+
+	this.selectionSound = null;
 };
 
 Mainframe.MainMenu.prototype = {
@@ -40,6 +42,8 @@ Mainframe.MainMenu.prototype = {
 			this.music.play();
 			this.firstBoot = false;
 		}
+
+		this.selectionSound = this.add.audio('selection');
 
 		var title = this.game.add.sprite(0, 100, 'mainframe_logo');
 		this.elementLayer.add(title);
@@ -74,6 +78,7 @@ Mainframe.MainMenu.prototype = {
 	},
 
 	toggleSelection: function () {
+		this.selectionSound.play();
 		this.gameSelected = !this.gameSelected;
 		this.repositionSelector();
 	},

@@ -15,6 +15,8 @@ Mainframe.VictoryScreen = function (game) {
 	this.selectionIcon = null;
 	this.nextCorpSelected = null;
 
+	this.selectionSound = null;
+
 };
 
 Mainframe.VictoryScreen.prototype = {
@@ -72,6 +74,8 @@ Mainframe.VictoryScreen.prototype = {
 
 		this.nextCorpSelected = true;
 
+		this.selectionSound = this.add.audio('selection');
+
 		this.repositionSelector();
 		var bg_flicker = this.game.add.sprite(0, 0, 'bg_flicker');
 		this.elementLayer.add(bg_flicker);
@@ -82,6 +86,7 @@ Mainframe.VictoryScreen.prototype = {
 	},
 
 	toggleSelection: function () {
+		this.selectionSound.play();
 		this.nextCorpSelected = !this.nextCorpSelected;
 		this.repositionSelector();
 	},

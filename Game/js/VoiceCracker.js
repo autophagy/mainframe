@@ -23,6 +23,7 @@ Mainframe.VoiceCracker = function (game) {
 	this.playerConfig = null;
 
 	this.music = null;
+	this.selectionSound = null;
 
 	this.ready = false;
 
@@ -96,6 +97,8 @@ Mainframe.VoiceCracker.prototype = {
 
 		var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		space.onDown.add(this.turnDial, this);
+
+		this.selectionSound = this.add.audio('selection');
     },
 
     initGame: function () {
@@ -159,6 +162,7 @@ Mainframe.VoiceCracker.prototype = {
 
 	turnDial: function () {
 		if (this.ready) {
+			this.selectionSound.play();
 			this.playerConfig[this.selectedDial]++;
 			if (this.playerConfig[this.selectedDial] > 3) this.playerConfig[this.selectedDial] = 0;
 			this.dials[this.selectedDial].rotateDial(this.playerConfig[this.selectedDial]);
