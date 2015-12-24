@@ -102,8 +102,12 @@ var Mainframe = {
         Mainframe.centreSprite(victorySign, context.game.width);
         victorySign.animations.add('anim');
         victorySign.animations.play('anim', 16, false);
+        var victoryTone = context.add.audio('subroutine_victory');
+        victoryTone.play();
 
 		context.game.time.events.add(Phaser.Timer.SECOND * 1.5, function() {
+            victoryTone.stop();
+            victoryTone.destroy();
 			var bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker_on');
 			context.timerLayer.add(bg_flicker);
 			bg_flicker.animations.add('anim');
