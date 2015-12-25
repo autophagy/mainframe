@@ -327,13 +327,17 @@ Mainframe.MainScreen.prototype = {
 	},
 
 	flatline: function () {
+		var blackICEWarning = this.add.audio('black_ice_warning');
+		blackICEWarning.play();
 		var blackICE = this.game.add.sprite(this.game.width/2, this.game.height/2, 'black_ice_detected');
 		blackICE.anchor.setTo(0.5, 0.5);
 		this.elementLayer.add(blackICE);
 		blackICE.animations.add('anim');
 		blackICE.animations.play('anim', 32, false);
 		blackICE.events.onAnimationComplete.add(function () {
-			this.game.time.events.add(Phaser.Timer.HALF, function () {
+			this.game.time.events.add(Phaser.Timer.HALF * 3, function () {
+				blackICEWarning.stop();
+				blackICEWarning.destroy();
 				var flatlineSound = this.add.audio('flatline');
 				flatlineSound.play();
 				var death = this.game.add.sprite(0, 0, 'crash');

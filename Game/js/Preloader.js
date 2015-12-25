@@ -31,6 +31,7 @@ Mainframe.Preloader.prototype = {
 		this.game.load.audio('subroutine_victory', 'assets/sounds/subroutine_victory.mp3');
 		this.game.load.audio('subroutine_failure', 'assets/sounds/subroutine_failure.mp3');
 		this.game.load.audio('selection', 'assets/sounds/selection.mp3');
+		this.game.load.audio('black_ice_warning', 'assets/sounds/black_ice_warning.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
