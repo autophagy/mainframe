@@ -79,7 +79,7 @@ Mainframe.MainScreen.prototype = {
 		var initText = this.game.add.bitmapText(30,50, 'green_font', '>', 25);
 		this.bootLayer.add(initText);
 
-		Mainframe.textScroll(this, initText, ' mainframe -target ' + Mainframe.corpName[1], 100, sequence);
+		Mainframe.textScroll(this, initText, ' mainframe -target ' + Mainframe.corpName[1], 100, false, sequence);
 	},
 
 	bootInitialiseSequence: function() {
@@ -404,7 +404,7 @@ Mainframe.MainScreen.prototype = {
 		this.ICEs[index].animations.play('anim', 3, true);
 
 		this.game.time.events.add(Phaser.Timer.HALF * 4, function () {
-			Mainframe.textScroll(this, this.inputField, Mainframe.subroutineSequence[Mainframe.subroutinePosition][1], 200, func);
+			Mainframe.textScroll(this, this.inputField, Mainframe.subroutineSequence[Mainframe.subroutinePosition][1], 200, false, func);
 		}, this);
 	},
 

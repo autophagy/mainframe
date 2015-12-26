@@ -142,10 +142,17 @@ var Mainframe = {
 
     },
 
-	textScroll : function (context, bitmapText, text, speed, nextFunc) {
+	textScroll : function (context, bitmapText, text, speed, mute, nextFunc) {
 		if (text.length > 0) {
-			bitmapText.text = bitmapText.text + text[0]
-			context.game.time.events.add(speed, function() { this.textScroll(context, bitmapText, text.substr(1), speed, nextFunc); }, this);
+			bitmapText.text = bitmapText.text + text[0];
+            var keyPress = context.add.audio('key_press_' + Math.floor(Math.random()*6));
+            keyPress.volume = 0.1;
+            if (!mute) keyPress.play();
+			context.game.time.events.add(speed, function() {
+                keyPress.stop();
+                keyPress.destroy();
+                this.textScroll(context, bitmapText, text.substr(1), speed, mute, nextFunc);
+            }, this);
 
 		} else if (nextFunc != null) {
 			nextFunc();
