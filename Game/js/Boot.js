@@ -155,6 +155,9 @@ var Mainframe = {
             }, this);
 
 		} else if (nextFunc != null) {
+            var enter = context.add.audio('key_press_5');
+            enter.volume = 0.5;
+            if (!mute) enter.play();
 			nextFunc();
 		}
 	},
