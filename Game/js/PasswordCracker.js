@@ -24,6 +24,8 @@ Mainframe.PasswordCracker = function (game) {
 	this.passwordCompleteText = null;
 	this.password = null;
 
+	this.characterCrackedSound = null;
+
 	this.ready = false;
 
 };
@@ -37,9 +39,9 @@ Mainframe.PasswordCracker.prototype = {
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-		var t = '> man PHIL_THE_RIPPER';
+		var t = '> man JOHN_THE_RIPPER';
 		t += '\n\nNAME'
-		t += '\n	PHIL_THE_RIPPER - Bruteforce password cracker';
+		t += '\n	JOHN_THE_RIPPER - Bruteforce password cracker';
 		t += '\n\nDESCRIPTION'
 		t += '\n	The finest bruteforce cracker money can buy.\n	Mash those keys!';
 
@@ -86,6 +88,8 @@ Mainframe.PasswordCracker.prototype = {
 		this.game.input.keyboard.onUpCallback = (function () {
 			this.incChar();
 		}.bind(this));
+
+		this.characterCrackedSound = this.add.audio('character_cracked');
 	},
 
 	loginScreenPicker: function () {
@@ -171,6 +175,10 @@ Mainframe.PasswordCracker.prototype = {
 			this.keyCount += 1;
 			if (this.keyCount == this.maxKey)
 			{
+				if (this.currentChar < this.password.length - 1) {
+					this.characterCrackedSound.play();
+					this.characterCrackedSound._sound.playbackRate.value = 1 + (this.currentChar/this.password.length);
+				}
 				this.keyCount = 0;
 				this.passwordCompleteText.text = this.passwordCompleteText.text.substr(0,this.currentChar) + this.password[this.currentChar];
 				this.nextChar();
