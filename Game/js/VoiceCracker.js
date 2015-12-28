@@ -102,7 +102,7 @@ Mainframe.VoiceCracker.prototype = {
     },
 
     initGame: function () {
-		this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function() {
+		this.game.time.events.add(Phaser.Timer.SECOND, function() {
 			Mainframe.initTimer(this, true);
 			this.renderConfiguration(this.playerConfig[0], this.playerConfig[1], this.playerConfig[2], true);
 			this.selectedDial = 0;
