@@ -147,8 +147,10 @@ Mainframe.Worm.prototype = {
 				return false;
 			}
 		}
-		
+
 		if (!this.movementSound.isPlaying) this.movementSound.play();
+		var distance = Math.sqrt(Math.pow(newX - this.goalBounds.x, 2) + Math.pow(newY - this.goalBounds.y, 2));
+		this.movementSound._sound.playbackRate.value = 1 + (1 - (distance/850));
 		return true;
 	},
 
