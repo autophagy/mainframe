@@ -25,8 +25,8 @@ Mainframe.MainMenu.prototype = {
 
 		if(this.firstBoot) {
 			// I'm sorry, but this is a requirement.
-			this.cyberpunkText = this.game.add.bitmapText(0,100,'green_font', 'This is dedicated to all those\ncyberpunks who fight against injustice\nevery day of their lives.', 30);
-			Mainframe.centreText(this.cyberpunkText, this.game.width);
+			this.cyberpunkText = this.game.add.bitmapText(73,100,'green_font', 'This is dedicated to all those\ncyberpunks who fight against injustice\nevery day of their lives.', 45);
+			this.cyberpunkText.align = 'center';
 			this.elementLayer.add(this.cyberpunkText);
 			this.game.time.events.add(Phaser.Timer.SECOND * 3, this.renderMainMenu, this);
 		} else
