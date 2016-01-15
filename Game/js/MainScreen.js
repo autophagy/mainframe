@@ -125,10 +125,13 @@ Mainframe.MainScreen.prototype = {
 					this.elementLayer.add(proxy);
 					proxy.animations.add('anim');
 					proxy.animations.play('anim', 32, false);
+					this.s = this.add.audio('proxy_enabled');
+					this.s.play();
 
 					if(offset == 2) {
 						proxy.events.onAnimationComplete.add(function() {
 						this.setupProxyDisplay();
+						this.corpInitialiseAnimate();
 						}, this);
 					}
 
@@ -169,13 +172,42 @@ Mainframe.MainScreen.prototype = {
 		this.ICEs = [];
 		this.ICEConns = [];
 
-		if (this.firstBoot) {
-			var func = function(offset) {
+		if (!this.firstBoot) {
+			for (var i = 0; i < 5; i++) {
+				if (i < (5-Mainframe.remainingICE)) {
+					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/broken_ICE.png');
+					var conn = this.game.add.sprite(473 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
+					conn.width += 6;
+					this.connectionLayer.add(conn);
+					var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
+				} else {
+					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/ICE.png');
+					if (i == 4) {
+						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_inactive.png');
+					} else {
+						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_inactive.png');
+					}
+
+				}
+				this.elementLayer.add(ICE);
+				this.connectionLayer.add(ICEConn);
+				this.ICEs.push(ICE);
+				this.ICEConns.push(ICEConn);
+			}
+		}
+	},
+	
+	// Post-proxy set up
+	corpInitialiseAnimate: function () {
+		var func = function(offset) {
 				this.game.time.events.add(Phaser.Timer.HALF + (150*offset), function () {
 					var ICE = this.game.add.sprite(461 + (46*offset), 136, 'ICE_activate');
 					this.elementLayer.add(ICE);
 					ICE.animations.add('anim');
 					ICE.animations.play('anim', 32, false);
+					
+					this.s = this.add.audio('ICE_enabled');
+					this.s.play();
 
 					this.ICEs.push(ICE);
 
@@ -204,29 +236,6 @@ Mainframe.MainScreen.prototype = {
 
 			Mainframe.remainingICE = 5;
 
-		} else {
-			for (var i = 0; i < 5; i++) {
-				if (i < (5-Mainframe.remainingICE)) {
-					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/broken_ICE.png');
-					var conn = this.game.add.sprite(473 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
-					conn.width += 6;
-					this.connectionLayer.add(conn);
-					var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_active.png');
-				} else {
-					var ICE = this.game.add.sprite(461 + (46*i), 136, 'atlas', 'Main_Screen/Corp/ICE.png');
-					if (i == 4) {
-						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-MF_inactive.png');
-					} else {
-						var ICEConn = this.game.add.sprite(499 + (46*i), 224, 'atlas', 'Main_Screen/Corp/ICE-ICE_inactive.png');
-					}
-
-				}
-				this.elementLayer.add(ICE);
-				this.connectionLayer.add(ICEConn);
-				this.ICEs.push(ICE);
-				this.ICEConns.push(ICEConn);
-			}
-		}
 	},
 
 	removeICE: function() {

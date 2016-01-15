@@ -39,6 +39,8 @@ Mainframe.Preloader.prototype = {
 		this.game.load.audio('key_press_4', 'assets/sounds/key_press_4.mp3');
 		this.game.load.audio('key_press_5', 'assets/sounds/key_press_5.mp3');
 		this.game.load.audio('character_cracked', 'assets/sounds/character_cracked.mp3');
+		this.game.load.audio('ICE_enabled', 'assets/sounds/iceenabled.mp3');
+		this.game.load.audio('proxy_enabled', 'assets/sounds/proxyenabled.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
