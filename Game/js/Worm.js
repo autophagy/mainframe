@@ -24,6 +24,7 @@ Mainframe.Worm = function (game) {
 	this.cursors = [];
 
 	this.music = null;
+	this.movementSound = null;
 
 	this.ready = false;
 
@@ -37,6 +38,9 @@ Mainframe.Worm.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
+		
+		this.movementSound = this.add.audio('worm_movement', 1, true);
+
 
 		var t = '> man YOURDOOM';
 		t += '\n\nNAME'
@@ -83,6 +87,8 @@ Mainframe.Worm.prototype = {
 					if(this.validMove(this.player.x, this.player.y + 10)) {
 						this.movePlayer(this.player.x, this.player.y + 10);
 					}
+				} else {
+					this.movementSound.stop();
 				}
 
 				this.lastPlayerMove = this.game.time.now;
@@ -92,6 +98,8 @@ Mainframe.Worm.prototype = {
 				this.ready = false;
 				Mainframe.subroutineVictory(this);
 			}
+		} else {
+			this.movementSound.stop();
 		}
 
     },
@@ -127,6 +135,7 @@ Mainframe.Worm.prototype = {
 		// Player trail collision
 		for (var i = 0; i < this.playerBounds.length; i++) {
 			if (Phaser.Rectangle.intersects(newBound, this.playerBounds[i])) {
+				this.movementSound.stop();
 				return false;
 			}
 		}
@@ -134,10 +143,12 @@ Mainframe.Worm.prototype = {
 		// Maze wall collision
 		for (var i = 0; i < this.mazeBounds.length; i++) {
 			if (Phaser.Rectangle.intersects(newBound, this.mazeBounds[i])) {
+				this.movementSound.stop();
 				return false;
 			}
 		}
-
+		
+		if (!this.movementSound.isPlaying) this.movementSound.play();
 		return true;
 	},
 
