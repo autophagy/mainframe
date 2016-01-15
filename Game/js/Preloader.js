@@ -11,17 +11,13 @@ Mainframe.Preloader.prototype = {
 
 		this.game.stage.backgroundColor = '#1b1b1b';
 
-		this.loadingText = this.game.add.bitmapText(200,270, 'green_font', 'Loading...', 30);
+		this.loadingText = this.game.add.bitmapText(200,30, 'green_font', 'Loading...', 30);
 		Mainframe.centreText(this.loadingText, this.game.width);
 
-		this.game.add.sprite(0,0,'monitor');
-
-
-		//	This sets the preloadBar sprite as a loader sprite.
-		//	What that does is automatically crop the sprite from 0 to full-width
-		//	as the files below are loaded in.
-		//IMPORTANT
-		//this.load.setPreloadSprite(this.preloadBar);
+		this.game.add.sprite(35,50,'loading_bar_empty');
+		this.game.load.setPreloadSprite(this.game.add.sprite(52,67,'loading_bar_full'));
+		
+		this.game.add.sprite(0,0,'monitor');		
 
 		this.game.load.atlasJSONHash('atlas', 'assets/sprites/mainframe_sprites.png', 'assets/sprites/mainframe_sprites.json');
 
