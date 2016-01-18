@@ -38,6 +38,8 @@ Mainframe.Preloader.prototype = {
 		this.game.load.audio('ICE_enabled', 'assets/sounds/iceenabled.mp3');
 		this.game.load.audio('proxy_enabled', 'assets/sounds/proxyenabled.mp3');
 		this.game.load.audio('worm_movement', 'assets/sounds/worm_movement.mp3');
+		this.game.load.audio('paddle_hit', 'assets/sounds/paddle_hit.mp3');
+		this.game.load.audio('block_hit', 'assets/sounds/block_hit.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);

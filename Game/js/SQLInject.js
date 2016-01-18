@@ -30,9 +30,9 @@ Mainframe.SQLInject = function (game) {
 
     this.databaseBounds = null;
 
-    // Ball variables
-
 	this.music = null;
+	this.paddleHitSound = null;
+	this.blockHitSound = null;
 
 	this.ready = false;
 
@@ -95,6 +95,8 @@ Mainframe.SQLInject.prototype = {
 	setupGame: function () {
 		this.generateBlocks();
         this.cursors = this.game.input.keyboard.createCursorKeys();
+		this.paddleHitSound = this.add.audio('paddle_hit');
+		this.blockHitSound = this.add.audio('block_hit');
 	},
 
 	initGame: function () {
@@ -146,6 +148,8 @@ Mainframe.SQLInject.prototype = {
 				this.blocks[i].destroy();
 				this.blocks.splice(i, 1);
 				this.blockBounds.splice(i, 1);
+				this.blockHitSound.play();
+				this.blockHitSound._sound.playbackRate.value = 1 + (Math.random()*0.2);
 				break;
 			}
 		}
@@ -154,10 +158,13 @@ Mainframe.SQLInject.prototype = {
 		if (Phaser.Rectangle.intersects(this.injectionBounds, this.wallBounds[0]) || Phaser.Rectangle.intersects(this.injectionBounds, this.wallBounds[1])) {
 			this.injectionVelocity.x = this.injectionVelocity.x * -1;
 		}
-
+		
+		// Check paddle bounds
 		if (Phaser.Rectangle.intersects(this.injectionBounds, this.playerBounds)) {
 			this.injectionVelocity.y = this.injectionVelocity.y * -1;
 			this.injectionVelocity.x = this.injectionVelocity.x + ((this.injectionBounds.x + (this.injectionBounds.width/2)) - (this.playerBounds.x + (this.playerBounds.width/2)))/10;
+			this.paddleHitSound.play();
+			this.paddleHitSound._sound.playbackRate.value = 1 + (Math.random()*0.2);
 		}
 
 		// Check fail collisions
