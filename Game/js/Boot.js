@@ -18,6 +18,9 @@ var Mainframe = {
 
 	corpDifficulty: 1.0,
 	totalEarned: 0,
+	
+	// Global sounds & Music
+	fanLoop: null,
 
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);

@@ -60,7 +60,9 @@ Mainframe.MainScreen.prototype = {
 	bootSequence: function() {
 		var sequence = function () {
 			var timer = 0;
-			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25)); }, this);
+			var startUpSound = this.add.audio('start_up');
+			
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25)); startUpSound.play(); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,100, 'green_font', 'Establishing proxies . . .', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,125, 'green_font', 'Connecting to ' + Mainframe.hackerProxies[0], 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.HALF, function () { this.bootLayer.add(this.game.add.bitmapText(50,150, 'green_font', 'Proxy 0 CONNECTED', 25)); }, this);
@@ -73,7 +75,7 @@ Mainframe.MainScreen.prototype = {
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,325, 'green_font', 'ICE-Breaks LOADED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,350, 'green_font', 'Trace detector INITIALISED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,375, 'green_font', 'Booting MAINFRAME', 25)); }, this);
-			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, this.bootInitialiseSequence, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { startUpSound.stop(); startUpSound.destroy(); Mainframe.fanLoop.play(); this.bootInitialiseSequence(); }, this);
 		}.bind(this);
 
 		var initText = this.game.add.bitmapText(30,50, 'green_font', '>', 25);
@@ -286,6 +288,7 @@ Mainframe.MainScreen.prototype = {
 				banner.animations.add('anim');
 				banner.animations.play('anim', 2, false);
 				banner.events.onAnimationComplete.add(function () {
+					Mainframe.fanLoop.stop();
 					this.state.start('VictoryScreen');
 				}, this);
 			}, this);
@@ -356,6 +359,7 @@ Mainframe.MainScreen.prototype = {
 				death.events.onAnimationComplete.add(function () {
 					flatlineSound.stop();
 					flatlineSound.destroy();
+					Mainframe.fanLoop.stop();
 					this.elementLayer.alpha = 0;
 					this.connectionLayer.alpha = 0;
 					this.game.time.events.add(Phaser.Timer.SECOND * 1.5, function () {
