@@ -16,8 +16,8 @@ Mainframe.Preloader.prototype = {
 
 		this.game.add.sprite(35,50,'loading_bar_empty');
 		this.game.load.setPreloadSprite(this.game.add.sprite(52,67,'loading_bar_full'));
-		
-		this.game.add.sprite(0,0,'monitor');		
+
+		this.game.add.sprite(0,0,'monitor');
 
 		this.game.load.atlasJSONHash('atlas', 'assets/sprites/mainframe_sprites.png', 'assets/sprites/mainframe_sprites.json');
 
@@ -42,6 +42,9 @@ Mainframe.Preloader.prototype = {
 		this.game.load.audio('block_hit', 'assets/sounds/block_hit.mp3');
 		this.game.load.audio('start_up', 'assets/sounds/start_up.mp3');
 		this.game.load.audio('fan_loop', 'assets/sounds/fan_loop.mp3');
+
+		// Music
+		this.game.load.audio('main_music_1', 'assets/music/The Way Out.mp3');
 
 		// Animations
 		this.game.load.spritesheet('bg_flicker', 'assets/animations/bg_flicker.png', 960, 540, 7);
@@ -89,6 +92,7 @@ Mainframe.Preloader.prototype = {
 		if (this.cache.isSoundDecoded('intro_music') && this.ready == false)
 		{
 			Mainframe.fanLoop = this.add.audio('fan_loop', 1, true);
+			Mainframe.mainMusic = this.add.audio('main_music_1', 1, true);
 			this.ready = true;
 			this.state.start('MainMenu');
 		}

@@ -61,7 +61,7 @@ Mainframe.MainScreen.prototype = {
 		var sequence = function () {
 			var timer = 0;
 			var startUpSound = this.add.audio('start_up');
-			
+
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,75, 'green_font', 'Initialising . . .', 25)); startUpSound.play(); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,100, 'green_font', 'Establishing proxies . . .', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER, function () { this.bootLayer.add(this.game.add.bitmapText(50,125, 'green_font', 'Connecting to ' + Mainframe.hackerProxies[0], 25)); }, this);
@@ -75,7 +75,13 @@ Mainframe.MainScreen.prototype = {
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,325, 'green_font', 'ICE-Breaks LOADED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,350, 'green_font', 'Trace detector INITIALISED', 25)); }, this);
 			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { this.bootLayer.add(this.game.add.bitmapText(50,375, 'green_font', 'Booting MAINFRAME', 25)); }, this);
-			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () { startUpSound.stop(); startUpSound.destroy(); Mainframe.fanLoop.play(); this.bootInitialiseSequence(); }, this);
+			this.game.time.events.add(timer = timer + Phaser.Timer.QUARTER/2, function () {
+				startUpSound.stop();
+				startUpSound.destroy();
+				Mainframe.fanLoop.play();
+				Mainframe.mainMusic.play();
+				this.bootInitialiseSequence();
+			}, this);
 		}.bind(this);
 
 		var initText = this.game.add.bitmapText(30,50, 'green_font', '>', 25);
@@ -198,7 +204,7 @@ Mainframe.MainScreen.prototype = {
 			}
 		}
 	},
-	
+
 	// Post-proxy set up
 	corpInitialiseAnimate: function () {
 		var func = function(offset) {
@@ -207,7 +213,7 @@ Mainframe.MainScreen.prototype = {
 					this.elementLayer.add(ICE);
 					ICE.animations.add('anim');
 					ICE.animations.play('anim', 32, false);
-					
+
 					this.s = this.add.audio('ICE_enabled');
 					this.s.play();
 
@@ -289,6 +295,7 @@ Mainframe.MainScreen.prototype = {
 				banner.animations.play('anim', 2, false);
 				banner.events.onAnimationComplete.add(function () {
 					Mainframe.fanLoop.stop();
+					Mainframe.mainMusic.stop();
 					this.state.start('VictoryScreen');
 				}, this);
 			}, this);
@@ -339,6 +346,7 @@ Mainframe.MainScreen.prototype = {
 	},
 
 	flatline: function () {
+		Mainframe.mainMusic.stop();
 		var blackICEWarning = this.add.audio('black_ice_warning');
 		blackICEWarning.play();
 		var blackICE = this.game.add.sprite(this.game.width/2, this.game.height/2, 'black_ice_detected');

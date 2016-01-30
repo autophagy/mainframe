@@ -18,9 +18,10 @@ var Mainframe = {
 
 	corpDifficulty: 1.0,
 	totalEarned: 0,
-	
+
 	// Global sounds & Music
 	fanLoop: null,
+  mainMusic: null,
 
     centreSprite: function(sprite, width) {
     		sprite.x = (width/2) - Math.floor(sprite.width/2);
@@ -78,25 +79,27 @@ var Mainframe = {
     },
 
     setupTutorial: function(context, tutorial, setup) {
-        context.tutorialLayer.add(context.game.add.bitmapText(30,50, 'green_font', tutorial, 25));
+      Mainframe.mainMusic.volume = 0.25;
+      context.tutorialLayer.add(context.game.add.bitmapText(30,50, 'green_font', tutorial, 25));
 
-		context.tutorialLayer.add(Mainframe.centreText(context.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), context.game.width));
+		  context.tutorialLayer.add(Mainframe.centreText(context.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), context.game.width));
 
-		var space = context.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-		space.onDown.addOnce(function () {
-			context.tutorialLayer.removeAll();
-			bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker');
-			context.tutorialLayer.add(bg_flicker);
-			bg_flicker.animations.add('anim');
-			bg_flicker.events.onAnimationComplete.add(function() {
-				context.tutorialLayer.removeAll();
-				context.initGame();
-			}, context);
+  		var space = context.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+  		space.onDown.addOnce(function () {
+  			context.tutorialLayer.removeAll();
+  			bg_flicker = context.game.add.sprite(0, 0, 'bg_flicker');
+  			context.tutorialLayer.add(bg_flicker);
+  			bg_flicker.animations.add('anim');
+  			bg_flicker.events.onAnimationComplete.add(function() {
+          Mainframe.mainMusic.volume = 1;
+  				context.tutorialLayer.removeAll();
+  				context.initGame();
+  			}, context);
 
-            context.setupGame();
+        context.setupGame();
 
-			bg_flicker.animations.play('anim', 16, false);
-        }, context);
+			  bg_flicker.animations.play('anim', 16, false);
+      }, context);
     },
 
     subroutineVictory: function(context) {
