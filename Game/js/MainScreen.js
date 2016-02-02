@@ -304,12 +304,17 @@ Mainframe.MainScreen.prototype = {
 
 	removeProxy: function() {
 		var index = Mainframe.hackerProxies.length - 1;
+		var proxyRemoved = this.add.audio('proxy_removed');
+		proxyRemoved.play();
+		console.log('whe');
 		this.proxies[index].destroy();
 		this.proxies[index] = this.game.add.sprite(176 + (38*index), 136, 'proxy_deactivate');
 		this.elementLayer.add(this.proxies[index]);
 		this.proxies[index].animations.add('anim');
 		this.proxies[index].animations.play('anim', 32, false);
 		this.proxies[index].events.onAnimationComplete.add(function () {
+			proxyRemoved.stop();
+			proxyRemoved.destroy();
 			Mainframe.hackerProxies.splice(Mainframe.hackerProxies.length - 1, 1);
 			this.refreshProxyDisplay();
 			if (Mainframe.hackerProxies.length == 0) {
@@ -499,7 +504,6 @@ Mainframe.MainScreen.prototype = {
 
 	generateSubroutineSequence: function () {
 		var subroutines = [ ['PasswordCracker', 'JOHN_THE_RIPPER'], ['Firewall', 'HOLEPUNCH'], ['Worm', 'YOURDOOM'], ['SQLInject', 'DB_BREAKER'], ['BotnetDDoS', 'SWARMNET'], ['StackOverflow', 'STACK_SMASHER'], ['PacketSniffer', 'CONN_SHARK'], ['VoiceCracker', 'MIMIC'] ];
-		subroutines = [ ['Firewall', 'CUMPIG']];
 		subroutines = Mainframe.shuffleArray(subroutines);
 
 		Mainframe.subroutineSequence = subroutines;
