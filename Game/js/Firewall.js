@@ -26,6 +26,7 @@ Mainframe.Firewall = function (game) {
 	this.cursors = null;
 
 	this.music = null;
+	this.movementSound = null;
 
 	this.ready = false;
 };
@@ -38,6 +39,8 @@ Mainframe.Firewall.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
+
+		this.movementSound = this.add.audio('worm_movement', 1, true);
 
 		var t = '> man HOLEPUNCH';
 		t += '\n\nNAME'
@@ -65,6 +68,7 @@ Mainframe.Firewall.prototype = {
 				if (this.player.x >= 35) {
 					this.player.x -= this.playerSpeed;
 					this.playerBounds.x -= this.playerSpeed;
+					this.movementSound.play();
 				}
 			}
 			else if (this.cursors.right.isDown)
@@ -72,7 +76,11 @@ Mainframe.Firewall.prototype = {
 				if (this.player.right <= 925.5) {
 					this.player.x += this.playerSpeed;
 					this.playerBounds.x += this.playerSpeed;
+					this.movementSound.play();
 				}
+			}
+			else {
+				this.movementSound.stop();
 			}
 
 			// Moves the bars. Although maybe tweening would be better?
@@ -110,6 +118,8 @@ Mainframe.Firewall.prototype = {
 				}
 			}
 
+		} else {
+			this.movementSound.stop();
 		}
     },
 

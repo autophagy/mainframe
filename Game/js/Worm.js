@@ -38,8 +38,8 @@ Mainframe.Worm.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
-		
-		this.movementSound = this.add.audio('worm_movement', 1, true);
+
+		this.movementSound = this.add.audio('movement', 1, true);
 
 
 		var t = '> man YOURDOOM';

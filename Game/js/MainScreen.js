@@ -499,6 +499,7 @@ Mainframe.MainScreen.prototype = {
 
 	generateSubroutineSequence: function () {
 		var subroutines = [ ['PasswordCracker', 'JOHN_THE_RIPPER'], ['Firewall', 'HOLEPUNCH'], ['Worm', 'YOURDOOM'], ['SQLInject', 'DB_BREAKER'], ['BotnetDDoS', 'SWARMNET'], ['StackOverflow', 'STACK_SMASHER'], ['PacketSniffer', 'CONN_SHARK'], ['VoiceCracker', 'MIMIC'] ];
+		subroutines = [ ['Firewall', 'CUMPIG']];
 		subroutines = Mainframe.shuffleArray(subroutines);
 
 		Mainframe.subroutineSequence = subroutines;
