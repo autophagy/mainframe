@@ -6,6 +6,7 @@ Mainframe.MainScreen = function (game) {
 	this.monitorLayer = null;
 
 	this.music = null;
+	this.entityRemoved = null;
 
 	this.subroutineReturn = null;
 	this.firstBoot = null;
@@ -37,6 +38,8 @@ Mainframe.MainScreen.prototype = {
 		this.bootLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
+
+		this.entityRemoved = this.add.audio('entity_removed');
 
 		if (this.firstBoot) {
 			this.firstBootInit();
@@ -248,6 +251,7 @@ Mainframe.MainScreen.prototype = {
 
 	removeICE: function() {
 		var index = 5 - Mainframe.remainingICE;
+		this.entityRemoved.play();
 		this.ICEs[index].destroy();
 		this.ICEs[index] = this.game.add.sprite(461 + (46*index), 136, 'ICE_broken');
 		this.elementLayer.add(this.ICEs[index]);
@@ -304,17 +308,13 @@ Mainframe.MainScreen.prototype = {
 
 	removeProxy: function() {
 		var index = Mainframe.hackerProxies.length - 1;
-		var proxyRemoved = this.add.audio('proxy_removed');
-		proxyRemoved.play();
-		console.log('whe');
+		this.entityRemoved.play();
 		this.proxies[index].destroy();
 		this.proxies[index] = this.game.add.sprite(176 + (38*index), 136, 'proxy_deactivate');
 		this.elementLayer.add(this.proxies[index]);
 		this.proxies[index].animations.add('anim');
 		this.proxies[index].animations.play('anim', 32, false);
 		this.proxies[index].events.onAnimationComplete.add(function () {
-			proxyRemoved.stop();
-			proxyRemoved.destroy();
 			Mainframe.hackerProxies.splice(Mainframe.hackerProxies.length - 1, 1);
 			this.refreshProxyDisplay();
 			if (Mainframe.hackerProxies.length == 0) {
