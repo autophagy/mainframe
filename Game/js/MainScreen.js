@@ -136,7 +136,7 @@ Mainframe.MainScreen.prototype = {
 					this.elementLayer.add(proxy);
 					proxy.animations.add('anim');
 					proxy.animations.play('anim', 32, false);
-					this.s = this.add.audio('proxy_enabled');
+					this.s = this.add.audio('entity_enabled');
 					this.s.play();
 
 					if(offset == 2) {

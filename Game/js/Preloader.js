@@ -36,7 +36,7 @@ Mainframe.Preloader.prototype = {
 		this.game.load.audio('key_press_5', 'assets/sounds/key_press_5.mp3');
 		this.game.load.audio('character_cracked', 'assets/sounds/character_cracked.mp3');
 		this.game.load.audio('ICE_enabled', 'assets/sounds/iceenabled.mp3');
-		this.game.load.audio('proxy_enabled', 'assets/sounds/proxyenabled.mp3');
+		this.game.load.audio('entity_enabled', 'assets/sounds/entity_enabled.mp3');
 		this.game.load.audio('entity_removed', 'assets/sounds/entity_removed.mp3');
 		this.game.load.audio('movement', 'assets/sounds/movement.mp3');
 		this.game.load.audio('paddle_hit', 'assets/sounds/paddle_hit.mp3');

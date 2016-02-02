@@ -27,6 +27,9 @@ Mainframe.BotnetDDoS = function (game) {
 	this.serverPacketSize = 60;
 
 	this.music = null;
+	this.packetSound = null;
+	this.offlineSound = null;
+	this.onlineSound = null;
 
 	this.ready = false;
 
@@ -36,19 +39,23 @@ Mainframe.BotnetDDoS.prototype = {
 
 	create: function () {
 		this.elementLayer = this.game.add.group();
-        this.tutorialLayer = this.game.add.group();
+    this.tutorialLayer = this.game.add.group();
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
 
-        var t = '> man SWARMNET';
+		this.packetSound = this.add.audio('paddle_hit');
+		this.offlineSound = this.add.audio('entity_removed');
+		this.onlineSound = this.add.audio('entity_enabled');
+
+    var t = '> man SWARMNET';
 		t += '\n\nNAME'
 		t += '\n	SWARMNET - Remote botnet with DDoS capabilities';
 		t += '\n\nDESCRIPTION'
 		t += '\n	Use numeric keys 1-5 to send a packet from a host in your botnet.';
-        t += '\n	Send enough packets at the target server to knock it offline.';
-        t += '\n	Sending packets too quickly will result in your bandwidth being';
-        t += '\n	reached, and it will be temporarily disabled';
+		t += '\n	Send enough packets at the target server to knock it offline.';
+		t += '\n	Sending packets too quickly will result in your bandwidth being';
+		t += '\n	reached, and it will be temporarily disabled';
 
 		Mainframe.setupTutorial(this, t);
 	},
@@ -124,24 +131,26 @@ var Bot = (function () {
     function Bot(context, x, y, num) {
         this.context = context;
         this.sprite = context.game.add.sprite(x,y,'atlas', 'Subroutines/DDOS/online_bot.png');
-		context.elementLayer.add(this.sprite);
+				context.elementLayer.add(this.sprite);
 
-		this.disabledSprite = null;
+				this.disabledSprite = null;
         this.bandwidth = 0;
-		this.enabled = true;
+				this.enabled = true;
 
         this.bandwidthBar = context.game.add.sprite(x+40,y+95,'atlas', 'Subroutines/General/trace_bar_full.png');
-		context.elementLayer.add(this.bandwidthBar);
-		this.bandwidthBar.width = 0;
-		this.bandwidthBar.height = 4;
+				context.elementLayer.add(this.bandwidthBar);
+				this.bandwidthBar.width = 0;
+				this.bandwidthBar.height = 4;
 
-		this.botText = context.game.add.bitmapText(x+38,y+110,'green_font', 'BOT'+num, 30);
+				this.botText = context.game.add.bitmapText(x+38,y+110,'green_font', 'BOT'+num, 30);
 
         this.timeSinceSent = context.game.time.now;
     }
 
     Bot.prototype.sendPacket = function () {
 		if (this.enabled && this.context.ready) {
+			this.context.packetSound.play();
+			this.context.packetSound._sound.playbackRate.value = 1 + ((this.bandwidth / this.context.botBandwidthLimit) * 2);
 			this.timeSinceSent = this.context.game.time.now;
 			this.bandwidth += this.context.botPacketSize;
 
@@ -165,8 +174,8 @@ var Bot = (function () {
 
     Bot.prototype.decBandwidth = function () {
         this.bandwidth -= Math.pow(1.1, (this.context.game.time.now - this.timeSinceSent)/1000) - 1;
-		this.bandwidth = this.bandwidth < 0 ? 0 : this.bandwidth;
-		this.refreshBandwidth();
+				this.bandwidth = this.bandwidth < 0 ? 0 : this.bandwidth;
+				this.refreshBandwidth();
     };
 
 	Bot.prototype.refreshBandwidth = function () {
@@ -174,21 +183,23 @@ var Bot = (function () {
 	};
 
     Bot.prototype.disable = function () {
-		this.enabled = false;
-		this.disabledSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_offline');
+			this.enabled = false;
+			this.context.offlineSound.play();
+			this.disabledSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_offline');
     	this.context.elementLayer.add(this.disabledSprite);
-		this.sprite.alpha = 0;
-		this.botText.alpha = 0;
-		this.bandwidthBar.alpha = 0;
+			this.sprite.alpha = 0;
+			this.botText.alpha = 0;
+			this.bandwidthBar.alpha = 0;
     	this.disabledSprite.animations.add('anim');
     	this.disabledSprite.animations.play('anim', 32, false);
     	this.disabledSprite.events.onAnimationComplete.add(function() {
 			this.context.game.time.events.add(Phaser.Timer.SECOND * 7, function() {
 				this.disabledSprite.destroy();
+				this.context.onlineSound.play();
 				this.disabledSprite =this. context.game.add.sprite(this.sprite.x, this.sprite.y, 'bot_online');
-		    	this.context.elementLayer.add(this.disabledSprite);
-		    	this.disabledSprite.animations.add('anim');
-		    	this.disabledSprite.animations.play('anim', 32, false);
+		    this.context.elementLayer.add(this.disabledSprite);
+		    this.disabledSprite.animations.add('anim');
+		    this.disabledSprite.animations.play('anim', 32, false);
 				this.disabledSprite.events.onAnimationComplete.add(function() {
 					this.disabledSprite.destroy();
 					this.sprite.alpha = 1;
