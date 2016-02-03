@@ -14,18 +14,18 @@ Mainframe.PacketSniffer = function (game) {
 	this.timerTime = null;
 	this.timerStartTime = null;
 	this.timeLimit = Phaser.Timer.SECOND * 20;
-	
+
 	this.playerSkull = null;
 	this.packetBar = null;
 	this.sniffer = null;
 	this.packetsCaptured = null;
 	this.packetGoal = 5;
-	
+
 	this.streams = null;
 	this.streamsInit = null;
-	
 
 	this.music = null;
+	this.packetCapturedSound = null;
 
 	this.ready = false;
 	this.enabled = false;
@@ -41,6 +41,8 @@ Mainframe.PacketSniffer.prototype = {
 		this.timerLayer = this.game.add.group();
 		this.monitorLayer = this.game.add.group();
 		this.monitorLayer.add(this.game.add.sprite(0,0,'atlas','General/monitor.png'));
+
+		this.packetCapturedSound = this.add.audio('character_cracked');
 
         var t = '> man CONNSHARK';
 		t += '\n\nNAME';
@@ -61,13 +63,13 @@ Mainframe.PacketSniffer.prototype = {
 			if(this.game.time.now - this.timerTime >= Phaser.Timer.SECOND)
 			{
 				this.timerTime = this.game.time.now;
-				Mainframe.incTimer(this, true);							
+				Mainframe.incTimer(this, true);
 				this.streams[0].queueKeyPacket();
 				this.streams[1].queueKeyPacket();
 				this.streams[2].queueKeyPacket();
 
 			}
-			
+
 			if(!this.streamsInit) {
 				for (var i = 0; i < this.streams.length; i++) {
 					this.streams[i].addPacketRepeat();
@@ -75,11 +77,11 @@ Mainframe.PacketSniffer.prototype = {
 				}
 				this.streamsInit = true;
 			}
-			
+
 			for (var i = 0; i < this.streams.length; i++) {
 				this.streams[i].moveStream();
 			}
-			
+
 			if (this.packetsCaptured == this.packetGoal) {
 				this.ready = false;
 				Mainframe.subroutineVictory(this);
@@ -90,20 +92,20 @@ Mainframe.PacketSniffer.prototype = {
     },
 
     setupGame: function () {
-	
+
 	this.packetsCaptured = 0;
 	this.playerSkull = Mainframe.centreSprite(this.game.add.sprite(0,90,'atlas', 'Subroutines/General/player_skull.png'), this.game.width);
 	this.elementLayer.add(this.playerSkull);
 	this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0,170,'atlas', 'Subroutines/Packet_Sniffer/progress_bar.png'), this.game.width));
-	
+
 	this.packetBar = this.game.add.sprite(415,187,'atlas', 'Subroutines/General/trace_bar_full.png');
 	this.elementLayer.add(this.packetBar);
 	this.packetBar.width = 0;
 	this.packetBar.height = 12;
-	
+
 	this.sniffer = Mainframe.centreSprite(this.game.add.sprite(0,210,'atlas', 'Subroutines/Packet_Sniffer/pipe.png'), this.game.width);
 	this.elementLayer.add(this.sniffer);
-	
+
 	this.streams = [];
 	this.streams.push(new PacketStream(this, 390, 1));
 	this.streams.push(new PacketStream(this, 412, -1));
@@ -112,7 +114,7 @@ Mainframe.PacketSniffer.prototype = {
 	this.enabled = true;
 
 	var space = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-	space.onDown.add(function () { 
+	space.onDown.add(function () {
 		if (this.ready && this.enabled) {
 			var validCapture = false;
 			for (var i = 0; i < this.streams.length; i++) {
@@ -129,6 +131,10 @@ Mainframe.PacketSniffer.prototype = {
 					sendPacket.onComplete.add( function() {
 						captured.destroy();
 						this.packetsCaptured++;
+						if (this.packetsCaptured < this.packetGoal) {
+							this.packetCapturedSound.play();
+							this.packetCapturedSound._sound.playbackRate.value = 1 + (this.packetsCaptured/this.packetGoal);
+						}
 						this.refreshPacketBar();
 						this.sniffer.alpha = 1;
 						this.enabled = true;
@@ -149,12 +155,12 @@ Mainframe.PacketSniffer.prototype = {
         Mainframe.initTimer(this, true);
 
     },
-	
+
 	disableSniffer: function () {
 		this.enabled = false;
 		this.sniffer.alpha = 0;
 		this.playerSkull.alpha = 0;
-		
+
 		var errorSkull = this.game.add.sprite(this.playerSkull.x, this.playerSkull.y, 'skull_error');
 		this.elementLayer.add(errorSkull);
     	errorSkull.animations.add('anim');
@@ -168,7 +174,7 @@ Mainframe.PacketSniffer.prototype = {
 			}, this);
 		}, this);
 	},
-	
+
 	refreshPacketBar: function () {
 		this.packetBar.width = (this.packetsCaptured / this.packetGoal)*130;
 	}
@@ -188,7 +194,7 @@ var PacketStream = (function () {
 		this.xLimit = direction == 1 ? context.game.width : 0;
 		this.buffer = 0;
 		this.timeSinceLastKey = null;
-		
+
 		for (var i = direction == 1 ? 1 : 0; i < 60; i++) {
 			this.addPacket(16*i);
 		}
@@ -215,7 +221,7 @@ var PacketStream = (function () {
 				x = this.direction == 1 ? 0 - (15*(this.queuedPacket.length-1)-3) : this.context.game.width + 3;
 				this.addKeyPacket(x);
 				this.context.game.time.events.add( ((Phaser.Timer.SECOND/4)/this.speed)*this.queuedPacket.length, function() { this.addPacketRepeat(); }, this);
-				this.queuedPacket = '';				
+				this.queuedPacket = '';
 			}
 		}
 	};
@@ -226,9 +232,9 @@ var PacketStream = (function () {
 		if (Math.random() <= time*0.05) {
 			this.queuedPacket = this.keyPackets[Math.floor(Math.random()*this.keyPackets.length)];
 			this.timeSinceLastKey = this.context.game.time.now;
-		}		
+		}
 	};
-	
+
 	PacketStream.prototype.addPacket = function (x) {
 			if (this.buffer > 0) {
 				this.buffer--;
@@ -239,13 +245,13 @@ var PacketStream = (function () {
 				this.packets.push(packet);
 			}
 	};
-	
+
 	PacketStream.prototype.addKeyPacket = function (x) {
-		var packet = this.context.game.add.bitmapText(x, this.y, 'green_font', this.queuedPacket, 28);		
+		var packet = this.context.game.add.bitmapText(x, this.y, 'green_font', this.queuedPacket, 28);
 		this.context.streamLayer.add(packet);
 		this.packets.push(packet);
 	};
-	
+
 	PacketStream.prototype.capturePackets = function () {
 		for (var i = 0; i < this.packets.length; i++) {
 			var c = this.context.game.width/2;
@@ -258,9 +264,9 @@ var PacketStream = (function () {
 				}
 			}
 		}
-		return false;		
+		return false;
 	};
-	
- 
+
+
     return PacketStream;
 })();
