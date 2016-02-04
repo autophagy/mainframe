@@ -41,9 +41,10 @@ Mainframe.PasswordCracker.prototype = {
 
     var t = '> man JOHN_THE_RIPPER';
     t += '\n\nNAME'
-    t += '\nJOHN_THE_RIPPER - Bruteforce password cracker';
+    t += '\n  JOHN_THE_RIPPER - Bruteforce password cracker';
     t += '\n\nDESCRIPTION'
-    t += '\nThe finest bruteforce cracker money can buy.\nMash those keys!';
+    t += '\n  The finest bruteforce cracker money can buy.'
+    t += '\n  Mash those keys!';
 
     Mainframe.setupTutorial(this, t);
 

@@ -50,12 +50,12 @@ Mainframe.BotnetDDoS.prototype = {
 
     var t = '> man SWARMNET';
     t += '\n\nNAME'
-    t += '\nSWARMNET - Remote botnet with DDoS capabilities';
+    t += '\n  SWARMNET - Remote botnet with DDoS capabilities';
     t += '\n\nDESCRIPTION'
-    t += '\nUse numeric keys 1-5 to send a packet from a host in your botnet.';
-    t += '\nSend enough packets at the target server to knock it offline.';
-    t += '\nSending packets too quickly will result in your bandwidth being';
-    t += '\nreached, and it will be temporarily disabled';
+    t += '\n  Use numeric keys 1-5 to send a packet from a host in your botnet.';
+    t += '\n  Send enough packets at the target server to knock it offline.';
+    t += '\n  Sending packets too quickly will result in your bandwidth being';
+    t += '\n  reached, and it will be temporarily disabled';
 
     Mainframe.setupTutorial(this, t);
   },

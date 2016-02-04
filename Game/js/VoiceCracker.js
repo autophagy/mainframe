@@ -42,9 +42,9 @@ Mainframe.VoiceCracker.prototype = {
 
     var t = '> man MIMIC';
     t += '\n\nNAME'
-    t += '\nMIMIC - Synthesiser for voice activated password cracking';
+    t += '\n  MIMIC - Synthesiser for voice activated password cracking';
     t += '\n\nDESCRIPTION'
-    t += '\nUse the modulation dials to mimic the waveform of a known login.';
+    t += '\n  Use the modulation dials to mimic the waveform of a known login.';
 
     Mainframe.setupTutorial(this, t);
   },

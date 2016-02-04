@@ -44,10 +44,10 @@ Mainframe.Worm.prototype = {
 
     var t = '> man YOURDOOM';
     t += '\n\nNAME'
-    t += '\nYOURDOOM - Worm that targets specific Corp files';
+    t += '\n  YOURDOOM - Worm that targets specific Corp files';
     t += '\n\nDESCRIPTION'
-    t += '\nGuide the YourDoom worm using the arrow keys to the\ninfection vector. ';
-    t += 'To prevent traces, you cannot cross\nyour own path!'
+    t += '\n  Guide the YourDoom worm using the arrow keys to the infection vector. ';
+    t += '\n  To prevent traces, you cannot cross your own path!'
 
     Mainframe.setupTutorial(this, t);
   },

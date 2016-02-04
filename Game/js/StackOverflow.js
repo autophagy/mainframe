@@ -37,12 +37,12 @@ Mainframe.StackOverflow.prototype = {
 
     var t = '> man STACK_SMASHER';
     t += '\n\nNAME'
-    t += '\nSTACK_SMASHER - Stack buffer overflow exploiter';
+    t += '\n  STACK_SMASHER - Stack buffer overflow exploiter';
     t += '\n\nDESCRIPTION'
-    t += '\nHold down space to start generating values in the stack buffer.';
-    t += '\nWhen the data reaches the return address area, release space to';
-    t += '\njump to the next stack. Jump from 3 buffers to inject your';
-    t += '\nICE-BREAK payload.';
+    t += '\n  Hold down space to start generating values in the stack buffer.';
+    t += '\n  When the data reaches the return address area, release space to';
+    t += '\n  jump to the next stack. Jump from 3 buffers to inject your';
+    t += '\n  ICE-BREAK payload.';
 
     Mainframe.setupTutorial(this, t);
   },

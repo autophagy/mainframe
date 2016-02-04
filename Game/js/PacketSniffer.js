@@ -50,12 +50,12 @@ Mainframe.PacketSniffer.prototype = {
 
     var t = '> man CONNSHARK';
     t += '\n\nNAME';
-    t += '\nCONNSHARK - Packet and traffic analyzer';
+    t += '\n  CONNSHARK - Packet and traffic analyzer';
     t += '\n\nDESCRIPTION';
-    t += '\nPress spacebar to to capture key packets while they are in your';
-    t += '\nsniffers buffer. Assemble enough key packets to break the ICE.';
-    t += '\nCapturing non-key packets will lock up the sniffer and require';
-    t += '\nit to be rebooted.';
+    t += '\n  Press spacebar to to capture key packets while they are in your';
+    t += '\n  sniffers buffer. Assemble enough key packets to break the ICE.';
+    t += '\n  Capturing non-key packets will lock up the sniffer and require';
+    t += '\n  it to be rebooted.';
 
     Mainframe.setupTutorial(this, t);
   },

@@ -49,9 +49,11 @@ Mainframe.SQLInject.prototype = {
 
     var t = '> man DB_BREAKER';
     t += '\n\nNAME'
-    t += '\nDB_BREAKER - SQL injection script';
+    t += '\n  DB_BREAKER - SQL injection script';
     t += '\n\nDESCRIPTION'
-    t += '\nControl the bar with left and right keys. Keep\nknocking away rows with the SQL injection until you\ncan hit the central database.';
+    t += '\n  Control the bar with left and right keys. Keep'
+    t += '\n  knocking away rows with the SQL injection until you'
+    t += '\n  can hit the central database.';
 
     Mainframe.setupTutorial(this, t);
   },

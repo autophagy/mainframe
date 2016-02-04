@@ -44,9 +44,10 @@ Mainframe.Firewall.prototype = {
 
     var t = '> man HOLEPUNCH';
     t += '\n\nNAME'
-    t += '\nHOLEPUNCH - Allows access through firewalls';
+    t += '\n  HOLEPUNCH - Allows access through firewalls';
     t += '\n\nDESCRIPTION'
-    t += '\nUse the arrow keys to maneuver the payload through\nthe gaps in the Corp\'s firewall.';
+    t += '\n  Use the arrow keys to maneuver the payload through'
+    t += '\n  the gaps in the Corp\'s firewall.';
 
     Mainframe.setupTutorial(this, t);
   },
