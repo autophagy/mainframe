@@ -79,7 +79,7 @@ var Mainframe = {
   },
 
   setupTutorial: function(context, tutorial, setup) {
-    Mainframe.mainMusic.volume = 0.25;
+    Mainframe.mainMusic.volume = 0.5;
     context.tutorialLayer.add(context.game.add.bitmapText(30,50, 'green_font', tutorial, 25));
 
     context.tutorialLayer.add(Mainframe.centreText(context.game.add.bitmapText(0,420, 'green_font', '> Begin ICE-Break', 30), context.game.width));
