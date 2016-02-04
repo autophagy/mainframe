@@ -26,6 +26,8 @@ Mainframe.PacketSniffer = function(game) {
 
   this.music = null;
   this.packetCapturedSound = null;
+  this.deactivationSound = null;
+  this.activationSound = null;
 
   this.ready = false;
   this.enabled = false;
@@ -43,6 +45,8 @@ Mainframe.PacketSniffer.prototype = {
     this.monitorLayer.add(this.game.add.sprite(0, 0, 'atlas', 'General/monitor.png'));
 
     this.packetCapturedSound = this.add.audio('character_cracked');
+    this.deactivationSound = this.add.audio('entity_removed');
+    this.activationSound = this.add.audio('entity_enabled');
 
     var t = '> man CONNSHARK';
     t += '\n\nNAME';
@@ -160,6 +164,7 @@ Mainframe.PacketSniffer.prototype = {
     this.enabled = false;
     this.sniffer.alpha = 0;
     this.playerSkull.alpha = 0;
+    this.deactivationSound.play();
 
     var errorSkull = this.game.add.sprite(this.playerSkull.x, this.playerSkull.y, 'skull_error');
     this.elementLayer.add(errorSkull);
@@ -167,6 +172,7 @@ Mainframe.PacketSniffer.prototype = {
     errorSkull.animations.play('anim', 32, false);
     errorSkull.events.onAnimationComplete.add(function() {
       this.game.time.events.add(Phaser.Timer.SECOND * 4, function() {
+        this.activationSound.play();
         errorSkull.destroy();
         this.sniffer.alpha = 1;
         this.playerSkull.alpha = 1;
