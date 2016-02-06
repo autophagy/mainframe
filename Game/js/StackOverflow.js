@@ -20,6 +20,9 @@ Mainframe.StackOverflow = function(game) {
   this.payloadInjecting = null;
 
   this.music = null;
+  this.stackSmashedSound = null;
+  this.deactivationSound = null;
+  this.activationSound = null;
 
   this.ready = false;
 
@@ -34,6 +37,11 @@ Mainframe.StackOverflow.prototype = {
     this.timerLayer = this.game.add.group();
     this.monitorLayer = this.game.add.group();
     this.monitorLayer.add(this.game.add.sprite(0, 0, 'atlas', 'General/monitor.png'));
+
+this.packetCapturedSound = null;
+    this.stackSmashedSound = this.add.audio('character_cracked');
+    this.deactivationSound = this.add.audio('entity_removed');
+    this.activationSound = this.add.audio('entity_enabled');
 
     var t = '> man STACK_SMASHER';
     t += '\n\nNAME'
@@ -147,10 +155,15 @@ var StackFrame = (function() {
 
   StackFrame.prototype.resetPayload = function() {
     this.payload.y = this.sprite.bottom - 49;
+    this.context.deactivationSound.play();
   };
 
   StackFrame.prototype.payloadInjected = function() {
     if (Phaser.Rectangle.intersects(this.payloadBounds, this.returnBounds)) {
+      if(this.context.selectedStack < 2) {
+        this.context.stackSmashedSound.play();
+        this.context.stackSmashedSound._sound.playbackRate.value = 1 + (this.context.selectedStack / 4);
+      }
       this.payload.destroy();
       this.sprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'stack_smashed');
       this.context.elementLayer.add(this.sprite);
