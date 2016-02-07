@@ -20,9 +20,11 @@ Mainframe.Firewall = function(game) {
   this.rowBounds = null;
   this.lastGapX = null;
 
+  this.wallSpeed = null;
+
   this.player = null;
   this.playerBounds = null;
-  this.playerSpeed = 7;
+  this.playerSpeed = null;
   this.cursors = null;
 
   this.music = null;
@@ -59,6 +61,8 @@ Mainframe.Firewall.prototype = {
       if (this.game.time.now - this.timerTime >= Phaser.Timer.SECOND) {
         this.timerTime = this.game.time.now;
         Mainframe.incTimer(this, false);
+        this.wallSpeed += 0.2;
+        this.playerSpeed += 0.2;
       }
 
       // Player movement
@@ -82,11 +86,11 @@ Mainframe.Firewall.prototype = {
       // Also destroys any bar and adds a new one if off screen
       for (var i = 0; i < this.rows.length; i++) {
         for (var x = 0; x < this.rows[i].length; x++) {
-          this.rows[i][x].y += 3;
+          this.rows[i][x].y += this.wallSpeed;
         }
 
-        this.rowBounds[i][0].y += 3;
-        this.rowBounds[i][1].y += 3;
+        this.rowBounds[i][0].y += this.wallSpeed;
+        this.rowBounds[i][1].y += this.wallSpeed;
 
         if (this.rows[i][0].y > this.game.height - 50) {
           for (var x = 0; x < this.rows[i].length; x++) {
@@ -101,8 +105,6 @@ Mainframe.Firewall.prototype = {
           // Un-increment the i pointer
           i -= 1;
         }
-
-
       }
 
       // Check collisions
@@ -136,6 +138,9 @@ Mainframe.Firewall.prototype = {
     this.lastGapX = 370;
     this.generateRow(120);
     this.generateRow(-60);
+
+    this.wallSpeed = 1.5;
+    this.playerSpeed = 5;
   },
 
   initGame: function() {
@@ -143,18 +148,18 @@ Mainframe.Firewall.prototype = {
   },
 
   generateRow: function(y) {
-    var left = Math.floor(Math.random() * 300);
-    var right = Math.floor(Math.random() * 300);
+    var left = Math.floor(Math.random() * 200);
+    var right = Math.floor(Math.random() * 200);
 
     this.lastGapX += left - right;
 
     // Bounds checking
     if (this.lastGapX < 45) {
-      this.lastGapX = 45;
+      this.lastGapX = 45 + Math.floor(Math.random() * 100);
     }
 
     if (this.lastGapX + this.gapSize > 915) {
-      this.lastGapX = 915 - this.gapSize;
+      this.lastGapX = 915 - this.gapSize - Math.floor(Math.random() * 100);
     }
 
     this.createRow(y, this.lastGapX);
