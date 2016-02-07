@@ -196,6 +196,7 @@ var PacketStream = (function() {
     this.keyPackets = ['email', 'password', 'root', 'admin', 'http', 'ssh', 'tcp', 'udp'];
     this.queuedPacket = '';
     this.packets = [];
+    this.decoyPackets = [];
     this.speed = Math.floor((Math.random() * 5) + 3);
     this.xLimit = direction == 1 ? context.game.width : 0;
     this.buffer = 0;
@@ -209,13 +210,35 @@ var PacketStream = (function() {
   PacketStream.prototype.moveStream = function() {
     for (var i = 0; i < this.packets.length; i++) {
       this.packets[i].x += (this.speed * this.direction);
+
+      if (this.packets[i].x > (this.context.game.width/2) - 200 && this.packets[i].x < (this.context.game.width/2) + 200 && this.packets[i].font == 'green_font') {
+        this.packets[i].alpha = 1 - this.calculateOpacity(this.packets[i], 200);
+      }
+
       if ((this.direction == 1 && this.packets[i].x >= this.xLimit) || (this.direction == -1 && this.packets[i].right <= this.xLimit)) {
         this.packets[i].destroy();
         this.packets.splice(i, 1);
         i--;
       }
     }
+
+    for (var i = 0; i < this.decoyPackets.length; i++) {
+      this.decoyPackets[i].x += (this.speed * this.direction);
+      if (this.decoyPackets[i].x > (this.context.game.width/2) - 200 && this.decoyPackets[i].x < (this.context.game.width/2) + 200) {
+        this.decoyPackets[i].alpha = this.calculateOpacity(this.decoyPackets[i], 200);
+      }
+
+      if ((this.direction == 1 && this.decoyPackets[i].x >= this.xLimit) || (this.direction == -1 && this.decoyPackets[i].right <= this.xLimit)) {
+        this.decoyPackets[i].destroy();
+        this.decoyPackets.splice(i, 1);
+        i--;
+      }
+    }
   };
+
+  PacketStream.prototype.calculateOpacity = function (packet, distance) {
+    return Math.sqrt(Math.pow(packet.x - (this.context.game.width/2),2))/distance;
+  }
 
   PacketStream.prototype.addPacketRepeat = function() {
     if (this.context.ready) {
@@ -258,24 +281,45 @@ var PacketStream = (function() {
 
   PacketStream.prototype.addKeyPacket = function(x) {
     var packet = this.context.game.add.bitmapText(x, this.y, 'green_font', this.queuedPacket, 28);
+    packet.alpha = 0;
+    var decoyPacket = this.context.game.add.bitmapText(x, this.y, 'white_font', this.queuedPacket, 28);
     this.context.streamLayer.add(packet);
+    this.context.streamLayer.add(decoyPacket);
     this.packets.push(packet);
+    this.decoyPackets.push(decoyPacket);
   };
 
   PacketStream.prototype.capturePackets = function() {
     for (var i = 0; i < this.packets.length; i++) {
-      var c = this.context.game.width / 2;
       if (this.packets[i].font == 'green_font') {
-        if ((this.packets[i].x >= c - 33 && this.packets[i].x <= c + 33) || (this.packets[i].right >= c - 33 && this.packets[i].right <= c + 33) || (this.packets[i].right >= c + 33 && this.packets[i].x <= c - 33)) {
+        if (this.isWithinSniffer(this.packets[i])) {
           this.packets[i].destroy();
           this.packets.splice(i, 1);
           i--;
+
+          for (var e = 0; e < this.decoyPackets.length; e++) {
+            if (this.isWithinSniffer(this.decoyPackets[e])) {
+              this.decoyPackets[e].destroy();
+              this.decoyPackets.splice(e, 1);
+              break;
+            }
+          }
+
           return true;
         }
       }
     }
     return false;
   };
+
+  PacketStream.prototype.isWithinSniffer = function (packet) {
+    var c = this.context.game.width / 2;
+    if ((packet.x >= c - 33 && packet.x <= c + 33) || (packet.right >= c - 33 && packet.right <= c + 33) || (packet.right >= c + 33 && packet.x <= c - 33)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 
   return PacketStream;
