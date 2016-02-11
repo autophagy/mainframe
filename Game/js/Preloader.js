@@ -67,6 +67,8 @@ Mainframe.Preloader.prototype = {
     this.game.load.spritesheet('selected_ICE', 'assets/animations/selected_ICE.png', 50, 203, 2);
     this.game.load.spritesheet('skull_error', 'assets/animations/skull_error.png', 101, 89, 5);
     this.game.load.spritesheet('stack_smashed', 'assets/animations/stack_smashed.png', 264, 374, 6);
+    this.game.load.spritesheet('payload_failed_off', 'assets/animations/payload_failed_off.png', 264, 374, 6);
+    this.game.load.spritesheet('payload_failed_on', 'assets/animations/payload_failed_on.png', 264, 374, 6);
     this.game.load.spritesheet('subroutine_complete', 'assets/animations/subroutine_complete.png', 851, 69, 6);
     this.game.load.spritesheet('subroutine_failed', 'assets/animations/subroutine_failed.png', 851, 69, 6);
     this.game.load.spritesheet('victory_banner', 'assets/animations/victory_banner.png', 851, 114, 6);

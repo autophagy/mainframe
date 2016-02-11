@@ -25,6 +25,7 @@ Mainframe.StackOverflow = function(game) {
   this.activationSound = null;
 
   this.ready = false;
+  this.disabled = true;
 
 };
 
@@ -38,7 +39,7 @@ Mainframe.StackOverflow.prototype = {
     this.monitorLayer = this.game.add.group();
     this.monitorLayer.add(this.game.add.sprite(0, 0, 'atlas', 'General/monitor.png'));
 
-this.packetCapturedSound = null;
+    this.packetCapturedSound = null;
     this.stackSmashedSound = this.add.audio('character_cracked');
     this.deactivationSound = this.add.audio('entity_removed');
     this.activationSound = this.add.audio('entity_enabled');
@@ -73,6 +74,7 @@ this.packetCapturedSound = null;
 
   setupGame: function() {
     this.stackFrames = [];
+    this.disabled = true;
     for (var i = 0; i < 3; i++) {
       this.stackFrames.push(new StackFrame(this, 80 + (270 * i), 85, i + 1));
     }
@@ -83,20 +85,25 @@ this.packetCapturedSound = null;
 
     var payloadKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     payloadKey.onDown.add(function() {
-      this.payloadInjecting = true;
+      if (!this.disabled) {
+        this.payloadInjecting = true;
+      }
     }, this);
     payloadKey.onUp.add(function() {
       this.payloadInjecting = false;
-      if (this.stackFrames[this.selectedStack].payloadInjected()) {
-        this.selectNextStack();
-      } else {
-        this.stackFrames[this.selectedStack].resetPayload();
+      if (!this.disabled) {
+        if (this.stackFrames[this.selectedStack].payloadInjected()) {
+          this.selectNextStack();
+        } else {
+          this.stackFrames[this.selectedStack].injectionFailed();
+        }
       }
     }, this);
   },
 
   initGame: function() {
     Mainframe.initTimer(this, true);
+    this.disabled = false;
   },
 
   selectNextStack: function() {
@@ -125,7 +132,7 @@ var StackFrame = (function() {
     this.returnSprite = context.game.add.sprite(x + 17, returnAddr - 13, 'atlas', 'Subroutines/Stack_Overflow/return_addr.png');
 
     this.upperStackText = context.game.add.bitmapText(x + 50, y + ((returnAddr - y) / 2) - 5, 'white_font', 'STACK SPACE', 26);
-    this.lowerStackText = context.game.add.bitmapText(x + 50, (returnAddr + 38) + ((this.sprite.bottom - (returnAddr + 38)) / 2) - 20, 'white_font', 'STACK SPACE', 26);;
+    this.lowerStackText = context.game.add.bitmapText(x + 50, (returnAddr + 38) + ((this.sprite.bottom - (returnAddr + 38)) / 2) - 20, 'white_font', 'STACK SPACE', 26);
 
     this.context.elementLayer.add(this.sprite);
     this.context.elementLayer.add(this.upperStackText);
@@ -155,7 +162,30 @@ var StackFrame = (function() {
 
   StackFrame.prototype.resetPayload = function() {
     this.payload.y = this.sprite.bottom - 49;
+    this.context.activationSound.play();
+  };
+
+  StackFrame.prototype.injectionFailed = function() {
+    var failedSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'payload_failed_on');
+    this.context.payloadLayer.add(failedSprite);
+    failedSprite.animations.add('anim');
+    failedSprite.play('anim', 16, false);
+    this.context.disabled = true;
     this.context.deactivationSound.play();
+    failedSprite.events.onAnimationComplete.add(function() {
+      this.context.game.time.events.add(Phaser.Timer.SECOND, function() {
+        failedSprite.destroy();
+        var rebootSprite = this.context.game.add.sprite(this.sprite.x, this.sprite.y, 'payload_failed_off');
+        this.context.payloadLayer.add(rebootSprite);
+        rebootSprite.animations.add('anim');
+        rebootSprite.play('anim', 16, false);
+        this.resetPayload();
+        rebootSprite.events.onAnimationComplete.add(function() {
+          this.context.disabled = false;
+          rebootSprite.destroy();
+        }, this);
+      }, this);
+    }, this);
   };
 
   StackFrame.prototype.payloadInjected = function() {
