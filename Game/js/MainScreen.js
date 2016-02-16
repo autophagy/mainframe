@@ -146,8 +146,6 @@ Mainframe.MainScreen.prototype = {
     this.elementLayer.add(hackerName);
     this.elementLayer.add(hackerIP);
 
-    this.connectionLayer.add(this.game.add.sprite(93, 224, 'atlas', 'Main_Screen/Corp/hacker-corp_connection.png'));
-
     this.inputField = this.game.add.bitmapText(30, 430, 'green_font', '> ', 45);
     this.elementLayer.add(this.inputField);
   },
@@ -168,6 +166,7 @@ Mainframe.MainScreen.prototype = {
           if (offset == 2) {
             proxy.events.onAnimationComplete.add(function() {
               this.setupProxyDisplay();
+              this.connectionLayer.add(this.game.add.sprite(93, 224, 'atlas', 'Main_Screen/Corp/hacker-corp_connection.png'));
               this.corpInitialiseAnimate();
             }, this);
           }
@@ -185,6 +184,7 @@ Mainframe.MainScreen.prototype = {
         this.elementLayer.add(proxy);
         this.proxies.push(proxy);
       }
+      this.connectionLayer.add(this.game.add.sprite(93, 224, 'atlas', 'Main_Screen/Corp/hacker-corp_connection.png'));
       this.setupProxyDisplay();
     }
   },
