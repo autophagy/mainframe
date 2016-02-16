@@ -42,6 +42,7 @@ Mainframe.MainMenu.prototype = {
     }
 
     this.selectionSound = this.add.audio('selection');
+    Mainframe.generateHackerName();
 
     var title = this.game.add.sprite(0, 100, 'mainframe_logo');
     this.elementLayer.add(title);
@@ -105,4 +106,5 @@ Mainframe.MainMenu.prototype = {
       this.state.start('Credits');
     }
   }
+
 };
