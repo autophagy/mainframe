@@ -67,7 +67,7 @@ Mainframe.PasswordCracker.prototype = {
 
     this.str = this.loginScreenPicker();
 
-    this.maxKey = Math.round(300 / this.password.length);
+    this.maxKey = Math.round(350 / this.password.length);
   },
 
   initGame: function() {
