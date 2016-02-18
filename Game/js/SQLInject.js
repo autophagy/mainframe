@@ -12,7 +12,7 @@ Mainframe.SQLInject = function(game) {
   this.timerBlock = null;
   this.timerTime = null;
   this.timerStartTime = null;
-  this.timeLimit = Phaser.Timer.SECOND * 30;
+  this.timeLimit = Phaser.Timer.SECOND * 20;
 
   this.player = null;
   this.playerSpeed = 10;
@@ -116,9 +116,10 @@ Mainframe.SQLInject.prototype = {
     for (var i = 1; i <= 3; i++) {
       for (var x = 0; x < 5; x++) {
         var block = this.game.add.sprite(37 + (172 * x), 110 + (30 * i), 'atlas', 'Subroutines/SQL_Injector/tier_' + i + '_block.png');
+        block.height = 15;
         this.elementLayer.add(block);
         this.blocks.push(block);
-        this.blockBounds.push(new Phaser.Rectangle(50 + (172 * x), 123 + (30 * i), 170, 28));
+        this.blockBounds.push(new Phaser.Rectangle(50 + (172 * x), 108 + (30 * i), 170, 15));
       }
     }
 
