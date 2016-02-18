@@ -115,6 +115,7 @@ Mainframe.VictoryScreen.prototype = {
         Mainframe.runChain += 0.5;
         this.state.start('MainScreen', true, false, true, null);
       } else {
+        Mainframe.mainMusic.stop();
         this.state.start('MainMenu');
       }
     }, this);
