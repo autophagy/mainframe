@@ -16,7 +16,7 @@ var Mainframe = {
   subroutineSequence: [],
   subroutinePosition: 0,
 
-  corpDifficulty: 1.0,
+  runChain: 1.0,
   totalEarned: 0,
 
   // Global sounds & Music

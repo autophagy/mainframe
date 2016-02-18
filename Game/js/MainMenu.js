@@ -72,7 +72,7 @@ Mainframe.MainMenu.prototype = {
     this.repositionSelector();
 
     // Reset game variables
-    Mainframe.corpDifficulty = 1.0;
+    Mainframe.runChain = 1.0;
     Mainframe.totalEarned = 0;
   },
 
@@ -103,7 +103,7 @@ Mainframe.MainMenu.prototype = {
         this.state.start('MainScreen', true, false, true, null);
       }, this);
     } else {
-      this.state.start('Credits');
+      this.state.start('VictoryScreen');
     }
   }
 

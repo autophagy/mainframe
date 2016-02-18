@@ -29,15 +29,15 @@ Mainframe.VictoryScreen.prototype = {
     this.elementLayer.add(Mainframe.centreText(this.game.add.bitmapText(0, 175, 'green_font', Mainframe.corpName[0] + ' Data Obtained: ', 36), this.game.width));
     this.elementLayer.add(Mainframe.centreSprite(this.game.add.sprite(0, 200, 'atlas', 'Victory_Screen/data_obtained_bar.png'), this.game.width));
 
-    this.elementLayer.add(this.game.add.bitmapText(276, 260, 'green_font', 'Corp Difficulty: ', 28));
+    this.elementLayer.add(this.game.add.bitmapText(269, 260, 'green_font', 'Run Chain Bonus: ', 28));
     this.elementLayer.add(this.game.add.bitmapText(333, 285, 'green_font', 'Data Value: ', 28));
     this.elementLayer.add(this.game.add.bitmapText(304, 310, 'green_font', 'Total Earned: ', 28));
 
-    this.elementLayer.add(this.game.add.bitmapText(480, 260, 'green_font', Mainframe.corpDifficulty.toFixed(1) + 'x', 28));
+    this.elementLayer.add(this.game.add.bitmapText(480, 260, 'green_font', Mainframe.runChain.toFixed(1) + 'x', 28));
 
     var percentage = 100 - ((3 - Mainframe.hackerProxies.length) * 20)
     var value = percentage * 48;
-    value = value * Mainframe.corpDifficulty;
+    value = value * Mainframe.runChain;
     Mainframe.totalEarned += value;
 
     this.dataValueText = this.game.add.bitmapText(480, 285, 'green_font', value + 'C', 28);
@@ -110,7 +110,7 @@ Mainframe.VictoryScreen.prototype = {
     bg_flicker.animations.play('anim', 16, false);
     bg_flicker.events.onAnimationComplete.add(function() {
       if (this.nextCorpSelected) {
-        Mainframe.corpDifficulty += 0.2;
+        Mainframe.corpDifficulty += 0.5;
         this.state.start('MainScreen', true, false, true, null);
       } else {
         this.state.start('MainMenu');
