@@ -103,7 +103,7 @@ Mainframe.MainMenu.prototype = {
         this.state.start('MainScreen', true, false, true, null);
       }, this);
     } else {
-      this.state.start('VictoryScreen');
+      this.state.start('Credits');
     }
   }
 
