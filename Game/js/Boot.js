@@ -300,6 +300,13 @@ Mainframe.Boot.prototype = {
     this.game.load.bitmapFont('green_font', 'assets/fonts/green_font.png', 'assets/fonts/green_font.xml');
     this.game.load.bitmapFont('white_font', 'assets/fonts/white_font.png', 'assets/fonts/white_font.xml');
 
+    // Capture keys
+    this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.SPACEBAR);
+    this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.UP);
+    this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.DOWN);
+    this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.LEFT);
+    this.game.input.keyboard.addKeyCapture(Phaser.Keyboard.RIGHT);
+
   },
 
   create: function () {
