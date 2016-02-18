@@ -317,6 +317,8 @@ Mainframe.MainScreen.prototype = {
       banner.animations.add('anim');
       banner.animations.play('anim', 16, false);
       banner.events.onAnimationComplete.add(function() {
+        var downloadingSound = this.add.audio('downloading');
+        downloadingSound.play();
         banner.destroy();
         banner = this.game.add.sprite(this.game.width / 2, this.game.height / 2 - 2, 'victory_blink');
         banner.anchor.setTo(0.5, 0.5);
@@ -324,6 +326,8 @@ Mainframe.MainScreen.prototype = {
         banner.animations.add('anim');
         banner.animations.play('anim', 2, false);
         banner.events.onAnimationComplete.add(function() {
+          downloadingSound.stop();
+          downloadingSound.destroy();
           Mainframe.fanLoop.stop();
           this.state.start('VictoryScreen');
         }, this);

@@ -43,6 +43,7 @@ Mainframe.Preloader.prototype = {
     this.game.load.audio('block_hit', 'assets/sounds/block_hit.mp3');
     this.game.load.audio('start_up', 'assets/sounds/start_up.mp3');
     this.game.load.audio('fan_loop', 'assets/sounds/fan_loop.mp3');
+    this.game.load.audio('downloading', 'assets/sounds/downloading.mp3');
 
     // Music
     this.game.load.audio('main_music_1', 'assets/music/The Way Out.mp3');
