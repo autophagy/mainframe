@@ -107,8 +107,13 @@ Mainframe.MainScreen.prototype = {
         startUpSound.stop();
         startUpSound.destroy();
         Mainframe.fanLoop.play();
-        Mainframe.mainMusic.play();
-        Mainframe.mainMusic.volume = 1;
+        
+        if (Mainframe.mainMusic.isPlaying) {
+          Mainframe.mainMusic.volume = 1;
+        } else {
+          Mainframe.mainMusic.play();
+        }
+
         this.bootInitialiseSequence();
       }, this);
     }.bind(this);
