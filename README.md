@@ -14,44 +14,8 @@ You are one of the cybernet's most skilled hackers. It's up to you to hide behin
 
 Can you jam with the console cowboys in cyberspace?
 
-### To-Do List
+# Credits
 
-- ~~Design and make visual assets for:~~
-    - ~~Title screen~~
-    - ~~Main screen~~
-    - ~~Game over screen~~
-    - ~~Victory Screen~~
-    - ~~Subroutines~~
-    - ~~Font~~
-    - ~~Check to make sure elements are visually consistent (colour, font weight)~~
-    - ~~Animations into own sprite sheets~~
-
-
-- ~~Finalise subroutines by:~~
-    - ~~Updating their names to be thematically consistent~~
-    - ~~Packing their textures into atlasses via TexturePacker~~
-
-
-- ~~Code up the subroutines independently~~
-    - ~~Password Cracker~~
-    - ~~Firewall Bypasser~~
-    - ~~Worm~~
-    - ~~SQL Inject~~
-    - ~~Botnet DDoS~~
-    - ~~Buffer Overflow~~
-    - ~~Packet Sniffer~~
-    - ~~Voice Cracker~~
-
-- ~~Implement subroutine tutorial screens~~
-
-- ~~Link up the subroutines to the main screen and implement lives (proxies), game over & game win states~~
-
-- ~~Ensure all of the subroutines are repeatable - variable initalisation is not dependent on constructor~~
-
-- Clean up code + generalise common functions
-
-- Tweaking of game mechanics for MAXIMUM CYBERFUN
-
-- Music and sound design for everything
-
-- Bug test & upload to itch.io
+- [Phaser](http://phaser.io/) for the game engine
+- Key press sounds by [eklee & qubodup](http://opengameart.org/content/single-key-press-sounds)
+- Music by [Kevin MacLeod](http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100045)
