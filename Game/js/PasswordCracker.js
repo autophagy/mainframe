@@ -8,7 +8,7 @@ Mainframe.PasswordCracker = function(game) {
   this.timerBlock = null;
   this.timerTime = null;
   this.timerStartTime = null;
-  this.timeLimit = Phaser.Timer.SECOND * 15;
+  this.timeLimit = Phaser.Timer.SECOND * 18;
   this.cropRect = null;
 
   this.music = null;
