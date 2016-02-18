@@ -45,6 +45,7 @@ Mainframe.VoiceCracker.prototype = {
     t += '\n  MIMIC - Synthesiser for voice activated password cracking';
     t += '\n\nDESCRIPTION'
     t += '\n  Use the modulation dials to mimic the waveform of a known login.';
+    t += '\n  Press H to hide the constructed waveform, if needed.'
 
     Mainframe.setupTutorial(this, t);
   },
@@ -89,6 +90,10 @@ Mainframe.VoiceCracker.prototype = {
     }
 
     var cursors = this.game.input.keyboard.createCursorKeys();
+    var hideKey = this.game.input.keyboard.addKey(Phaser.Keyboard.H);
+    hideKey.onDown.add(function() { this.activeLayer.alpha = 0; }, this);
+    hideKey.onUp.add(function() { this.activeLayer.alpha = 1; }, this);
+
 
     cursors.left.onDown.add(function() {
       this.moveSelection(-1);
@@ -175,22 +180,7 @@ Mainframe.VoiceCracker.prototype = {
         Mainframe.subroutineVictory(this);
       }
     }
-  },
-
-  playWave: function(heights, wavelength) {
-    var tone = this.game.add.audio('voice_crack_tone');
-    tone.volume = heights[0];
-    heights.splice(0, 1);
-    if (heights.length > 0) {
-      tone.onStop.add(function() {
-        this.playWave(heights, wavelength);
-      }, this);
-    }
-    tone.play();
-    tone._sound.playbackRate.value = wavelength - 0.3;
-
   }
-
 };
 
 var VoiceDial = (function() {
