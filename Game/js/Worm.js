@@ -12,7 +12,7 @@ Mainframe.Worm = function(game) {
   this.timerBlock = null;
   this.timerTime = null;
   this.timerStartTime = null;
-  this.timeLimit = Phaser.Timer.SECOND * 20;
+  this.timeLimit = Phaser.Timer.SECOND * 12;
 
   this.mazeBounds = [];
   this.goalBounds = null;
