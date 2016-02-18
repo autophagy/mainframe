@@ -260,7 +260,7 @@ var Mainframe = {
       ['SQLInject', 'DB_BREAKER'],
       ['BotnetDDoS', 'SWARMNET'],
       ['StackOverflow', 'STACK_SMASHER'],
-      ['PacketSniffer', 'CONN_SHARK'],
+      ['PacketSniffer', 'CONNSHARK'],
       ['VoiceCracker', 'MIMIC']
     ];
     subroutines = Mainframe.shuffleArray(subroutines);
