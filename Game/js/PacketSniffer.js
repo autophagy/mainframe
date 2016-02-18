@@ -171,7 +171,7 @@ Mainframe.PacketSniffer.prototype = {
     errorSkull.animations.add('anim');
     errorSkull.animations.play('anim', 32, false);
     errorSkull.events.onAnimationComplete.add(function() {
-      this.game.time.events.add(Phaser.Timer.SECOND * 4, function() {
+      this.game.time.events.add(Phaser.Timer.SECOND * 2, function() {
         this.activationSound.play();
         errorSkull.destroy();
         this.sniffer.alpha = 1;
@@ -211,8 +211,8 @@ var PacketStream = (function() {
     for (var i = 0; i < this.packets.length; i++) {
       this.packets[i].x += (this.speed * this.direction);
 
-      if (this.packets[i].x > (this.context.game.width/2) - 200 && this.packets[i].x < (this.context.game.width/2) + 200 && this.packets[i].font == 'green_font') {
-        this.packets[i].alpha = 1 - this.calculateOpacity(this.packets[i], 200);
+      if (this.packets[i].x > (this.context.game.width/2) - 225 && this.packets[i].x < (this.context.game.width/2) + 225 && this.packets[i].font == 'green_font') {
+        this.packets[i].alpha = 1 - this.calculateOpacity(this.packets[i], 225);
       }
 
       if ((this.direction == 1 && this.packets[i].x >= this.xLimit) || (this.direction == -1 && this.packets[i].right <= this.xLimit)) {
@@ -224,8 +224,8 @@ var PacketStream = (function() {
 
     for (var i = 0; i < this.decoyPackets.length; i++) {
       this.decoyPackets[i].x += (this.speed * this.direction);
-      if (this.decoyPackets[i].x > (this.context.game.width/2) - 200 && this.decoyPackets[i].x < (this.context.game.width/2) + 200) {
-        this.decoyPackets[i].alpha = this.calculateOpacity(this.decoyPackets[i], 200);
+      if (this.decoyPackets[i].x > (this.context.game.width/2) - 225 && this.decoyPackets[i].x < (this.context.game.width/2) + 225) {
+        this.decoyPackets[i].alpha = this.calculateOpacity(this.decoyPackets[i], 225);
       }
 
       if ((this.direction == 1 && this.decoyPackets[i].x >= this.xLimit) || (this.direction == -1 && this.decoyPackets[i].right <= this.xLimit)) {
