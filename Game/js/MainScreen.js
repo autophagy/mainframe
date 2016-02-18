@@ -107,7 +107,7 @@ Mainframe.MainScreen.prototype = {
         startUpSound.stop();
         startUpSound.destroy();
         Mainframe.fanLoop.play();
-        
+
         if (Mainframe.mainMusic.isPlaying) {
           Mainframe.mainMusic.volume = 1;
         } else {
@@ -468,7 +468,7 @@ Mainframe.MainScreen.prototype = {
     this.ICEs[index].animations.play('anim', 3, true);
 
     this.game.time.events.add(Phaser.Timer.HALF * 4, function() {
-      Mainframe.textScroll(this, this.inputField, Mainframe.subroutineSequence[Mainframe.subroutinePosition][1], 200, false, func);
+      Mainframe.textScroll(this, this.inputField, Mainframe.subroutineSequence[Mainframe.subroutinePosition][1], 150, false, func);
     }, this);
   }
 
