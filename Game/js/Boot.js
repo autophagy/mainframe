@@ -196,8 +196,6 @@ var Mainframe = {
 
     var doubleVerbs = ['Laughing', 'Crying', 'Deadly', 'Crouching', 'Hidden', 'Pale', 'White', 'Black', 'Red', 'Dead', 'Toxic'];
 
-    var singleNouns = ['Morpheus', 'Trinity', 'Maelcum', 'Hideo', 'Pandora', 'Ozymandias', 'Xerxes', 'Turing', 'Tracer', 'Phoenix'];
-
     var probability = Math.random();
 
     var IP = this.generateIP();
@@ -214,12 +212,8 @@ var Mainframe = {
       name = n + '\n' + n2;
     }
 
-    if (probability > 0.5 && probability <= 0.9) {
+    if (probability > 0.5) {
       name = doubleVerbs[Math.floor(Math.random() * doubleVerbs.length)] + '\n' + doubleNouns[Math.floor(Math.random() * doubleNouns.length)];
-    }
-
-    if (probability > 0.9) {
-      name = singleNouns[Math.floor(Math.random() * singleNouns.length)];
     }
 
     // 1337ification 1/3 of the time
