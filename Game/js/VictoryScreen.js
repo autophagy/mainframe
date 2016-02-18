@@ -84,7 +84,9 @@ Mainframe.VictoryScreen.prototype = {
     bg_flicker.animations.add('anim');
     bg_flicker.animations.play('anim', 16, false);
 
-    this.monitorLayer.add(this.game.add.sprite(0, 0, 'atlas', 'General/monitor.png'))
+    this.monitorLayer.add(this.game.add.sprite(0, 0, 'atlas', 'General/monitor.png'));
+
+    Mainframe.mainMusic.volume = 0.5;
   },
 
   toggleSelection: function() {
@@ -110,7 +112,7 @@ Mainframe.VictoryScreen.prototype = {
     bg_flicker.animations.play('anim', 16, false);
     bg_flicker.events.onAnimationComplete.add(function() {
       if (this.nextCorpSelected) {
-        Mainframe.corpDifficulty += 0.5;
+        Mainframe.runChain += 0.5;
         this.state.start('MainScreen', true, false, true, null);
       } else {
         this.state.start('MainMenu');

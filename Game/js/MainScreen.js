@@ -108,6 +108,7 @@ Mainframe.MainScreen.prototype = {
         startUpSound.destroy();
         Mainframe.fanLoop.play();
         Mainframe.mainMusic.play();
+        Mainframe.mainMusic.volume = 1;
         this.bootInitialiseSequence();
       }, this);
     }.bind(this);
@@ -324,7 +325,6 @@ Mainframe.MainScreen.prototype = {
         banner.animations.play('anim', 2, false);
         banner.events.onAnimationComplete.add(function() {
           Mainframe.fanLoop.stop();
-          Mainframe.mainMusic.stop();
           this.state.start('VictoryScreen');
         }, this);
       }, this);
