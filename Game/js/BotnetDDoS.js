@@ -17,14 +17,12 @@ Mainframe.BotnetDDoS = function(game) {
   // Bots
   this.bots = null;
   this.botBandwidthLimit = 100;
-  this.botPacketSize = 40;
 
   // Server
   this.serverLoadBar = 0;
   this.serverLoad = null;
   this.serverLoadGoal = 1300;
   this.serverLastRecieved = null;
-  this.serverPacketSize = 60;
 
   this.music = null;
   this.packetSound = null;
@@ -144,6 +142,7 @@ var Bot = (function() {
     this.disabledSprite = null;
     this.bandwidth = 0;
     this.enabled = true;
+    this.packetSize = 40 + ((Math.floor(Math.random()*20)) - 10);
 
     this.bandwidthBar = context.game.add.sprite(x + 40, y + 95, 'atlas', 'Subroutines/General/trace_bar_full.png');
     context.elementLayer.add(this.bandwidthBar);
@@ -160,7 +159,7 @@ var Bot = (function() {
       this.context.packetSound.play();
       this.context.packetSound._sound.playbackRate.value = 1 + ((this.bandwidth / this.context.botBandwidthLimit) * 2);
       this.timeSinceSent = this.context.game.time.now;
-      this.bandwidth += this.context.botPacketSize;
+      this.bandwidth += this.packetSize;
 
       var packet = this.context.game.add.sprite(this.sprite.x + 52, this.sprite.y, 'atlas', 'Subroutines/DDOS/packet.png');
       this.context.elementLayer.add(packet);
@@ -173,7 +172,7 @@ var Bot = (function() {
       sendPacket.onComplete.add(function() {
         packet.destroy();
         this.context.serverLastRecieved = this.context.game.time.now;
-        this.context.serverLoad += this.context.serverPacketSize;
+        this.context.serverLoad += this.packetSize * 1.5;
       }, this);
 
       if (this.bandwidth / this.context.botBandwidthLimit >= 1) {
