@@ -225,7 +225,7 @@ var Mainframe = {
   },
 
   generateCorpName: function() {
-    var names = ['Hanka Precision Instruments', 'Kenbishi Heavy Industries', 'Locus-Solus', 'Megatech', 'Sagawa Electronics Inc', 'Tyrell Corporation', 'Ellingson Mineral Company', 'Yoyodyne', 'Cyberdyne Systems', 'Rekall', 'Sense/Net', 'Tessier-Ashpool', 'Maas Biolabs', 'Hosaka', 'Ares Macrotechnology', 'Aztechnology', 'Evo Corporation', 'Mitsuhama', 'NeoNET', 'Renraku', 'Saeder-Krupp', 'Shiawase Corporation', 'Wuxing Inc', 'Weyland-Yutani', 'Jinteki', 'NBN', 'Haas-Bioroid', 'Arboria Institute', 'Versatran', 'Sarif Industries', 'Tai Yong Medical', 'Antenna Research', 'Cortical Systematics', 'Spectacular Optical', 'Omni Consumer Products', 'Virtual Space Industries', 'Bartok Science Industries', 'Alphabet', 'Turing Machines Inc.', 'Lepidoptera Conglomerate', 'Socialist Workers Party'];
+    var names = ['Hanka Precision Instruments', 'Kenbishi Heavy Industries', 'Locus-Solus', 'Megatech', 'Sagawa Electronics Inc', 'Tyrell Corporation', 'Ellingson Mineral Company', 'Yoyodyne', 'Cyberdyne Systems', 'Rekall', 'Sense/Net', 'Tessier-Ashpool', 'Maas Biolabs', 'Hosaka', 'Ares Macrotechnology', 'Aztechnology', 'Evo Corporation', 'Mitsuhama', 'NeoNET', 'Renraku', 'Saeder-Krupp', 'Shiawase Corporation', 'Wuxing Inc', 'Weyland-Yutani', 'Jinteki', 'NBN', 'Haas-Bioroid', 'Arboria Institute', 'Versatran', 'Sarif Industries', 'Tai Yong Medical', 'Antenna Research', 'Cortical Systematics', 'Spectacular Optical', 'Omni Consumer Products', 'Virtual Space Industries', 'Bartok Science Industries', 'Alphabet', 'Turing Machines Inc.', 'Lepidoptera Conglomerate', 'Socialist Workers Party', 'Jukt Micronics'];
 
     var name = names[Math.floor(Math.random() * names.length)];
     var IP = this.generateIP();
