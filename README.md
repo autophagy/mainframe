@@ -14,6 +14,8 @@ You are one of the cybernet's most skilled hackers. It's up to you to hide behin
 
 Can you jam with the console cowboys in cyberspace?
 
+Mainframe was featured on RockPaperShotgun's [best free games of the week](https://www.rockpapershotgun.com/2016/02/27/best-free-games-of-the-week-13/).
+
 # Credits
 
 - [Phaser](http://phaser.io/) for the game engine
