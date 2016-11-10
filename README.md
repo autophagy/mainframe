@@ -16,6 +16,12 @@ Can you jam with the console cowboys in cyberspace?
 
 Mainframe was featured on RockPaperShotgun's [best free games of the week](https://www.rockpapershotgun.com/2016/02/27/best-free-games-of-the-week-13/).
 
+# Running Mainframe
+
+First, run `setup.sh`.
+You can then run `python -m SimpleHTTPServer`, which will let you play
+Mainframe at `http://localhost:8000/Game/`.
+
 # Credits
 
 - [Phaser](http://phaser.io/) for the game engine
