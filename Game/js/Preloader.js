@@ -94,6 +94,10 @@ Mainframe.Preloader.prototype = {
     //the update function completely.
 
     if (this.cache.isSoundDecoded('intro_music') && this.ready == false) {
+      if (this.game.sound.usingWebAudio && this.game.sound.context.state === 'suspended')
+      {
+        this.game.input.onTap.addOnce(this.game.sound.context.resume, this.game.sound.context);
+      }
       Mainframe.fanLoop = this.add.audio('fan_loop', 1, true);
       Mainframe.mainMusic = this.add.audio('main_music_1', 1, true);
       this.ready = true;

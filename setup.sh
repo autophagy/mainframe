@@ -1,5 +1,5 @@
 echo "Getting latest phaser.min.js release..."
-LATEST=$(curl -s https://api.github.com/repos/photonstorm/phaser/releases/latest | grep '/phaser.min.js' | cut -d\" -f4)
-echo "Downloading $LATEST..."
-wget -P Game/ -q --show-progress $LATEST
+PHASER='v2.10.3'
+echo "Downloading Phaser-CE $PHASER..."
+wget -P Game/ -q --show-progress https://github.com/photonstorm/phaser-ce/releases/download/$PHASER/phaser.min.js
 echo "Done!"
